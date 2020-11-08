@@ -82,7 +82,9 @@ wepy.app({
       'pages/myBean/index',
       'pages/order/serviceOrder',
       'pages/order/fundOrder',
-      'pages/order/components/orderInfo'
+      'pages/order/components/orderInfo',
+      'pages/company/index',
+      'pages/market/index'
     ],
     window: {
       backgroundTextStyle: 'light',

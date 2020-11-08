@@ -1,0 +1,36 @@
+<template>
+  <div>
+    <!-- <ff-canvas id="pieSelect" canvas-id="pieSelect" opts="{{ onInit }}"> </ff-canvas> -->
+    xxx
+  </div>
+</template>
+
+<script>
+  import wepy from '@wepy/core'
+  
+  wepy.component({
+    props: {
+      
+    },
+    data: {
+      opts: {
+        onInit: 'initChart'
+      },
+    },
+
+
+    methods: {
+      
+    },
+
+    created () {
+    },
+
+    ready(){
+    }
+  });
+</script>
+
+<style lang="less">
+
+</style>

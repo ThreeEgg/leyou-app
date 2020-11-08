@@ -6,7 +6,7 @@
           <image src="../../assets/svg/beans.svg"/>
           <view>26521.22</view>
         </div>
-        <div class="bean-right">
+        <div class="bean-right" @tap="viewMarket">
           <view>去簿记豆商城</view>
           <view>></view>
         </div>
@@ -37,7 +37,11 @@
 
 
     methods: {
-      
+      viewMarket:function(){
+        wx.navigateTo({
+          url:'../market/index'
+        })
+      }
     },
 
     created () {

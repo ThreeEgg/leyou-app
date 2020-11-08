@@ -1,5 +1,7 @@
 <template>
-  
+  <div>
+    xx
+  </div>
 </template>
 
 <script>
@@ -33,7 +35,7 @@
 
 <config>
 {
-    navigationBarTitleText: '',
+    navigationBarTitleText: '簿记商城',
     usingComponents: {
     }
 }
