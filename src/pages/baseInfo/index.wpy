@@ -1,0 +1,73 @@
+<template>
+  <div class="baseInfo">
+    <div class="baseInfoItem">
+      <div>昵称</div>
+      <input placeholder="请输入" type="text" bindinput="inputName" value="{{name}}" @blur="blur">
+    </div>
+    <div class="baseInfoItem">
+      <div>姓名</div>
+      <input placeholder="请输入" type="text">
+    </div>
+    <div class="baseInfoItem">
+      <div>手机</div>
+      <input placeholder="请输入" type="number" value="18659882352" disabled>
+    </div>
+    <div class="baseInfoItem">
+      <div>邮箱</div>
+      <input placeholder="请输入" type="email">
+    </div>
+  </div>
+</template>
+
+<script>
+  import wepy from '@wepy/core'
+
+  wepy.page({
+    config: {
+      navigationBarTitleText: 'test'
+    },
+    props: {
+      
+    },
+    data: {
+      name:null,
+    },
+
+
+    methods: {
+      inputName:function(e){
+        this.name = e.$wx.detail.value;
+        console.log('this',this.name,e)
+      },
+      blur:function(e){
+        console.log('e2',e,e.$wx)
+      }
+    },
+
+    created () {
+      
+    }
+  });
+</script>
+
+<style lang="less">
+.baseInfo{
+  .baseInfoItem{
+    border-bottom: 1rpx solid #ccc;
+    display: flex;
+    justify-content: space-between;
+    padding:10rpx 20rpx;
+    input{
+      text-align: right;
+      font-size: 28rpx;
+    }
+  }
+}
+</style>
+
+<config>
+{
+    navigationBarTitleText: '',
+    usingComponents: {}
+}
+</config>

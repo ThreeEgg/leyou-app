@@ -7,6 +7,9 @@
   justify-content: space-between;
   box-sizing: border-box;
 }
+view,div{
+  box-sizing: border-box;
+}
 </style>
 
 <script>
@@ -39,7 +42,7 @@ wepy.app({
     wx.login({
       success:(res)=>{
         console.log('res',res);
-        wx.request({
+        /* wx.request({
           method:'GET',
           url:'https://api.weixin.qq.com/sns/jscode2session',
           data:{
@@ -48,7 +51,7 @@ wepy.app({
             js_code:'',
             grant_type:'authorization_code'
           }
-        })
+        }) */
       }
     })
   },
@@ -73,7 +76,13 @@ wepy.app({
 <config>
 {
     pages: [
-      'pages/index'
+      'pages/home/index',
+      'pages/baseInfo/index',
+      'pages/contract/index',
+      'pages/myBean/index',
+      'pages/order/serviceOrder',
+      'pages/order/fundOrder',
+      'pages/order/components/orderInfo'
     ],
     window: {
       backgroundTextStyle: 'light',

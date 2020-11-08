@@ -1,0 +1,303 @@
+<template>
+  <div class="order">
+    <div class="order-info">
+      <div class="item-top">
+        <div class="item-status">
+          <view>订单状态：</view>
+          <view :class="{unpaid:orderInfo.status===1,success:orderInfo.status===2,cancel:orderInfo.status===3}">{{orderInfo.status===1?'待支付':orderInfo.status===2?'已完成':'已取消'}}</view>
+        </div>
+        <div class="item-money">
+          ￥{{orderInfo.price * orderInfo.count}}
+        </div>
+      </div>
+      <div class="item-content">
+        <image src="../../../assets/images/mouse.png"/>
+        <div class="content">
+          <div class="fund-name">
+            {{orderInfo.name}}
+          </div>
+          <div class="desc">
+            {{orderInfo.desc}}
+          </div>
+        </div>
+        <div class="money-count">
+          <div class="price">
+            ￥{{orderInfo.price}}
+          </div>
+          <div class="count">
+            *{{orderInfo.count}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="contract" v-if="orderInfo.isService === 1">
+      <div class="contract-left">
+        <div class="name">
+          《B型产品服务合同》
+        </div>
+        <div class="money">
+          ￥200000.00
+        </div>
+      </div>
+      <div class="contract-right success">
+        <view>待生效</view>
+        <view>></view>
+      </div>
+    </div>
+    <div v-else class="logistics">
+      <div class="logistics-left">物流单号</div>
+      <div class="logistics-right" @tap="copy('15656156156456415')">
+        <view><image src="../../../assets/svg/beans.svg"/>15656156156456415</view>
+        <view>顺丰快递</view>
+      </div>
+    </div>
+    <div class="info-display">
+      <div class="display-item">
+        <view>订单编号：</view>
+        <view>15515645645615616</view>
+      </div>
+      <div class="display-item">
+        <view>下单时间：</view>
+        <view>2020-11-08 19:45:56</view>
+      </div>
+      <div class="display-item" v-if="orderInfo.status === 2">
+        <view>成交时间：</view>
+        <view>2020-11-08 19:45:56</view>
+      </div>
+    </div>
+    <div class="payment" v-if="orderInfo.status === 1">
+      去支付
+    </div>
+  </div>
+</template>
+
+<script>
+  import wepy from '@wepy/core'
+
+  wepy.page({
+    config: {
+      navigationBarTitleText: 'test'
+    },
+    props: {
+      
+    },
+    data: {
+      orderInfo:{}
+    },
+
+
+    methods: {
+      copy:function(number){
+        wx.setClipboardData({
+          data:number,
+          success:()=>{
+            wx.showToast({
+              title: '复制成功',
+              icon: 'success',
+            })
+          }
+        })
+      }
+    },
+
+    created () {
+      const orderInfo = wx.getStorageSync('orderInfo');
+      this.orderInfo = orderInfo;
+      console.log('orderInfo',orderInfo)
+    }
+  });
+</script>
+
+<style lang="less">
+.order .order-info{
+  // height: 253rpx;
+  background: #FFFFFF;
+  box-shadow: 0rpx 0rpx 12rpx 0rpx rgba(220, 220, 220, 0.2);
+  border-radius: 16rpx;
+  padding:20rpx 40rpx 24rpx;
+  margin-bottom: 30rpx;
+  // border-bottom: 1rpx solid #eee;
+  .item-top{
+    padding-bottom: 20rpx;
+    border-bottom: 1rpx solid #EBEBEB;
+    display: flex;
+    justify-content: space-between;
+    .item-status{
+      display: flex;
+      view:nth-of-type(1){
+        font-size: 24rpx;
+        font-weight: 400;
+        color: #333333;
+      }
+      view:nth-of-type(2){
+        font-size: 24rpx;
+        font-weight: 400;
+      }
+      .success{
+        color: #12A100;
+      }
+      .unpaid{
+        color: #1293FF;
+      }
+      .cancel{
+        color: #999999;
+      }
+    }
+    .item-money{
+      font-size: 28rpx;
+      font-weight: 500;
+      color: #F88142;
+    }
+  }
+  .item-content{
+    display: flex;
+    justify-content: space-between;
+    padding-top: 20rpx;
+    >image{
+      width: 160rpx;
+      height: 160rpx;
+    }
+    .content{
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 300rpx;
+      .fund-name{
+        font-size: 24rpx;
+        font-weight: 400;
+        color: #333333;
+      }
+      .desc{
+        font-size: 24rpx;
+        font-weight: 400;
+        color: #666666;
+      }
+    }
+    .money-count{
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      .price{
+        font-size: 24rpx;
+        font-weight: 500;
+        color: #333333;
+        text-align: right;
+      }
+      .count{
+        font-size: 24rpx;
+        font-weight: 400;
+        color: #666666;
+        text-align: right;
+      }
+    }
+  }
+}
+.order{
+  min-height: 100vh;
+  position: relative;
+  .contract{
+    padding:8rpx 20rpx;
+    border-top: 1rpx solid #ccc;
+    border-bottom: 1rpx solid #ccc;
+    display: flex;
+    justify-content: space-between;
+    .contract-left{
+      .name{
+        font-size: 24rpx;
+        font-weight: 400;
+        color: #333333;
+      }
+      .money{
+        font-size: 24rpx;
+        font-weight: 400;
+        color: #333333;
+      }
+    }
+    .contract-right{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      view{
+        font-size: 24rpx;
+        color: rgb(51,51,51);
+      }
+      view:nth-of-type(1){
+        margin-right: 8rpx;
+      }
+      
+    }
+    .success view{
+      color: rgb(94,232,107);
+    }
+    .fail view{
+      color: rgb(232,51,51);
+    }
+  }
+  .logistics{
+    padding:8rpx 20rpx;
+    border-top: 1rpx solid #ccc;
+    border-bottom: 1rpx solid #ccc;
+    display: flex;
+    justify-content: space-between;
+    .logistics-left{
+      font-size: 24rpx;
+      font-weight: 400;
+      color: #333333;
+    }
+    .logistics-right{
+      view{
+        font-size: 22rpx;
+        font-weight: 400;
+        color: #333333;
+        text-align: right;
+        >image{
+          width:8rpx;
+          height: 9rpx;
+        }
+      }
+    }
+  }
+  .info-display{
+    padding: 8rpx 30rpx 0rpx;
+    .display-item{
+      display: flex;
+      view{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      view:nth-of-type(1){
+        font-size: 24rpx;
+        color: #666666;
+      }
+      view:nth-of-type(2){
+        font-size: 22rpx;
+        color: #888888;
+      }
+    }
+  }
+  .payment{
+    position: absolute;
+    bottom: 10rpx;
+    right: 20rpx;
+    width:280rpx;
+    height: 60rpx;
+    background: #F88142;
+    border-radius: 30rpx;
+    text-align: center;
+    line-height: 60rpx;
+    font-weight: 400;
+    font-size: 32rpx;
+    color: #ffffff;
+    letter-spacing: 4rpx;
+  }
+}
+</style>
+
+<config>
+{
+    navigationBarTitleText: '',
+    usingComponents: {
+    }
+}
+</config>

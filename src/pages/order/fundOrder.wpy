@@ -1,0 +1,60 @@
+<template>
+  <div v-if="orderList.length>0">
+    <div class="fund-order">
+      <order-item v-for="item in orderList" :item="item" :key="item.id"></order-item>
+      <no-data></no-data>
+    </div>
+  </div>
+  <no-order v-else></no-order>
+</template>
+
+<script>
+  import wepy from '@wepy/core'
+
+  wepy.page({
+    config: {
+      navigationBarTitleText: 'test'
+    },
+    props: {
+      
+    },
+    data: {
+      orderList:[
+        {id:1,name:'企鹅玩具0',desc:'0.5mm 红色',count:1,price:500,status:1,isService:0},
+        {id:2,name:'企鹅玩具1',desc:'0.5mm 红色',count:2,price:100,status:2,isService:0},
+        {id:3,name:'企鹅玩具2',desc:'0.5mm 红色',count:3,price:200,status:3,isService:0},
+        {id:4,name:'企鹅玩具0',desc:'0.5mm 红色',count:1,price:500,status:1,isService:0},
+        {id:5,name:'企鹅玩具1',desc:'0.5mm 红色',count:2,price:100,status:2,isService:0},
+        {id:6,name:'企鹅玩具2',desc:'0.5mm 红色',count:3,price:200,status:3,isService:0},
+      ]
+    },
+
+
+    methods: {
+      
+    },
+
+    created () {
+      
+    }
+  });
+</script>
+
+<style lang="less">
+.fund-order{
+  background: #F7F7F7;
+  padding:30rpx 30rpx 0;
+  min-height: 100vh;
+}
+</style>
+
+<config>
+{
+    navigationBarTitleText: '商品订单',
+    usingComponents: {
+      'order-item':'./components/orderItem',
+      'no-data':'~@/components/noData',
+      'no-order':'./components/noOrder'
+    }
+}
+</config>

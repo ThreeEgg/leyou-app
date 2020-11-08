@@ -1,0 +1,60 @@
+<template>
+  <div class="no-order">
+    <image src="../../../assets/images/noOrder.png"/>
+    <view class="no-order-desc">目前没有订单哦</view>
+  </div>
+</template>
+
+<script>
+  import wepy from '@wepy/core'
+
+  wepy.page({
+    config: {
+      navigationBarTitleText: 'test'
+    },
+    props: {
+      
+    },
+    data: {
+      
+    },
+
+
+    methods: {
+      
+    },
+
+    created () {
+      
+    }
+  });
+</script>
+
+<style lang="less">
+.no-order{
+  min-height: 100vh;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  >image{
+    width: 150rpx;
+    height: 190rpx;
+  }
+  .no-order-desc{
+    font-size: 28rpx;
+    font-weight: 400;
+    color: #999999;
+    margin-top: 40rpx;
+  }
+}
+</style>
+
+<config>
+{
+    navigationBarTitleText: '',
+    usingComponents: {
+    }
+}
+</config>

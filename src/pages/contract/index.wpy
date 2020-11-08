@@ -1,0 +1,52 @@
+<template>
+  <div class="contract">
+    <div class="contractBox">
+      <contract-item v-for="item in contractList" :item="item" :key="item.id"></contract-item>
+      <no-data></no-data>
+    </div>
+  </div>
+</template>
+
+<script>
+  import wepy from '@wepy/core'
+
+  wepy.page({
+    config: {
+      navigationBarTitleText: 'test'
+    },
+    props: {
+      
+    },
+    data: {
+      contractList:[
+        {id:1,name:'xxx1',money:100,status:1},
+        {id:2,name:'xxx2',money:200,status:1},
+        {id:3,name:'xxx3',money:300,status:2},
+        {id:4,name:'xxx4',money:400,status:3},
+      ]
+    },
+
+
+    methods: {
+      
+    },
+
+    created () {
+      
+    }
+  });
+</script>
+
+<style lang="less">
+
+</style>
+
+<config>
+{
+    navigationBarTitleText: '',
+    usingComponents: {
+      'contract-item':'./components/contractItem',
+      'no-data':'~@/components/noData'
+    }
+}
+</config>
