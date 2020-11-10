@@ -1,0 +1,141 @@
+<template>
+  <div class="good-detail">
+    <image class="activity" src="../../assets/svg/activity.svg"/>
+    <swiper indicator-dots="{{indicatorDots}}" 
+      :autoplay="autoplay" 
+      :circular="circular" 
+      :vertical="vertical" 
+      :interval="interval" 
+      :duration="duration"
+    >
+      <block v-for='i in 4' :key='i'>
+        <swiper-item>
+          <image src='../../assets/images/mouse.png' mode='aspectFill' class='swiper-item-images'/>
+        </swiper-item>
+      </block>
+    </swiper>
+    <div class="baseinfo">
+      <div class="title">
+        这不是老鼠
+      </div>
+      <div class="count-info">
+        <view>￥1200.00</view>
+        <view>已卖2313件</view>
+      </div>
+    </div>
+    <div class="btn">
+      <ban></ban>
+    </div>
+    
+  </div>
+</template>
+
+<script>
+  import wepy from '@wepy/core'
+
+  wepy.page({
+    config: {
+      navigationBarTitleText: 'test'
+    },
+    props: {
+      
+    },
+    data: {
+      indicatorDots: true,
+      // 滑动方向是否为纵向
+      vertical: false,
+      // 自动切换
+      autoplay: true,
+      // 采用衔接滑动
+      circular: true,
+      // 自动切换时间间隔2s
+      interval: 2000,
+      // 滑动动画时长0.5s
+      duration: 500,
+    },
+
+
+    methods: {
+      
+    },
+
+    created () {
+      
+    }
+  });
+</script>
+
+<style lang="less">
+.good-detail{
+  width: 100%;
+  position: relative;
+  background: #F7F7F7;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .activity{
+    position: absolute;
+    width: 132rpx;
+    height: 132rpx;
+    left: 0;
+    top: 0;
+    z-index: 1;
+  }
+  >swiper{
+    width: 100%;
+    height: 633rpx;
+  }
+  .swiper-item-images{
+    width: 100%;
+    height: 633rpx;
+  }
+  .baseinfo{
+    padding: 30rpx;
+    display: flex;
+    justify-content: space-between;
+    background: #ffffff;
+    .title{
+      width: 465rpx;
+      font-size: 28rpx;
+      font-weight: 500;
+      color: #333333;
+    }
+    .count-info{
+      flex: 1 1;
+      view:nth-of-type(1){
+        font-size: 40rpx;
+        font-weight: 500;
+        color: #F88142;
+        text-align: right;
+      }
+      view:nth-of-type(2){
+        font-size: 24rpx;
+        font-weight: 400;
+        color: #666666;
+        text-align: right;
+      }
+    }
+  }
+  .btn{
+    width: 280rpx;
+    padding: 24rpx 72rpx;
+    font-size: 34rpx;
+    font-weight: 400;
+    color: #FFFFFF;
+    background: #1293FF;
+    border-radius: 48rpx;
+    position: absolute;
+    bottom: 1%;
+  }
+}
+</style>
+
+<config>
+{
+    navigationBarTitleText: '商品详情',
+    usingComponents: {
+      'ban':'~@/components/ban'
+    }
+}
+</config>

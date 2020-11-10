@@ -1,0 +1,73 @@
+<template>
+  <div class="pay-success">
+    <image src="../../assets/svg/paySuccess.svg"/>
+    <div class="text">支付成功!</div>
+    <div class="btn" @tap="viewMarket">完成</div>
+  </div>
+</template>
+
+<script>
+  import wepy from '@wepy/core'
+
+  wepy.page({
+    config: {
+      navigationBarTitleText: 'test'
+    },
+    props: {
+      
+    },
+    data: {
+      
+    },
+
+
+    methods: {
+      viewMarket:function(){
+        wx.navigateTo({
+          url:'../market/index'
+        })
+      }
+    },
+
+    created () {
+      
+    }
+  });
+</script>
+
+<style lang="less">
+.pay-success{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  >image{
+    width: 180rpx;
+    height: 180rpx;
+    margin-top: 80rpx;
+  }
+  .text{
+    font-size: 36rpx;
+    font-weight: 500;
+    color: #333333;
+    margin: 30rpx 0 60rpx;
+  }
+  .btn{
+    width: 280rpx;
+    padding: 24rpx 72rpx;
+    font-size: 34rpx;
+    font-weight: 400;
+    color: #FFFFFF;
+    background: #1293FF;
+    border-radius: 48rpx;
+    text-align: center;
+  }
+}
+</style>
+
+<config>
+{
+    navigationBarTitleText: '支付成功',
+    usingComponents: {
+    }
+}
+</config>

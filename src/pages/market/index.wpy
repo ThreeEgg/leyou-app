@@ -1,6 +1,36 @@
 <template>
-  <div>
-    xx
+  <div class="market">
+    <div class="market-left">
+      <div class="menu-item" v-for="i in 2" :key="i">
+        <div class="menu-top">
+          <view></view>
+          <view>实物商品</view>
+        </div>
+        <div class="menu-content">
+          <div class="sub-menu-item active">小型办公用品 </div>
+          <div class="sub-menu-item">大型办公用品 </div>
+        </div>
+      </div>
+    </div>
+    <div class="market-right">
+      <div class="good-box">
+        <div class="good-item" v-for="i in 4" :key="i" @tap="viewGoodDetail">
+          <div class="item-left">
+            <image src="../../assets/images/mouse.png"/>
+            <image src="../../assets/svg/activity.svg"/>
+          </div>
+          <div class="item-right">
+            <div class="desc">
+              袋鼠玩具
+            </div>
+            <div class="info">
+              <view>￥1200.00</view>
+              <view>已卖9999+件</view>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -15,12 +45,17 @@
       
     },
     data: {
-      
+      activeClassify:"",
+      goodList:[]
     },
 
 
     methods: {
-      
+      viewGoodDetail:function(){
+        wx.navigateTo({
+          url:'../goodDetail/index'
+        })
+      }
     },
 
     created () {
@@ -30,7 +65,109 @@
 </script>
 
 <style lang="less">
-
+.market{
+  display: flex;
+  min-height: 100vh;
+  .market-left{
+    width: 200rpx;
+    .menu-item{
+      border-top: 1rpx solid #D7D7D7;
+      .menu-top{
+        display: flex;
+        align-items: center;
+        padding:30rpx 53rpx 30rpx 15rpx;
+        view:nth-of-type(1){
+          width: 10rpx;
+          height: 10rpx;
+          border-radius: 50%;
+          background: #F88142;
+          margin-right: 10rpx;
+        }
+        view:nth-of-type(2){
+          font-size: 28rpx;
+          font-weight: 500;
+          color: #333333;
+        }
+      }
+      .menu-content{
+        .sub-menu-item{
+          padding:30rpx 0rpx 30rpx 15rpx;
+          font-size: 28rpx;
+          font-weight: 400;
+          color: #666666;
+          border-left: 6rpx solid transparent;
+        }
+        .active{
+          border-left: 6rpx solid #1293FF;
+          background: #F7F7F7;
+        }
+      }
+    }
+    .menu-item:nth-of-type(1){
+      border-top: 0;
+    }
+  }
+  .market-right{
+    flex: 1 1;
+    border-top: 1rpx solid #D7D7D7;
+    border-left: 1rpx solid #D7D7D7;
+    .good-box{
+      width: 100%;
+      padding-left: 20rpx;
+      .good-item{
+        display: flex;
+        justify-content: space-between;
+        padding: 20rpx 0;
+        border-bottom: 1rpx solid #EBEBEB;
+        .item-left{
+          width: 160rpx;
+          height: 135rpx;
+          border-radius: 8rpx;
+          position: relative;
+          image:nth-of-type(1){
+            width: 100%;
+            height: 100%;
+            border-radius: 8rpx;
+          }
+          image:nth-of-type(2){
+            position: absolute;
+            width: 45rpx;
+            height: 42rpx;
+            left: 0;
+            top: 0;
+          }
+        }
+        .item-right{
+          flex: 1 1;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          padding: 0 20rpx;
+          .desc{
+            font-size: 24rpx;
+            font-weight: 400;
+            color: #333333;
+          }
+          .info{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            view:nth-of-type(1){
+              font-size: 28rpx;
+              font-weight: 500;
+              color: #F88142;
+            }
+            view:nth-of-type(2){
+              font-size: 24rpx;
+              font-weight: 400;
+              color: #666666;
+            }
+          }
+        }
+      }
+    }
+  }
+}
 </style>
 
 <config>

@@ -1,0 +1,112 @@
+<template>
+  <div class="pay">
+    <div class="order-info">
+      <div class="info-left">
+        <view>订单状态：</view>
+        <view>待支付</view>
+      </div>
+      <div class="info-right">
+        <view>￥1200.00</view>
+        <view>我的积分：12,000.00</view>
+      </div>
+    </div>
+    <div class="btn" @tap="viewPaySuccess">
+      去支付
+    </div>
+  </div>
+</template>
+
+<script>
+  import wepy from '@wepy/core'
+
+  wepy.page({
+    config: {
+      navigationBarTitleText: 'test'
+    },
+    props: {
+      
+    },
+    data: {
+      
+    },
+
+
+    methods: {
+      viewPaySuccess:function(){
+        wx.navigateTo({
+          url:'../paySuccess/index'
+        })
+      }
+    },
+
+    created () {
+      
+    }
+  });
+</script>
+
+<style lang="less">
+.pay{
+  padding:60rpx 30rpx 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .order-info{
+    width: 100%;
+    padding:20rpx;
+    display: flex;
+    justify-content: space-between;
+    background: #F7F7F7;
+    box-shadow: 0px 0px 12px 0px rgba(220, 220, 220, 0.2);
+    border-radius: 16rpx;
+    margin-bottom: 60rpx;
+    .info-left{
+      display: flex;
+      view:nth-of-type(1){
+        font-size: 28rpx;
+        font-weight: 400;
+        color: #333333;
+      }
+      view:nth-of-type(2){
+        font-size: 28rpx;
+        font-weight: 400;
+        color: #1293FF;
+      }
+    }
+    .info-right{
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      view:nth-of-type(1){
+        font-size: 40rpx;
+        font-weight: 500;
+        color: #F88142;
+        text-align: right;
+      }
+      view:nth-of-type(2){
+        font-size: 28rpx;
+        font-weight: 400;
+        color: #666666;
+      }
+    }
+  }
+  .btn{
+    width: 280rpx;
+    padding: 24rpx 72rpx;
+    font-size: 34rpx;
+    font-weight: 400;
+    color: #FFFFFF;
+    background: #1293FF;
+    border-radius: 48rpx;
+    text-align: center;
+  }
+}
+</style>
+
+<config>
+{
+    navigationBarTitleText: '积分支付',
+    usingComponents: {
+    }
+}
+</config>

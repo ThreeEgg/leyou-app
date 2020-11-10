@@ -84,7 +84,12 @@ wepy.app({
       'pages/order/fundOrder',
       'pages/order/components/orderInfo',
       'pages/company/index',
-      'pages/market/index'
+      'pages/market/index',
+      'pages/goodDetail/index',
+      'pages/paySuccess/index',
+      'pages/payNext/pay',
+      'pages/payNext/sign'
+      
     ],
     window: {
       backgroundTextStyle: 'light',
