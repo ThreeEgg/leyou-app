@@ -7,7 +7,7 @@
         <div class="weui-half-screen-dialog__hd">
           <image src="../assets/images/mouse.png"/>
           <div class="title">
-            这不是老鼠
+            {{goodInfo.goodsName}}
           </div>
           <div class="close" @tap="isShow">×</div>
         </div>
@@ -15,8 +15,8 @@
           <div class="classify">
             <div class="name">品类</div>
             <div class="clssify-box">
-              <div class="classify-item">
-                0.5mm蓝色
+              <div class="classify-item" v-for="item in (goodInfo.goodsDetails || [])" :key="item.detailName">
+                {{item.detailName}}
               </div>
               <div class="classify-item active">
                 0.5mm蓝色
@@ -25,18 +25,18 @@
           </div>
           <div class="price-box">
             <div class="name">单价</div>
-            <div class="price">￥1200.00</div>
+            <div class="price">￥{{goodInfo.price}}</div>
           </div>
           <div class="count-box">
             <div class="name">数量</div>
             <div class="inputNumber">
-              <div class="left">-</div>
-              <div class="value">20</div>
-              <div class="right disabled">+</div>
+              <div :class="{left:true,disabled:count <= 1}" @tap="handleCount(1,count <= 1)">-</div>
+              <div class="value">{{count}}</div>
+              <div :class="{right:true, disabled:count >= (goodInfo.salesCount || 0)}" @tap="handleCount(2,count >= (goodInfo.salesCount || 0))">+</div>
             </div>
           </div>
           <div class="money-box">
-            <div class="money">￥1200.00</div>
+            <div class="money">￥{{count * goodInfo.price}}</div>
             <div class="btn" @tap="viewPay">立即购买</div>
           </div>
         </div>
@@ -55,7 +55,9 @@
       }
     },
     data:{
-      animationData: {}
+      animationData: {},
+      goodInfo:{},
+      count:1,
     },
     methods: {
       isShow () {
@@ -63,9 +65,33 @@
       },
       viewPay:function(){
         wx.navigateTo({
-          url:'../payNext/pay'
-        })
+            url:'../payNext/pdf'
+          })
+        /* if(this.goodInfo.isService === 1){
+          wx.navigateTo({
+            url:'../payNext/pdf'
+          })
+        }else{
+          wx.navigateTo({
+            url:'../payNext/pay'
+          })
+        } */
+        
+      },
+      handleCount:function(flag,disabled){
+        console.log('count',flag,disabled)
+        if(disabled){
+          return;
+        }
+        if(flag === 1){
+          this.count--;
+        }else if (flag === 2){
+          this.count++;
+        }
       }
+    },
+    created(){
+      this.goodInfo = wx.getStorageSync('goodInfo');
     }
   });
 </script>

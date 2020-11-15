@@ -2,26 +2,29 @@
   <div class="baseInfo">
     <div class="baseInfoItem">
       <div>昵称</div>
-      <input placeholder="请输入" type="text" bindinput="inputName" value="{{name}}" @blur="blur">
+      <input placeholder="请输入" type="text" bindinput="inputNickName" value="{{baseInfo.nickName}}" @blur="blur" maxlength="10">
     </div>
     <div class="baseInfoItem">
       <div>姓名</div>
-      <input placeholder="请输入" type="text">
+      <input placeholder="请输入" type="text" bindinput="inputRealName" value="{{baseInfo.realName}}" @blur="blur" maxlength="10">
     </div>
     <div class="baseInfoItem">
       <div>手机</div>
-      <input placeholder="请输入" type="number" value="18659882352" disabled>
+      <input placeholder="请输入" type="number" value="{{baseInfo.phone}}" disabled>
     </div>
     <div class="baseInfoItem">
       <div>邮箱</div>
-      <input placeholder="请输入" type="email">
+      <input placeholder="请输入" type="text" bindinput="inputEmail" value="{{baseInfo.email}}" @blur="blur" maxlength="32">
+    </div>
+    <div class="btn-box">
+      <view class="btn" @tap="saveBaseInfo">保存</view>
     </div>
   </div>
 </template>
 
 <script>
   import wepy from '@wepy/core'
-
+  import {baseUrl} from "../../assets/js/base"
   wepy.page({
     config: {
       navigationBarTitleText: 'test'
@@ -30,22 +33,72 @@
       
     },
     data: {
-      name:null,
+      baseInfo:{},
+      nickName:'',
     },
 
 
     methods: {
-      inputName:function(e){
-        this.name = e.$wx.detail.value;
-        console.log('this',this.name,e)
+      inputNickName:function(e){
+        this.baseInfo.nickName = e.$wx.detail.value;
       },
-      blur:function(e){
-        console.log('e2',e,e.$wx)
+      inputRealName:function(e){
+        this.baseInfo.realName = e.$wx.detail.value;
+      },
+      inputEmail:function(e){
+        this.baseInfo.email = e.$wx.detail.value;
+      },
+      blur:function(){
+        console.log('baseInfo-blur',this.baseInfo)
+      },
+      saveBaseInfo :function (){
+        const params = {
+          id:this.baseInfo.id +'',
+          nickName:this.baseInfo.nickName,
+          realName:this.baseInfo.realName,
+          email:this.baseInfo.email
+        };
+        if(params.email){
+          const reg = /^[A-Za-z0-9]+([_\.][A-Za-z0-9]+)*@([A-Za-z0-9\-]+\.)+[A-Za-z]{2,6}$/;
+          if(!reg.test(params.email)){
+            wx.showToast({
+              title:'邮箱格式错误',
+              icon:'none'
+            })
+            return;
+          }
+        }
+        wx.request({
+          url:baseUrl+'/v1/userInfo/updateUserInfoForFront',
+          method:'POST',
+          data:{
+            ...params,
+          },
+          success:(res)=>{
+            console.log('res',res);
+            const {success,msg} = res.data;
+            if(success){
+              wx.showToast({
+                title:'修改成功'
+              })
+            }else{
+              wx.showToast({
+                title:msg,
+                icon:'none'
+              })
+            }
+            
+          },
+          fail:(err)=>{
+            console.log('err',err);
+          }
+        })
       }
     },
 
     created () {
-      
+      this.baseInfo = wx.getStorageSync('baseInfo') || {};
+      console.log('baseInfo',wx.getStorageSync('baseInfo'));
     }
   });
 </script>
@@ -60,6 +113,21 @@
     input{
       text-align: right;
       font-size: 28rpx;
+      flex: 1 1;
+    }
+  }
+  .btn-box{
+    display: flex;
+    justify-content: flex-end;
+    .btn{
+      width: 160rpx;
+      text-align: center;
+      padding:16rpx 40rpx;
+      margin-top:20rpx;
+      margin-right: 20rpx;
+      background: rgb(24,144,255);
+      color:#fff;
+      border-radius: 16rpx;
     }
   }
 }

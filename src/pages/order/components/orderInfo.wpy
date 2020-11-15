@@ -4,28 +4,28 @@
       <div class="item-top">
         <div class="item-status">
           <view>订单状态：</view>
-          <view :class="{unpaid:orderInfo.status===1,success:orderInfo.status===2,cancel:orderInfo.status===3}">{{orderInfo.status===1?'待支付':orderInfo.status===2?'已完成':'已取消'}}</view>
+          <view :class="{unpaid:orderInfo.orderStatus===0,success:orderInfo.orderStatus===1,cancel:orderInfo.orderStatus===2}">{{orderInfo.orderStatus===0?'待支付':orderInfo.orderStatus===1?'已完成':'已取消'}}</view>
         </div>
         <div class="item-money">
-          ￥{{orderInfo.price * orderInfo.count}}
+          ￥{{orderInfo.unitPrice * orderInfo.goodsCount}}
         </div>
       </div>
       <div class="item-content">
-        <image src="../../../assets/images/mouse.png"/>
+        <image :src=" orderInfo.coverLink||'../../../assets/images/mouse.png'"/>
         <div class="content">
           <div class="fund-name">
-            {{orderInfo.name}}
+            {{orderInfo.goodsName}}
           </div>
           <div class="desc">
-            {{orderInfo.desc}}
+            {{orderInfo.goodsDetailName}}
           </div>
         </div>
         <div class="money-count">
           <div class="price">
-            ￥{{orderInfo.price}}
+            ￥{{orderInfo.unitPrice}}
           </div>
           <div class="count">
-            *{{orderInfo.count}}
+            *{{orderInfo.goodsCount}}
           </div>
         </div>
       </div>
@@ -33,39 +33,39 @@
     <div class="contract" v-if="orderInfo.isService === 1">
       <div class="contract-left">
         <div class="name">
-          《B型产品服务合同》
+          {{orderInfo.agreementLink}}
         </div>
         <div class="money">
-          ￥200000.00
+          ￥{{orderInfo.totalPrice}}
         </div>
       </div>
       <div class="contract-right success">
-        <view>待生效</view>
+        <view>{{orderInfo.orderStatus===0?'待生效':'已生效'}}</view>
         <view>></view>
       </div>
     </div>
     <div v-else class="logistics">
       <div class="logistics-left">物流单号</div>
-      <div class="logistics-right" @tap="copy('15656156156456415')">
-        <view><image src="../../../assets/svg/beans.svg"/>15656156156456415</view>
-        <view>顺丰快递</view>
+      <div class="logistics-right" @tap="copy(orderInfo.courierNumber)">
+        <view><image src="../../../assets/images/copy.png"/>{{orderInfo.courierNumber}}</view>
+        <view>{{orderInfo.courierCompany}}</view>
       </div>
     </div>
     <div class="info-display">
       <div class="display-item">
         <view>订单编号：</view>
-        <view>15515645645615616</view>
+        <view>{{orderInfo.orderNumber}}</view>
       </div>
       <div class="display-item">
         <view>下单时间：</view>
-        <view>2020-11-08 19:45:56</view>
+        <view>{{orderInfo.orderTime}}</view>
       </div>
-      <div class="display-item" v-if="orderInfo.status === 2">
+      <div class="display-item" v-if="orderInfo.orderStatus === 1">
         <view>成交时间：</view>
-        <view>2020-11-08 19:45:56</view>
+        <view>{{orderInfo.payTime}}</view>
       </div>
     </div>
-    <div class="payment" v-if="orderInfo.status === 1">
+    <div class="payment" v-if="orderInfo.orderStatus === 0" @tap="viewPay">
       去支付
     </div>
   </div>
@@ -97,6 +97,17 @@
             })
           }
         })
+      },
+      viewPay:function(){
+        if(this.orderInfo.isService === 1){
+          wx.navigateTo({
+            url:"../../payNext/sign"
+          })
+        }else{
+          wx.navigateTo({
+            url:"../../payNext/pay"
+          })
+        }
       }
     },
 
@@ -251,8 +262,8 @@
         color: #333333;
         text-align: right;
         >image{
-          width:8rpx;
-          height: 9rpx;
+          width:16rpx;
+          height: 20rpx;
         }
       }
     }

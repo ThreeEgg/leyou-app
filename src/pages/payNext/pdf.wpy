@@ -1,0 +1,45 @@
+<template>
+  <!-- <web-view :webview-styles="webviewStyles" src="../../assets/pdf/demo.pdf"></web-view> -->
+</template>
+
+<script>
+  import wepy from '@wepy/core'
+
+  wepy.page({
+    config: {
+      navigationBarTitleText: 'test'
+    },
+    props: {
+      
+    },
+    data: {
+      
+    },
+
+
+    methods: {
+      
+    },
+
+    created () {
+      wx.openDocument({
+        filePath: "../../assets/pdf/demo.pdf",
+        success: function (res) {
+          console.log('打开文档成功')
+        }
+      })
+    }
+  });
+</script>
+
+<style lang="less">
+
+</style>
+
+<config>
+{
+    navigationBarTitleText: '',
+    usingComponents: {
+    }
+}
+</config>

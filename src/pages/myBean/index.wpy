@@ -4,7 +4,7 @@
       <div class="bean-wrapper">
         <div class="bean-left">
           <image src="../../assets/svg/beans.svg"/>
-          <view>26521.22</view>
+          <view>{{totalPoint}}</view>
         </div>
         <div class="bean-right" @tap="viewMarket">
           <view>去簿记豆商城</view>
@@ -32,7 +32,8 @@
       listData:[
         {id:1,date:'2020年11月',children:[{id:1,title:'购买商品',date:'11-05 18:12:55',money:-100},{id:2,title:'体现',date:'11-04 12:22:45',money:3000}]},
         {id:2,date:'2020年10月',children:[{id:1,title:'活动返还',date:'10-05 10:12:55',money:-100},{id:2,title:'体现',date:'10-04 22:22:45',money:700}]}
-      ]
+      ],
+      totalPoint:0,
     },
 
 
@@ -45,7 +46,7 @@
     },
 
     created () {
-      
+      this.totalPoint = wx.getStorageSync('baseInfo').totalPoint;
     }
   });
 </script>

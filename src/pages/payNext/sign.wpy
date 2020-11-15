@@ -11,8 +11,8 @@
         <view>待支付</view>
       </div>
       <div class="info-right">
-        <view>￥1200.00</view>
-        <view>我的积分：12,000.00</view>
+        <view>￥{{orderInfo.totalPrice}}</view>
+        <view>我的积分：{{baseInfo.totalPoint}}</view>
       </div>
     </div>
     <div class="btn" @tap="viewPaySuccess">
@@ -23,7 +23,7 @@
 
 <script>
   import wepy from '@wepy/core'
-
+  import {baseUrl} from "../../assets/js/base.js"
   wepy.page({
     config: {
       navigationBarTitleText: 'test'
@@ -32,25 +32,62 @@
       
     },
     data: {
-      
+      baseInfo:{},
+      orderInfo:{},
     },
 
 
     methods: {
       viewPaySuccess:function(){
-        wx.navigateTo({
-          url:'../paySuccess/index'
+        if(this.baseInfo.totalPoint < this.orderInfo.totalPrice){
+          wx.showToast({
+            title:'积分不足',
+            icon:'none'
+          })
+          return;
+        }
+        const params = {
+          userId:this.baseInfo.id + '',
+          orderId:this.orderInfo.id + '',
+          userTotalPoint:this.baseInfo.totalPoint,
+          payPoint:this.orderInfo.totalPrice
+        }
+        wx.request({
+          url:baseUrl+'/v1/order/pay',
+          method:'POST',
+          data:{...params},
+          success:res=>{
+            console.log('pay-success',res);
+            const {data:{msg,success}} = res;
+            if(success){
+              wx.navigateTo({
+                url:'../paySuccess/index'
+              })
+            }else{
+              wx.showToast({
+                title:msg,
+                icon:'none'
+              })
+            }
+          },
+          fail:err=>{
+            console.log('pay-err',err);
+          }
         })
+
+        
       },
       viewContract:function(){
         wx.navigateTo({
           url:'../contract/index'
         })
-      }
+      },
+
     },
 
     created () {
-      
+      this.baseInfo = wx.getStorageSync('baseInfo');
+      this.orderInfo = wx.getStorageSync('orderInfo');
     }
   });
 </script>

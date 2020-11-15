@@ -3,28 +3,28 @@
     <div class="item-top">
       <div class="item-status">
         <view>订单状态：</view>
-        <view :class="{unpaid:item.status===1,success:item.status===2,cancel:item.status===3}">{{item.status===1?'待支付':item.status===2?'已完成':'已取消'}}</view>
+        <view :class="{unpaid:item.orderStatus===0,success:item.orderStatus===1,cancel:item.orderStatus===2}">{{item.orderStatus===0?'待支付':item.orderStatus===1?'已完成':'已取消'}}</view>
       </div>
       <div class="item-money">
-        ￥{{item.price * item.count}}
+        ￥{{item.unitPrice * item.goodsCount}}
       </div>
     </div>
     <div class="item-content">
-      <image src="../../../assets/images/mouse.png"/>
+      <image :src="item.coverLink||'../../../assets/images/mouse.png'"/>
       <div class="content">
         <div class="fund-name">
-          {{item.name}}
+          {{item.goodsName}}
         </div>
         <div class="desc">
-          {{item.desc}}
+          {{item.goodsDetailName}}
         </div>
       </div>
       <div class="money-count">
         <div class="price">
-          ￥{{item.price}}
+          ￥{{item.unitPrice}}
         </div>
         <div class="count">
-          *{{item.count}}
+          *{{item.goodsCount}}
         </div>
       </div>
     </div>
@@ -33,7 +33,7 @@
 
 <script>
   import wepy from '@wepy/core'
-
+  import {baseUrl} from "../../../assets/js/base.js"
   wepy.page({
     config: {
       navigationBarTitleText: 'test'
@@ -54,13 +54,36 @@
     methods: {
       viewOrderItem:function(item){
         console.log('item',item)
-        if(item.status === 3){
+        if(item.orderStatus === 3){
           return
         }
-        wx.setStorageSync('orderInfo',item);
-        // FIXME url很奇怪 
-        wx.navigateTo({
-          url:'./components/orderInfo'
+        this.getOrderDetail(item)
+        
+      },
+      getOrderDetail:function(item){
+        const params = {
+          orderId:item.id,
+        }
+        wx.request({
+          url:baseUrl+'/v1/order/findOrderDetailForFront',
+          data:{
+            ...params
+          },
+          success:(res)=>{
+            console.log('order-detail-res',res);
+            const {data} = res;
+            if(data.success){
+              wx.setStorageSync('orderInfo',data.data);
+                // FIXME url很奇怪 
+              wx.navigateTo({
+                url:'./components/orderInfo'
+              })
+            }
+            
+          },
+          fail:err=>{
+            console.log('order-detail-err',err)
+          }
         })
       }
     },

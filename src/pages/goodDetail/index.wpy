@@ -8,19 +8,19 @@
       :interval="interval" 
       :duration="duration"
     >
-      <block v-for='i in 4' :key='i'>
+      <block v-for="i in 4" :key="i">
         <swiper-item>
-          <image src='../../assets/images/mouse.png' mode='aspectFill' class='swiper-item-images'/>
+          <image src="../../assets/images/mouse.png" mode="aspectFill" class="swiper-item-images"/>
         </swiper-item>
       </block>
     </swiper>
     <div class="baseinfo">
       <div class="title">
-        这不是老鼠
+        {{goodInfo.goodsName}}
       </div>
       <div class="count-info">
-        <view>￥1200.00</view>
-        <view>已卖2313件</view>
+        <view>￥{{goodInfo.price}}</view>
+        <view>已卖{{(goodInfo.salesCount || 0) >9999 ?'9999+':(goodInfo.salesCount || 0)}}件</view>
       </div>
     </div>
     <div class="btn">
@@ -52,6 +52,8 @@
       interval: 2000,
       // 滑动动画时长0.5s
       duration: 500,
+      goodInfo:{},
+
     },
 
 
@@ -60,7 +62,7 @@
     },
 
     created () {
-      
+      this.goodInfo = wx.getStorageSync('goodInfo');
     }
   });
 </script>
@@ -91,6 +93,7 @@
     height: 633rpx;
   }
   .baseinfo{
+    width: 100%;
     padding: 30rpx;
     display: flex;
     justify-content: space-between;

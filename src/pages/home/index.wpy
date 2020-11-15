@@ -141,14 +141,14 @@
         <view class="baseInfo-top">
           <image src="{{avatar}}"></image>
           <view class="baseInfo-name-box">
-            <view @tap="editBaseInfo">{{nickName}}</view>
+            <view @tap="editBaseInfo">{{baseInfo.nickName}}</view>
             <view @tap="viewContract">
-              我的合同：x份 <image src="../../assets/images/arrow-right.png"></image>
+              我的合同：{{baseInfo.agreementCount}}份 <image src="../../assets/images/arrow-right.png"></image>
             </view>
           </view>
           <view class="baseInfo-money" @tap="viewBean">
             <image src="../../assets/svg/beans.svg"></image>
-            <view class="money-count">2606.00</view>
+            <view class="money-count">{{baseInfo.totalPoint ||0}}</view>
           </view>
         </view>
         <view class="baseInfo-btn">
@@ -156,7 +156,7 @@
             <image src="../../assets/svg/orderServe.svg"/>
             <view class="order-text">
               <view>服务订单：</view>
-              <view>6</view>
+              <view>{{baseInfo.serviceOrderCount || 0}}</view>
             </view>
           </view>
           <view class="line"></view>
@@ -164,7 +164,7 @@
             <image src="../../assets/svg/orderFund.svg"/>
             <view class="order-text">
               <view>商品订单：</view>
-              <view>8</view>
+              <view>{{baseInfo.goodsOrderCount || 0}}</view>
             </view>
           </view>
         </view>
@@ -179,7 +179,7 @@
 
 <script>
   import wepy from '@wepy/core'
-
+  import {baseUrl} from "../../assets/js/base.js"
   wepy.page({
     config: {
       navigationBarTitleText: 'test'
@@ -188,10 +188,8 @@
     data: {
       nickName:null,
       avatar:"",
-      companyList:[
-      {id:1,name:'xxx1',time:'2020/11/01'},
-      {id:2,name:'xxx2',time:'2020/12/03'}
-    ],
+      baseInfo:{},
+      companyList:[],
     },
 
 
@@ -212,20 +210,67 @@
         })
       },
       viewServiceOrder:function(){
+        wx.setStorageSync('isService',1);
         wx.navigateTo({
           url:"../order/serviceOrder"
         })
       },
       viewFundOrder:function(){
+        wx.setStorageSync('isService',0);
         wx.navigateTo({
           url:"../order/fundOrder"
+        })
+      },
+      getHomeInfo:function(){
+        console.log('getHomeInfo')
+        wx.request({
+          url:baseUrl+'/v1/userInfo/findUserInfoForFront',
+          data:{
+            userId:'1327447575596896257'
+          },
+          success:(res)=>{
+            const {data} = res;
+            // this.nickName = data.data.nickName;
+            this.baseInfo = data.data;
+            wx.setStorageSync('baseInfo',data.data);
+            console.log('info-success',res);
+          },
+          fail:function(err){
+            console.log('info-err',err)
+          }
+        })
+      },
+      getCompanyInfo:function(){
+        wx.request({
+          url:baseUrl+'/v1/companyInfo/findCompanyInfoListByUserId',
+          data:{
+            userId:'1327447575596896257'
+          },
+          success:(res)=>{
+            const {data} = res;
+            this.companyList = data.data
+            console.log('getCompanyInfo-success',res);
+          },
+          fail:function(err){
+            console.log('getCompanyInfo-err',err)
+          }
         })
       }
     },
 
     created () {
       
-    }
+      this.getCompanyInfo()
+    },
+    attached(){
+      console.log('attached')
+    },
+    ready(){
+      console.log('ready')
+    },
+    onShow () {
+      this.getHomeInfo()
+    },
   });
 </script>
 <config>

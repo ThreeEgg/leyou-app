@@ -1,0 +1,135 @@
+<template>
+  <div class="content">
+    <canvas class="canvas" id="canvas" canvas-id="canvas" disable-scroll="true" bindtouchstart="canvasStart" bindtouchmove="canvasMove" bindtouchend="canvasEnd" touchcancel="canvasEnd" binderror="canvasIdErrorCallback">
+  </canvas>
+      <view class="delbutton" bindtap="cleardraw">清除</view>
+      <view class="button" bindtap="clickMe">
+          确认签名
+      </view>
+  </div>
+</template>
+
+<script>
+  import wepy from "@wepy/core"
+  var context = null;
+  var isButtonDown = false;
+  var arrx = [];
+  var arry = [];
+  var arrz = [];
+  var canvasw = 0;
+  var canvash = 0;
+  var self = this;
+
+  wepy.page({
+    config: {
+      navigationBarTitleText: 'test'
+    },
+    props: {
+      
+    },
+    data: {
+      src: "", // 第一个签名
+      img: "",
+      rpx: ''
+    },
+
+
+    methods: {
+      canvasStart: function (event) {
+        isButtonDown = true;
+        arrz.push(0);
+        arrx.push(event.changedTouches[0].clientX -event.target.offsetLeft);
+        arry.push(event.changedTouches[0].clientY-event.target.offsetTop);
+      },
+      canvasMove: function (event) {
+        var that = this
+        if (isButtonDown) {
+          arrz.push(1);
+          console.log(event)
+          arrx.push(event.changedTouches[0].clientX-event.target.offsetLeft);
+          arry.push(event.changedTouches[0].clientY-event.target.offsetTop);
+        };
+        for (var i = 0; i < arrx.length; i++) {
+          if (arrz[i] == 0) {
+            context.moveTo(arrx[i], arry[i])
+          } else {
+            context.lineTo(arrx[i], arry[i])
+          };
+        };
+        context.clearRect(0, 0, canvasw, canvash);
+        // context.drawImage('../../static/images/f.png', 0, 0, 500, 500);  // bug 此处截图一张背景为纯白的图作为背景用于处理图片默认底色的问题(已解决)
+        context.setStrokeStyle('#000');
+        context.setLineWidth(4);
+        context.setLineCap('round');
+        context.setLineJoin('round');
+        context.stroke();
+        context.draw(false);
+      },
+      // 点击保存图片
+      clickMe: function () {
+        const self = this
+        wx.canvasToTempFilePath({
+          canvasId: 'canvas',
+          fileType: 'jpg',
+          success: function (res) {
+            // 获取到生成图片的临时路径 
+            // things to do
+            console.log('res',res.tempFilePath)
+            self.src=res.tempFilePath
+            console.log(self.src)
+          }
+        })
+      },
+      canvasEnd: function (event) {
+        isButtonDown = false;
+      },
+      cleardraw: function () {
+        //清除画布
+        arrx = [];
+        arry = [];
+        arrz = [];
+        context.draw(false);
+      }
+    },
+    ready(options) {
+        var that = this
+        // 使用 wx.createContext 获取绘图上下文 context
+        context = wx.createCanvasContext('canvas');
+        // context.drawImage('../../static/images/f.png', 0, 0, 500, 500);
+        context.beginPath()
+        context.setLineWidth(4);
+        context.setLineCap('round');
+        context.setLineJoin('round');
+        context.draw();
+    },
+    
+
+    created () {}
+  });
+</script>
+
+<style lang="less">
+.content {
+    width: 100vw;
+    height: 100vh;
+  padding:60rpx;
+}
+.canvas {
+    width: 100%;
+    height: 100%;
+}
+image {
+    width: 100%;
+    height: 200px;
+    background-color: orange;
+}
+</style>
+
+<config>
+{
+    navigationBarTitleText: '',
+    usingComponents: {
+    },
+    "pageOrientation": "landscape"
+}
+</config>

@@ -10,7 +10,7 @@
 
 <script>
   import wepy from '@wepy/core'
-
+  import {baseUrl} from "../../assets/js/base.js"
   wepy.page({
     config: {
       navigationBarTitleText: 'test'
@@ -20,22 +20,42 @@
     },
     data: {
       orderList:[
-        {id:1,name:'企鹅玩具0',desc:'0.5mm 红色',count:1,price:500,status:1,isService:0},
-        {id:2,name:'企鹅玩具1',desc:'0.5mm 红色',count:2,price:100,status:2,isService:0},
-        {id:3,name:'企鹅玩具2',desc:'0.5mm 红色',count:3,price:200,status:3,isService:0},
-        {id:4,name:'企鹅玩具0',desc:'0.5mm 红色',count:1,price:500,status:1,isService:0},
-        {id:5,name:'企鹅玩具1',desc:'0.5mm 红色',count:2,price:100,status:2,isService:0},
-        {id:6,name:'企鹅玩具2',desc:'0.5mm 红色',count:3,price:200,status:3,isService:0},
+        // {id:1,name:'企鹅玩具0',desc:'0.5mm 红色',count:1,price:500,status:1,isService:0},
+        // {id:2,name:'企鹅玩具1',desc:'0.5mm 红色',count:2,price:100,status:2,isService:0},
+        // {id:3,name:'企鹅玩具2',desc:'0.5mm 红色',count:3,price:200,status:3,isService:0},
+        // {id:4,name:'企鹅玩具0',desc:'0.5mm 红色',count:1,price:500,status:1,isService:0},
+        // {id:5,name:'企鹅玩具1',desc:'0.5mm 红色',count:2,price:100,status:2,isService:0},
+        // {id:6,name:'企鹅玩具2',desc:'0.5mm 红色',count:3,price:200,status:3,isService:0},
       ]
     },
 
 
     methods: {
-      
+      getOrderList:function(){
+        const baseInfo = wx.getStorageSync('baseInfo');
+        const isService = wx.getStorageSync('isService');
+        wx.request({
+          url:baseUrl+'/v1/order/findOrderListForFront',
+          data:{
+            userId:baseInfo.id+'',
+            isService,
+          },
+          success:res=>{
+            console.log('getOrderList-res',res);
+            const {data} = res;
+            if(data.success){
+              this.orderList = data.data;
+            }
+          },
+          fail:err=>{
+            console.log('getOrderList-err',err);
+          }
+        })
+      }
     },
 
     created () {
-      
+      this.getOrderList()
     }
   });
 </script>

@@ -4,39 +4,39 @@
       <div class="menu-item" v-for="i in 2" :key="i">
         <div class="menu-top">
           <view></view>
-          <view>实物商品</view>
+          <view>{{i === 0 ? '实物商品': '服务商品'}}</view>
         </div>
         <div class="menu-content">
-          <div class="sub-menu-item active">小型办公用品 </div>
-          <div class="sub-menu-item">大型办公用品 </div>
+          <div v-for="item in classifyList[i]" :class="{'sub-menu-item':true, 'active':activeId === item.id}"  :key="item.id" @tap="handleGetGoodList(item.id)">{{item.typeName}} </div>
         </div>
       </div>
     </div>
     <div class="market-right">
-      <div class="good-box">
-        <div class="good-item" v-for="i in 4" :key="i" @tap="viewGoodDetail">
+      <div class="good-box" v-if="goodList.length > 0">
+        <div class="good-item" v-for="item in goodList" :key="item.id" @tap="viewGoodDetail(item.id)">
           <div class="item-left">
-            <image src="../../assets/images/mouse.png"/>
-            <image src="../../assets/svg/activity.svg"/>
+            <image :src="item.coverLink||'../../assets/images/mouse.png'"/>
+            <image src="../../assets/svg/activity.svg" v-if="item.isActivity === 1"/>
           </div>
           <div class="item-right">
             <div class="desc">
-              袋鼠玩具
+              {{item.goodsName}}
             </div>
             <div class="info">
-              <view>￥1200.00</view>
-              <view>已卖9999+件</view>
+              <view>￥{{item.price}}</view>
+              <view>已卖{{(item.salesCount || 0) >9999 ?'9999+':(item.salesCount || 0)}}件</view>
             </div>
           </div>
         </div>
       </div>
+      <no-data v-else></no-data>
     </div>
   </div>
 </template>
 
 <script>
   import wepy from '@wepy/core'
-
+  import {baseUrl} from "../../assets/js/base.js"
   wepy.page({
     config: {
       navigationBarTitleText: 'test'
@@ -46,20 +46,89 @@
     },
     data: {
       activeClassify:"",
-      goodList:[]
+      goodList:[],
+      classifyList:[],
+      activeId:'',
+      // serviceList:[],
+      // notServiceList:[],
     },
 
 
     methods: {
-      viewGoodDetail:function(){
-        wx.navigateTo({
-          url:'../goodDetail/index'
+      viewGoodDetail:function(id){
+        this.getGoodDetail(id)
+        
+      },
+      getGoodDetail:function(id){
+        const params = {id};
+        wx.request({
+          url:baseUrl+'/v1/goodsInfo/findGoodsDetailByIdForFront',
+          data:{...params},
+          success:res=>{
+            console.log('goodInfo-res',res);
+            const {data,success} = res.data;
+            if(success){
+              wx.setStorageSync('goodInfo',data);
+              wx.navigateTo({
+                url:'../goodDetail/index'
+              })
+            }
+            
+          },
+          fail:err=>{
+            console.log('goodInfo-err',err);
+          }
         })
+      },
+      getClassify:function(){
+        wx.request({
+          url:baseUrl+'/v1/goodsType/findGoodsTypePage',
+          success:res=>{
+            console.log('classify-res',res);
+            const {data:{success,data}} = res;
+            if(success){
+              // this.classifyList = data;
+              const serviceList = data.filter(demo=>demo.isService === 1);
+              const notServiceList = data.filter(demo=>demo.isService !== 1);
+              this.activeId = serviceList[0].id;
+              this.classifyList=[];
+              this.classifyList.push(serviceList);
+              this.classifyList.push(notServiceList)
+              this.getGoodList()
+            }
+          },
+          fail:err=>{
+            console.log('classify-err',err);
+          }
+        })
+      },
+      getGoodList:function(){
+        const params = {
+          type:this.activeId
+        }
+        wx.request({
+          url:baseUrl+'/v1/goodsInfo/findGoodsListByTypeForFront',
+          data:{...params},
+          success:res=>{
+            console.log('goodList-res',res);
+            const {data:{success,data}} = res;
+            if(success){
+              this.goodList = data;
+            }
+          },
+          fail:err=>{
+            console.log('goodList-err',err);
+          }
+        })
+      },
+      handleGetGoodList:function(id){
+        this.activeId = id;
+        this.getGoodList();
       }
     },
 
     created () {
-      
+      this.getClassify()
     }
   });
 </script>
@@ -174,6 +243,7 @@
 {
     navigationBarTitleText: '簿记商城',
     usingComponents: {
+      'no-data':'~@/components/noData'
     }
 }
 </config>
