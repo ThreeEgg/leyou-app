@@ -2,6 +2,7 @@
   .mine .leyou-bg{
   width: 100%;
   position: absolute;
+  background: #F7F7F7;
 }
 
 .mine .leyou-bg image{

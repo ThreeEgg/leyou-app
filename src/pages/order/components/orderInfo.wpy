@@ -207,7 +207,7 @@
   min-height: 100vh;
   position: relative;
   .contract{
-    padding:8rpx 20rpx;
+    padding:8rpx 40rpx;
     border-top: 1rpx solid #ccc;
     border-bottom: 1rpx solid #ccc;
     display: flex;
@@ -245,7 +245,7 @@
     }
   }
   .logistics{
-    padding:8rpx 20rpx;
+    padding:8rpx 40rpx;
     border-top: 1rpx solid #ccc;
     border-bottom: 1rpx solid #ccc;
     display: flex;
