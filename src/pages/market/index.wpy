@@ -1,22 +1,42 @@
 <template>
   <div class="market">
     <div class="market-left">
-      <div class="menu-item" v-for="i in 2" :key="i">
+      <div
+        class="menu-item"
+        v-for="i in 2"
+        :key="i"
+      >
         <div class="menu-top">
           <view></view>
           <view>{{i === 0 ? '实物商品': '服务商品'}}</view>
         </div>
         <div class="menu-content">
-          <div v-for="item in classifyList[i]" :class="{'sub-menu-item':true, 'active':activeId === item.id}"  :key="item.id" @tap="handleGetGoodList(item.id)">{{item.typeName}} </div>
+          <div
+            v-for="item in classifyList[i]"
+            :class="{'sub-menu-item':true, 'active':activeId === item.id}"
+            :key="item.id"
+            @tap="handleGetGoodList(item.id)"
+          >{{item.typeName}} </div>
         </div>
       </div>
     </div>
     <div class="market-right">
-      <div class="good-box" v-if="goodList.length > 0">
-        <div class="good-item" v-for="item in goodList" :key="item.id" @tap="viewGoodDetail(item.id)">
+      <div
+        class="good-box"
+        v-if="goodList.length > 0"
+      >
+        <div
+          class="good-item"
+          v-for="item in goodList"
+          :key="item.id"
+          @tap="viewGoodDetail(item.id)"
+        >
           <div class="item-left">
-            <image :src="item.coverLink||'../../assets/images/mouse.png'"/>
-            <image src="../../assets/svg/activity.svg" v-if="item.isActivity === 1"/>
+            <image :src="item.coverLink||'../../assets/images/mouse.png'" />
+            <image
+              src="../../assets/svg/activity.svg"
+              v-if="item.isActivity === 1"
+            />
           </div>
           <div class="item-right">
             <div class="desc">
@@ -35,170 +55,233 @@
 </template>
 
 <script>
-  import wepy from '@wepy/core'
-  import {baseUrl} from "../../assets/js/base.js"
-  wepy.page({
-    config: {
-      navigationBarTitleText: 'test'
-    },
-    props: {
-      
-    },
-    data: {
-      activeClassify:"",
-      goodList:[],
-      classifyList:[],
-      activeId:'',
-      // serviceList:[],
-      // notServiceList:[],
-    },
+import wepy from '@wepy/core';
+import { baseUrl } from '../../assets/js/base.js';
+wepy.page({
+  config: {
+    navigationBarTitleText: 'test'
+  },
+  props: {},
+  data: {
+    activeClassify: '',
+    goodList: [],
+    classifyList: [],
+    activeId: ''
+    // serviceList:[],
+    // notServiceList:[],
+  },
 
-
-    methods: {
-      viewGoodDetail:function(id){
-        this.getGoodDetail(id)
-        
-      },
-      getGoodDetail:function(id){
-        const params = {id};
-        wx.request({
-          url:baseUrl+'/v1/goodsInfo/findGoodsDetailByIdForFront',
-          data:{...params},
-          success:res=>{
-            console.log('goodInfo-res',res);
-            const {data,success} = res.data;
-            if(success){
-              wx.setStorageSync('goodInfo',data);
-              wx.navigateTo({
-                url:'../goodDetail/index'
-              })
-            }
-            
-          },
-          fail:err=>{
-            console.log('goodInfo-err',err);
+  methods: {
+    viewGoodDetail: function(id) {
+      this.getGoodDetail(id);
+    },
+    getGoodDetail: function(id) {
+      const params = { id };
+      wx.request({
+        url: baseUrl + '/v1/goodsInfo/findGoodsDetailByIdForFront',
+        data: { ...params },
+        success: res => {
+          console.log('goodInfo-res', res);
+          const { data, success } = res.data;
+          if (success) {
+            wx.setStorageSync('goodInfo', {
+              abstracts: '描述信息',
+              agreementId: '1328534875501002800',
+              agreementLink:
+                'https://leyou-file-1304138037.cos.ap-shanghai.myqcloud.com/goodsAgreement/demo.pdf',
+              agreementName: null,
+              bannerImgIds: '121,1231',
+              bannerList: [
+                {
+                  id: 12,
+                  link:
+                    'https://leyou-file-1304138037.cos.ap-shanghai.myqcloud.com/banner/img.jpg'
+                },
+                {
+                  id: 13,
+                  link:
+                    'https://leyou-file-1304138037.cos.ap-shanghai.myqcloud.com/banner/img.jpg'
+                }
+              ],
+              countTemp: null,
+              cover: 1328534836997292000,
+              coverLink:
+                'https://leyou-file-1304138037.cos.ap-shanghai.myqcloud.com/banner/img.jpg',
+              createDept: null,
+              createTime: '2020-11-17 11:06:32',
+              createUser: null,
+              detailCount: null,
+              detailImgIds: '12312,1231,456456,56456',
+              detailList: [
+                {
+                  id: 12,
+                  link:
+                    'https://leyou-file-1304138037.cos.ap-shanghai.myqcloud.com/banner/img.jpg'
+                },
+                {
+                  id: 13,
+                  link:
+                    'https://leyou-file-1304138037.cos.ap-shanghai.myqcloud.com/banner/img.jpg'
+                }
+              ],
+              executionTime: null,
+              extraTime: null,
+              goodsDetails: [
+                { detailName: '0.60cm', price: 200 },
+                { detailName: '0.65cm', price: 300 }
+              ],
+              goodsName: '测试',
+              id: '1328534960750231553',
+              isActivity: 0,
+              isDeleted: 0,
+              isSale: 1,
+              isService: 0,
+              price: 12,
+              reportCount: null,
+              returnPoint: null,
+              salesCount: 50,
+              serviceTerm: 2,
+              sort: 0,
+              status: 0,
+              type: '1327448391732957185',
+              typeName: '小型办公用品',
+              typeParentId: null,
+              updateTime: null,
+              updateUser: null
+            });
+            wx.navigateTo({
+              url: '../goodDetail/index'
+            });
           }
-        })
-      },
-      getClassify:function(){
-        wx.request({
-          url:baseUrl+'/v1/goodsType/findGoodsTypePage',
-          success:res=>{
-            console.log('classify-res',res);
-            const {data:{success,data}} = res;
-            if(success){
-              // this.classifyList = data;
-              const serviceList = data.filter(demo=>demo.isService === 1);
-              const notServiceList = data.filter(demo=>demo.isService !== 1);
-              this.activeId = serviceList[0].id;
-              this.classifyList=[];
-              this.classifyList.push(serviceList);
-              this.classifyList.push(notServiceList)
-              this.getGoodList()
-            }
-          },
-          fail:err=>{
-            console.log('classify-err',err);
-          }
-        })
-      },
-      getGoodList:function(){
-        const params = {
-          type:this.activeId
+        },
+        fail: err => {
+          console.log('goodInfo-err', err);
         }
-        wx.request({
-          url:baseUrl+'/v1/goodsInfo/findGoodsListByTypeForFront',
-          data:{...params},
-          success:res=>{
-            console.log('goodList-res',res);
-            const {data:{success,data}} = res;
-            if(success){
-              this.goodList = data;
-            }
-          },
-          fail:err=>{
-            console.log('goodList-err',err);
-          }
-        })
-      },
-      handleGetGoodList:function(id){
-        this.activeId = id;
-        this.getGoodList();
-      }
+      });
     },
-
-    created () {
-      this.getClassify()
+    getClassify: function() {
+      wx.request({
+        url: baseUrl + '/v1/goodsType/findGoodsTypePage',
+        success: res => {
+          console.log('classify-res', res);
+          const {
+            data: { success, data }
+          } = res;
+          if (success) {
+            // this.classifyList = data;
+            const serviceList = data.filter(demo => demo.isService === 1);
+            const notServiceList = data.filter(demo => demo.isService !== 1);
+            this.activeId = serviceList[0].id;
+            this.classifyList = [];
+            this.classifyList.push(notServiceList);
+            this.classifyList.push(serviceList);
+            this.getGoodList();
+          }
+        },
+        fail: err => {
+          console.log('classify-err', err);
+        }
+      });
+    },
+    getGoodList: function() {
+      const params = {
+        type: this.activeId
+      };
+      wx.request({
+        url: baseUrl + '/v1/goodsInfo/findGoodsListByTypeForFront',
+        data: { ...params },
+        success: res => {
+          console.log('goodList-res', res);
+          const {
+            data: { success, data }
+          } = res;
+          if (success) {
+            this.goodList = data;
+          }
+        },
+        fail: err => {
+          console.log('goodList-err', err);
+        }
+      });
+    },
+    handleGetGoodList: function(id) {
+      this.activeId = id;
+      this.getGoodList();
     }
-  });
+  },
+
+  created() {
+    this.getClassify();
+  }
+});
 </script>
 
 <style lang="less">
-.market{
+.market {
   display: flex;
   min-height: 100vh;
-  .market-left{
+  .market-left {
     width: 200rpx;
-    .menu-item{
-      border-top: 1rpx solid #D7D7D7;
-      .menu-top{
+    .menu-item {
+      border-top: 1rpx solid #d7d7d7;
+      .menu-top {
         display: flex;
         align-items: center;
-        padding:30rpx 53rpx 30rpx 15rpx;
-        view:nth-of-type(1){
+        padding: 30rpx 53rpx 30rpx 15rpx;
+        view:nth-of-type(1) {
           width: 10rpx;
           height: 10rpx;
           border-radius: 50%;
-          background: #F88142;
+          background: #f88142;
           margin-right: 10rpx;
         }
-        view:nth-of-type(2){
+        view:nth-of-type(2) {
           font-size: 28rpx;
           font-weight: 500;
           color: #333333;
         }
       }
-      .menu-content{
-        .sub-menu-item{
-          padding:30rpx 0rpx 30rpx 15rpx;
+      .menu-content {
+        .sub-menu-item {
+          padding: 30rpx 0rpx 30rpx 15rpx;
           font-size: 28rpx;
           font-weight: 400;
           color: #666666;
           border-left: 6rpx solid transparent;
         }
-        .active{
-          border-left: 6rpx solid #1293FF;
-          background: #F7F7F7;
+        .active {
+          border-left: 6rpx solid #1293ff;
+          background: #f7f7f7;
         }
       }
     }
-    .menu-item:nth-of-type(1){
+    .menu-item:nth-of-type(1) {
       border-top: 0;
     }
   }
-  .market-right{
+  .market-right {
     flex: 1 1;
-    border-top: 1rpx solid #D7D7D7;
-    border-left: 1rpx solid #D7D7D7;
-    .good-box{
+    border-top: 1rpx solid #d7d7d7;
+    border-left: 1rpx solid #d7d7d7;
+    .good-box {
       width: 100%;
       padding-left: 20rpx;
-      .good-item{
+      .good-item {
         display: flex;
         justify-content: space-between;
         padding: 20rpx 0;
-        border-bottom: 1rpx solid #EBEBEB;
-        .item-left{
+        border-bottom: 1rpx solid #ebebeb;
+        .item-left {
           width: 160rpx;
           height: 135rpx;
           border-radius: 8rpx;
           position: relative;
-          image:nth-of-type(1){
+          image:nth-of-type(1) {
             width: 100%;
             height: 100%;
             border-radius: 8rpx;
           }
-          image:nth-of-type(2){
+          image:nth-of-type(2) {
             position: absolute;
             width: 45rpx;
             height: 42rpx;
@@ -206,27 +289,27 @@
             top: 0;
           }
         }
-        .item-right{
+        .item-right {
           flex: 1 1;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
           padding: 0 20rpx;
-          .desc{
+          .desc {
             font-size: 24rpx;
             font-weight: 400;
             color: #333333;
           }
-          .info{
+          .info {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            view:nth-of-type(1){
+            view:nth-of-type(1) {
               font-size: 28rpx;
               font-weight: 500;
-              color: #F88142;
+              color: #f88142;
             }
-            view:nth-of-type(2){
+            view:nth-of-type(2) {
               font-size: 24rpx;
               font-weight: 400;
               color: #666666;

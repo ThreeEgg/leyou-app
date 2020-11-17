@@ -1,16 +1,27 @@
 <template>
   <div class="good-detail">
-    <image class="activity" src="../../assets/svg/activity.svg"/>
-    <swiper indicator-dots="{{indicatorDots}}" 
-      :autoplay="autoplay" 
-      :circular="circular" 
-      :vertical="vertical" 
-      :interval="interval" 
+    <image
+      class="activity"
+      src="../../assets/svg/activity.svg"
+    />
+    <swiper
+      indicator-dots="{{indicatorDots}}"
+      :autoplay="autoplay"
+      :circular="circular"
+      :vertical="vertical"
+      :interval="interval"
       :duration="duration"
     >
-      <block v-for="i in 4" :key="i">
+      <block
+        v-for="item in goodInfo.bannerList"
+        :key="item.id"
+      >
         <swiper-item>
-          <image src="../../assets/images/mouse.png" mode="aspectFill" class="swiper-item-images"/>
+          <image
+            :src="item.link"
+            mode="aspectFill"
+            class="swiper-item-images"
+          />
         </swiper-item>
       </block>
     </swiper>
@@ -26,93 +37,88 @@
     <div class="btn">
       <ban></ban>
     </div>
-    
+
   </div>
 </template>
 
 <script>
-  import wepy from '@wepy/core'
+import wepy from '@wepy/core';
 
-  wepy.page({
-    config: {
-      navigationBarTitleText: 'test'
-    },
-    props: {
-      
-    },
-    data: {
-      indicatorDots: true,
-      // 滑动方向是否为纵向
-      vertical: false,
-      // 自动切换
-      autoplay: true,
-      // 采用衔接滑动
-      circular: true,
-      // 自动切换时间间隔2s
-      interval: 2000,
-      // 滑动动画时长0.5s
-      duration: 500,
-      goodInfo:{},
+wepy.page({
+  config: {
+    navigationBarTitleText: 'test'
+  },
+  props: {},
+  data: {
+    indicatorDots: true,
+    // 滑动方向是否为纵向
+    vertical: false,
+    // 自动切换
+    autoplay: true,
+    // 采用衔接滑动
+    circular: true,
+    // 自动切换时间间隔2s
+    interval: 2000,
+    // 滑动动画时长0.5s
+    duration: 500,
+    goodInfo: {}
+  },
 
-    },
+  methods: {},
 
-
-    methods: {
-      
-    },
-
-    created () {
-      this.goodInfo = wx.getStorageSync('goodInfo');
-    }
-  });
+  created() {
+    this.goodInfo = wx.getStorageSync('goodInfo');
+    console.log('goodInfo', this.goodInfo);
+  }
+});
 </script>
 
 <style lang="less">
-.good-detail{
+.good-detail {
   width: 100%;
   position: relative;
-  background: #F7F7F7;
+  background: #f7f7f7;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  .activity{
+  .activity {
     position: absolute;
     width: 132rpx;
     height: 132rpx;
     left: 0;
-    top: 0;
+    top: -2px;
     z-index: 1;
   }
-  >swiper{
+  > swiper {
     width: 100%;
     height: 633rpx;
   }
-  .swiper-item-images{
+  .swiper-item-images {
     width: 100%;
     height: 633rpx;
   }
-  .baseinfo{
+  .baseinfo {
     width: 100%;
     padding: 30rpx;
     display: flex;
     justify-content: space-between;
     background: #ffffff;
-    .title{
+    .title {
       width: 465rpx;
       font-size: 28rpx;
       font-weight: 500;
       color: #333333;
     }
-    .count-info{
+    .count-info {
       flex: 1 1;
-      view:nth-of-type(1){
+      view:nth-of-type(1) {
         font-size: 40rpx;
         font-weight: 500;
-        color: #F88142;
+        color: #f88142;
         text-align: right;
       }
-      view:nth-of-type(2){
+      view:nth-of-type(2) {
         font-size: 24rpx;
         font-weight: 400;
         color: #666666;
@@ -120,13 +126,13 @@
       }
     }
   }
-  .btn{
+  .btn {
     width: 280rpx;
     padding: 24rpx 72rpx;
     font-size: 34rpx;
     font-weight: 400;
-    color: #FFFFFF;
-    background: #1293FF;
+    color: #ffffff;
+    background: #1293ff;
     border-radius: 48rpx;
     position: absolute;
     bottom: 1%;
