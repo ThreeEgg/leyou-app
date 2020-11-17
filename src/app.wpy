@@ -7,7 +7,8 @@
   justify-content: space-between;
   box-sizing: border-box;
 }
-view,div{
+view,
+div {
   box-sizing: border-box;
 }
 </style>
@@ -16,15 +17,14 @@ view,div{
 import wepy from '@wepy/core';
 import eventHub from './common/eventHub';
 import vuex from '@wepy/x';
-import {baseUrl} from "./assets/js/base.js"
+import { baseUrl } from './assets/js/base.js';
 wepy.use(vuex);
-
 
 wepy.app({
   hooks: {
     // App 级别 hook，对整个 App 生效
     // 同时存在 Page hook 和 App hook 时，优先执行 Page hook，返回值再交由 App hook 处
-    'before-setData': function (dirty) {
+    'before-setData': function(dirty) {
       return dirty;
     }
   },
@@ -38,34 +38,33 @@ wepy.app({
       console.log(args);
     });
     wx.login({
-      success:(res)=>{
-        console.log('res',res);
-        if(res.errMsg === 'login:ok'){
+      success: res => {
+        console.log('res', res);
+        if (res.errMsg === 'login:ok') {
           wx.request({
-            url:baseUrl+'/v1/weChatInfo/getSessionKey',
-            data:{
-              code:res.code
+            url: baseUrl + '/v1/weChatInfo/getSessionKey',
+            data: {
+              code: res.code
             },
-            success:function(res){
-              console.log('login-success',res);
+            success: function(res) {
+              console.log('login-success', res);
             },
-            fail:function(err){
-              console.log('login-fail',err)
+            fail: function(err) {
+              console.log('login-fail', err);
             }
-          })
+          });
         }
-        
       }
-    })
+    });
   },
 
-  methods: {
-  }
+  methods: {}
 });
 </script>
 <config>
 {
     pages: [
+
       'pages/home/index',
       'pages/baseInfo/index',
       'pages/contract/index',
@@ -81,7 +80,7 @@ wepy.app({
       'pages/payNext/sign',
       'pages/signature/index',
       'pages/payNext/pdf'
-      
+
     ],
     window: {
       backgroundTextStyle: 'light',
