@@ -11,7 +11,7 @@
         </div>
       </div>
       <div class="item-content">
-        <image :src=" orderInfo.coverLink||'../../../assets/images/mouse.png'"/>
+        <image :src=" orderInfo.coverLink||'../../../assets/images/mouse.png'" />
         <div class="content">
           <div class="fund-name">
             {{orderInfo.goodsName}}
@@ -30,7 +30,10 @@
         </div>
       </div>
     </div>
-    <div class="contract" v-if="orderInfo.isService === 1">
+    <div
+      class="contract"
+      v-if="orderInfo.isService === 1"
+    >
       <div class="contract-left">
         <div class="name">
           {{orderInfo.agreementLink}}
@@ -44,157 +47,175 @@
         <view>></view>
       </div>
     </div>
-    <div v-else class="logistics">
+    <div
+      v-else
+      class="logistics"
+    >
       <div class="logistics-left">物流单号</div>
-      <div class="logistics-right" @tap="copy(orderInfo.courierNumber)">
-        <view><image src="../../../assets/images/copy.png"/>{{orderInfo.courierNumber}}</view>
-        <view>{{orderInfo.courierCompany}}</view>
+      <div
+        class="logistics-right"
+        @tap="copy(orderInfo.courierNumber)"
+      >
+        <view>
+          <image
+            src="../../../assets/images/copy.png"
+            style="margin-right:5rpx;"
+          />{{orderInfo.courierNumber || '暂无'}}</view>
+        <view>{{orderInfo.courierCompany || '暂无'}}</view>
       </div>
     </div>
     <div class="info-display">
       <div class="display-item">
         <view>订单编号：</view>
-        <view>{{orderInfo.orderNumber}}</view>
+        <view>{{orderInfo.orderNumber|| '暂无'}}</view>
       </div>
       <div class="display-item">
         <view>下单时间：</view>
-        <view>{{orderInfo.orderTime}}</view>
+        <view>{{orderInfo.orderTime|| '暂无'}}</view>
       </div>
-      <div class="display-item" v-if="orderInfo.orderStatus === 1">
+      <div
+        class="display-item"
+        v-if="orderInfo.orderStatus === 1"
+      >
         <view>成交时间：</view>
-        <view>{{orderInfo.payTime}}</view>
+        <view>{{orderInfo.payTime|| '暂无'}}</view>
       </div>
     </div>
-    <div class="payment" v-if="orderInfo.orderStatus === 0" @tap="viewPay">
+    <div
+      class="payment"
+      v-if="orderInfo.orderStatus === 0"
+      @tap="viewPay"
+    >
       去支付
     </div>
   </div>
 </template>
 
 <script>
-  import wepy from '@wepy/core'
+import wepy from '@wepy/core';
+import { dateFormat } from '../../../assets/js/tools';
+wepy.page({
+  config: {
+    navigationBarTitleText: 'test'
+  },
+  props: {},
+  data: {
+    orderInfo: {}
+  },
 
-  wepy.page({
-    config: {
-      navigationBarTitleText: 'test'
-    },
-    props: {
-      
-    },
-    data: {
-      orderInfo:{}
-    },
-
-
-    methods: {
-      copy:function(number){
-        wx.setClipboardData({
-          data:number,
-          success:()=>{
-            wx.showToast({
-              title: '复制成功',
-              icon: 'success',
-            })
-          }
-        })
-      },
-      viewPay:function(){
-        if(this.orderInfo.isService === 1){
-          wx.navigateTo({
-            url:"../../payNext/sign"
-          })
-        }else{
-          wx.navigateTo({
-            url:"../../payNext/pay"
-          })
+  methods: {
+    copy: function(number) {
+      wx.setClipboardData({
+        data: number,
+        success: () => {
+          wx.showToast({
+            title: '复制成功',
+            icon: 'success'
+          });
         }
-      }
+      });
     },
-
-    created () {
-      const orderInfo = wx.getStorageSync('orderInfo');
-      this.orderInfo = orderInfo;
-      console.log('orderInfo',orderInfo)
+    viewPay: function() {
+      if (this.orderInfo.isService === 1) {
+        wx.navigateTo({
+          url: '../../payNext/sign'
+        });
+      } else {
+        wx.navigateTo({
+          url: '../../payNext/pay'
+        });
+      }
     }
-  });
+  },
+
+  created() {
+    const orderInfo = wx.getStorageSync('orderInfo');
+    this.orderInfo = orderInfo;
+    this.orderInfo.orderTime = dateFormat(
+      'YYYY-MM-DD HH:mm:ss',
+      new Date(this.orderInfo.orderTime)
+    );
+    console.log('orderInfo', orderInfo);
+  }
+});
 </script>
 
 <style lang="less">
-.order .order-info{
+.order .order-info {
   // height: 253rpx;
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: 0rpx 0rpx 12rpx 0rpx rgba(220, 220, 220, 0.2);
   border-radius: 16rpx;
-  padding:20rpx 40rpx 24rpx;
+  padding: 20rpx 40rpx 24rpx;
   margin-bottom: 30rpx;
   // border-bottom: 1rpx solid #eee;
-  .item-top{
+  .item-top {
     padding-bottom: 20rpx;
-    border-bottom: 1rpx solid #EBEBEB;
+    border-bottom: 1rpx solid #ebebeb;
     display: flex;
     justify-content: space-between;
-    .item-status{
+    .item-status {
       display: flex;
-      view:nth-of-type(1){
+      view:nth-of-type(1) {
         font-size: 24rpx;
         font-weight: 400;
         color: #333333;
       }
-      view:nth-of-type(2){
+      view:nth-of-type(2) {
         font-size: 24rpx;
         font-weight: 400;
       }
-      .success{
-        color: #12A100;
+      .success {
+        color: #12a100;
       }
-      .unpaid{
-        color: #1293FF;
+      .unpaid {
+        color: #1293ff;
       }
-      .cancel{
+      .cancel {
         color: #999999;
       }
     }
-    .item-money{
+    .item-money {
       font-size: 28rpx;
       font-weight: 500;
-      color: #F88142;
+      color: #f88142;
     }
   }
-  .item-content{
+  .item-content {
     display: flex;
     justify-content: space-between;
     padding-top: 20rpx;
-    >image{
+    > image {
       width: 160rpx;
       height: 160rpx;
     }
-    .content{
+    .content {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       width: 300rpx;
-      .fund-name{
+      .fund-name {
         font-size: 24rpx;
         font-weight: 400;
         color: #333333;
       }
-      .desc{
+      .desc {
         font-size: 24rpx;
         font-weight: 400;
         color: #666666;
       }
     }
-    .money-count{
+    .money-count {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      .price{
+      .price {
         font-size: 24rpx;
         font-weight: 500;
         color: #333333;
         text-align: right;
       }
-      .count{
+      .count {
         font-size: 24rpx;
         font-weight: 400;
         color: #666666;
@@ -203,97 +224,96 @@
     }
   }
 }
-.order{
+.order {
   min-height: 100vh;
   position: relative;
-  .contract{
-    padding:8rpx 40rpx;
+  .contract {
+    padding: 8rpx 40rpx;
     border-top: 1rpx solid #ccc;
     border-bottom: 1rpx solid #ccc;
     display: flex;
     justify-content: space-between;
-    .contract-left{
-      .name{
+    .contract-left {
+      .name {
         font-size: 24rpx;
         font-weight: 400;
         color: #333333;
       }
-      .money{
+      .money {
         font-size: 24rpx;
         font-weight: 400;
         color: #333333;
       }
     }
-    .contract-right{
+    .contract-right {
       display: flex;
       justify-content: center;
       align-items: center;
-      view{
+      view {
         font-size: 24rpx;
-        color: rgb(51,51,51);
+        color: rgb(51, 51, 51);
       }
-      view:nth-of-type(1){
+      view:nth-of-type(1) {
         margin-right: 8rpx;
       }
-      
     }
-    .success view{
-      color: rgb(94,232,107);
+    .success view {
+      color: rgb(94, 232, 107);
     }
-    .fail view{
-      color: rgb(232,51,51);
+    .fail view {
+      color: rgb(232, 51, 51);
     }
   }
-  .logistics{
-    padding:8rpx 40rpx;
+  .logistics {
+    padding: 8rpx 40rpx;
     border-top: 1rpx solid #ccc;
     border-bottom: 1rpx solid #ccc;
     display: flex;
     justify-content: space-between;
-    .logistics-left{
+    .logistics-left {
       font-size: 24rpx;
       font-weight: 400;
       color: #333333;
     }
-    .logistics-right{
-      view{
+    .logistics-right {
+      view {
         font-size: 22rpx;
         font-weight: 400;
         color: #333333;
         text-align: right;
-        >image{
-          width:16rpx;
+        > image {
+          width: 16rpx;
           height: 20rpx;
         }
       }
     }
   }
-  .info-display{
+  .info-display {
     padding: 8rpx 30rpx 0rpx;
-    .display-item{
+    .display-item {
       display: flex;
-      view{
+      view {
         display: flex;
         justify-content: center;
         align-items: center;
       }
-      view:nth-of-type(1){
+      view:nth-of-type(1) {
         font-size: 24rpx;
         color: #666666;
       }
-      view:nth-of-type(2){
+      view:nth-of-type(2) {
         font-size: 22rpx;
         color: #888888;
       }
     }
   }
-  .payment{
+  .payment {
     position: absolute;
     bottom: 10rpx;
     right: 20rpx;
-    width:280rpx;
+    width: 280rpx;
     height: 60rpx;
-    background: #F88142;
+    background: #f88142;
     border-radius: 30rpx;
     text-align: center;
     line-height: 60rpx;

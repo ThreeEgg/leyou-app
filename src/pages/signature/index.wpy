@@ -12,16 +12,19 @@
       binderror="canvasIdErrorCallback"
     >
     </canvas>
-    <view
-      class="delbutton"
-      bindtap="cleardraw"
-    >清除</view>
-    <view
-      class="button"
-      @tap="clickMe"
-    >
-      确认签名
-    </view>
+    <div class="btn-box">
+      <view
+        class="delbutton btn"
+        bindtap="cleardraw"
+      >清除签名</view>
+      <view
+        class="button btn"
+        @tap="clickMe"
+      >
+        确认签名
+      </view>
+    </div>
+
   </div>
 </template>
 
@@ -45,7 +48,8 @@ wepy.page({
   data: {
     src: '', // 第一个签名
     img: '',
-    rpx: ''
+    rpx: '',
+    orderInfo: {}
   },
 
   methods: {
@@ -71,8 +75,16 @@ wepy.page({
         }
       }
       context.clearRect(0, 0, canvasw, canvash);
-      // context.drawImage('../../static/images/f.png', 0, 0, 500, 500);  // bug 此处截图一张背景为纯白的图作为背景用于处理图片默认底色的问题(已解决)
-      context.setStrokeStyle('#000');
+      // console.log('w', canvasw, canvash); // bug 此处截图一张背景为纯白的图作为背景用于处理图片默认底色的问题(已解决)
+      /* context.drawImage(
+        '../../assets/images/white.png',
+        0,
+        0,
+        canvasw,
+        canvash
+      ); */ context.setStrokeStyle(
+        '#000'
+      );
       context.setLineWidth(4);
       context.setLineCap('round');
       context.setLineJoin('round');
@@ -81,28 +93,50 @@ wepy.page({
     },
     // 点击保存图片
     clickMe: function() {
+      // wx.navigateTo({
+      //   url: '../payNext/sign'
+      // });
       const self = this;
       wx.canvasToTempFilePath({
         canvasId: 'canvas',
-        fileType: 'jpg',
+        fileType: 'png',
         success: function(res) {
           // 获取到生成图片的临时路径
           // things to do
           console.log('res', res.tempFilePath);
           self.src = res.tempFilePath;
           console.log(self.src);
+          wx.showToast({
+            title: '请稍等...'
+          });
           wx.uploadFile({
             url: baseUrl + '/v1/upload/mergeImg',
             filePath: res.tempFilePath,
             name: 'file',
             formData: {
               type: 5,
-              id: '1326943774511300609',
-              agreementPath:
-                'https://leyou-file-1304138037.cos.ap-shanghai.myqcloud.com/goodsAgreement/demo.pdf'
+              id: self.orderInfo.id,
+              agreementPath: self.orderInfo.agreementLink
             },
             success: res => {
-              console.log('uploadFile-res', res);
+              const { data } = res;
+              const reponse = JSON.parse(data);
+              if (reponse.success) {
+                wx.showToast({
+                  title: '签署完成'
+                });
+                setTimeout(() => {
+                  wx.navigateTo({
+                    url: '../payNext/sign'
+                  });
+                }, 1000);
+              } else {
+                wx.showToast({
+                  title: '签署失败',
+                  icon: 'none'
+                });
+              }
+              console.log('uploadFile-res', res, reponse);
             },
             fail: err => {
               console.log('uploadFile-fail', err);
@@ -132,9 +166,20 @@ wepy.page({
     context.setLineCap('round');
     context.setLineJoin('round');
     context.draw();
+    wx.createSelectorQuery()
+      .select('#canvas')
+      .boundingClientRect(res => {
+        canvasw = res.width;
+        canvash = res.height;
+      })
+      .exec();
   },
 
-  created() {}
+  created() {
+    this.orderInfo = wx.getStorageSync('orderInfo');
+    this.goodInfo = wx.getStorageSync('agreementLink');
+    console.log('签名-orderInfo', this.orderInfo);
+  }
 });
 </script>
 
@@ -145,6 +190,23 @@ wepy.page({
   padding: 60rpx;
   border: 1rpx solid #eee;
   border-radius: 16rpx;
+  position: relative;
+  .btn-box {
+    position: absolute;
+    bottom: 2%;
+    right: 2%;
+    display: flex;
+  }
+  .btn {
+    // width: 100rpx;
+    padding: 16rpx 16rpx;
+    font-size: 16rpx;
+    font-weight: 400;
+    color: #ffffff;
+    background: #1293ff;
+    border-radius: 16rpx;
+    margin-right: 6rpx;
+  }
 }
 .canvas {
   width: 100%;

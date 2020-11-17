@@ -43,7 +43,7 @@
               {{item.goodsName}}
             </div>
             <div class="info">
-              <view>￥{{item.price}}</view>
+              <view>￥{{item.goodsDetails[0].price}}</view>
               <view>已卖{{(item.salesCount || 0) >9999 ?'9999+':(item.salesCount || 0)}}件</view>
             </div>
           </div>
@@ -84,71 +84,7 @@ wepy.page({
           console.log('goodInfo-res', res);
           const { data, success } = res.data;
           if (success) {
-            wx.setStorageSync('goodInfo', {
-              abstracts: '描述信息',
-              agreementId: '1328534875501002800',
-              agreementLink:
-                'https://leyou-file-1304138037.cos.ap-shanghai.myqcloud.com/goodsAgreement/demo.pdf',
-              agreementName: null,
-              bannerImgIds: '121,1231',
-              bannerList: [
-                {
-                  id: 12,
-                  link:
-                    'https://leyou-file-1304138037.cos.ap-shanghai.myqcloud.com/banner/img.jpg'
-                },
-                {
-                  id: 13,
-                  link:
-                    'https://leyou-file-1304138037.cos.ap-shanghai.myqcloud.com/banner/img.jpg'
-                }
-              ],
-              countTemp: null,
-              cover: 1328534836997292000,
-              coverLink:
-                'https://leyou-file-1304138037.cos.ap-shanghai.myqcloud.com/banner/img.jpg',
-              createDept: null,
-              createTime: '2020-11-17 11:06:32',
-              createUser: null,
-              detailCount: null,
-              detailImgIds: '12312,1231,456456,56456',
-              detailList: [
-                {
-                  id: 12,
-                  link:
-                    'https://leyou-file-1304138037.cos.ap-shanghai.myqcloud.com/banner/img.jpg'
-                },
-                {
-                  id: 13,
-                  link:
-                    'https://leyou-file-1304138037.cos.ap-shanghai.myqcloud.com/banner/img.jpg'
-                }
-              ],
-              executionTime: null,
-              extraTime: null,
-              goodsDetails: [
-                { detailName: '0.60cm', price: 200 },
-                { detailName: '0.65cm', price: 300 }
-              ],
-              goodsName: '测试',
-              id: '1328534960750231553',
-              isActivity: 0,
-              isDeleted: 0,
-              isSale: 1,
-              isService: 0,
-              price: 12,
-              reportCount: null,
-              returnPoint: null,
-              salesCount: 50,
-              serviceTerm: 2,
-              sort: 0,
-              status: 0,
-              type: '1327448391732957185',
-              typeName: '小型办公用品',
-              typeParentId: null,
-              updateTime: null,
-              updateUser: null
-            });
+            wx.setStorageSync('goodInfo', data);
             wx.navigateTo({
               url: '../goodDetail/index'
             });
@@ -222,6 +158,7 @@ wepy.page({
   min-height: 100vh;
   .market-left {
     width: 200rpx;
+    max-height: 100vh;
     .menu-item {
       border-top: 1rpx solid #d7d7d7;
       .menu-top {
@@ -260,6 +197,8 @@ wepy.page({
     }
   }
   .market-right {
+    max-height: 100vh;
+    overflow-y: auto;
     flex: 1 1;
     border-top: 1rpx solid #d7d7d7;
     border-left: 1rpx solid #d7d7d7;

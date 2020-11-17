@@ -2,16 +2,20 @@
   <div class="list-item">
     <div class="list-item-title">
       <view></view>
-      <view>{{item.date}}</view>
+      <view>{{item.mouths}}</view>
     </div>
     <div class="list-item-box">
-      <div class="list-item-demo" v-for="demo in item.children" :key="demo.id">
+      <div
+        class="list-item-demo"
+        v-for="demo in item.point"
+        :key="demo.id"
+      >
         <div class="list-item-demo-left">
-          <view>{{demo.title}}</view>
-          <view>{{demo.date}}</view>
+          <view>{{demo.remark}}</view>
+          <view>{{demo.createTimeStr}}</view>
         </div>
-        <div :class="{'list-item-demo-right':true,success:demo.money>=0,fail:demo.money<0}">
-          {{demo.money>=0?'+'+demo.money:demo.money}}
+        <div :class="{'list-item-demo-right':true,success:demo.point>=0,fail:demo.point<0}">
+          {{demo.point>=0?'+'+demo.point:demo.point}}
         </div>
       </div>
     </div>
@@ -19,92 +23,78 @@
 </template>
 
 <script>
-  import wepy from '@wepy/core'
+import wepy from '@wepy/core';
 
-  wepy.page({
-    config: {
-      navigationBarTitleText: 'test'
-    },
-    props: {
-      item:{
-        type:Object,
-        default:()=>{
-          return {}
-        }
+wepy.page({
+  config: {
+    navigationBarTitleText: 'test'
+  },
+  props: {
+    item: {
+      type: Object,
+      default: () => {
+        return {};
       }
-    },
-    data: {
-      
-    },
-
-
-    methods: {
-      moneyFormat(money){
-        console.log(11)
-        if(money >= 0){
-          return `+ ${money.toFixed(2)}`
-        }else{
-          return money.toFixed(2)
-        }
-      }
-    },
-
-    created () {
-      
     }
-  });
+  },
+  data: {},
+
+  methods: {},
+
+  created() {}
+});
 </script>
 
 <style lang="less">
-.list-item{
+.list-item {
   margin-top: 6rpx;
-  .list-item-title{
-    border-bottom: 1rpx solid #D7D7D7;
+  .list-item-title {
+    border-bottom: 1rpx solid #d7d7d7;
     display: flex;
-    padding:10rpx 30rpx;
+    padding: 10rpx 30rpx;
     align-items: center;
-    view:nth-of-type(1){
+    view:nth-of-type(1) {
       width: 8rpx;
       height: 28rpx;
-      background: #1293FF;
+      background: #1293ff;
       border-radius: 5rpx;
       margin-right: 8rpx;
     }
-    view:nth-of-type(2){
+    view:nth-of-type(2) {
       font-size: 28rpx;
       font-weight: 600;
       color: #333333;
     }
   }
-  .list-item-box{
-    padding:10rpx 30rpx;
-    .list-item-demo{
-      border-bottom: 1rpx solid #EBEBEB;
-      padding:18rpx 0rpx 10rpx;
+  .list-item-box {
+    padding: 10rpx 30rpx;
+    .list-item-demo {
+      border-bottom: 1rpx solid #ebebeb;
+      padding: 18rpx 0rpx 10rpx;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      .list-item-demo-left{
-        view:nth-of-type(1){
+      .list-item-demo-left {
+        view:nth-of-type(1) {
           font-size: 28rpx;
           font-weight: 400;
           color: #333333;
         }
-        view:nth-of-type(2){
+        view:nth-of-type(2) {
           font-size: 24rpx;
           font-weight: 400;
           color: #666666;
         }
       }
-      .list-item-demo-right{
+      .list-item-demo-right {
         font-size: 28rpx;
         font-weight: 400;
       }
-      .fail{
-        color: #E02020;
+      .fail {
+        color: #e02020;
       }
-      .success{
-        color: #12A100;
+      .success {
+        color: #12a100;
       }
     }
   }

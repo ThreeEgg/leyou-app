@@ -3,6 +3,7 @@
     <image
       class="activity"
       src="../../assets/svg/activity.svg"
+      v-if="goodInfo.isActivity === 1"
     />
     <swiper
       indicator-dots="{{indicatorDots}}"
@@ -33,6 +34,16 @@
         <view>￥{{goodInfo.price}}</view>
         <view>已卖{{(goodInfo.salesCount || 0) >9999 ?'9999+':(goodInfo.salesCount || 0)}}件</view>
       </div>
+    </div>
+    <div class="detail">
+      <div
+        class="image-box"
+        v-for="item in goodInfo.detailList"
+        :key="item.id"
+      >
+        <image :src="item.link" />
+      </div>
+
     </div>
     <div class="btn">
       <ban></ban>
@@ -68,6 +79,7 @@ wepy.page({
 
   created() {
     this.goodInfo = wx.getStorageSync('goodInfo');
+    this.goodInfo.price = this.goodInfo.goodsDetails[0].price || 0;
     console.log('goodInfo', this.goodInfo);
   }
 });
@@ -87,7 +99,7 @@ wepy.page({
     width: 132rpx;
     height: 132rpx;
     left: 0;
-    top: -2px;
+    top: -1px;
     z-index: 1;
   }
   > swiper {
@@ -123,6 +135,18 @@ wepy.page({
         font-weight: 400;
         color: #666666;
         text-align: right;
+      }
+    }
+  }
+  .detail {
+    width: 100%;
+    height: 'auto';
+    .image-box {
+      width: 100%;
+      height: 700rpx;
+      > image {
+        width: 100%;
+        height: 100%;
       }
     }
   }

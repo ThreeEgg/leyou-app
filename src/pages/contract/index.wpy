@@ -1,44 +1,65 @@
 <template>
   <div class="contract">
     <div class="contractBox">
-      <contract-item v-for="item in contractList" :item="item" :key="item.id"></contract-item>
+      <contract-item
+        v-for="item in contractList"
+        :item="item"
+        :key="item.id"
+      ></contract-item>
       <no-data></no-data>
     </div>
   </div>
 </template>
 
 <script>
-  import wepy from '@wepy/core'
+import wepy from '@wepy/core';
+import { baseUrl } from '../../assets/js/base.js';
+wepy.page({
+  config: {
+    navigationBarTitleText: 'test'
+  },
+  props: {},
+  data: {
+    contractList: [],
+    baseInfo: {}
+  },
 
-  wepy.page({
-    config: {
-      navigationBarTitleText: 'test'
-    },
-    props: {
-      
-    },
-    data: {
-      contractList:[
-        {id:1,name:'xxx1',money:100,status:1},
-        {id:2,name:'xxx2',money:200,status:1},
-        {id:3,name:'xxx3',money:300,status:2},
-        {id:4,name:'xxx4',money:400,status:3},
-      ]
-    },
-
-
-    methods: {
-      
-    },
-
-    created () {
-      
+  methods: {
+    getContractList: function() {
+      const params = {
+        userId: this.baseInfo.id
+        // pageSize: 10,
+        // currentPage: 1
+      };
+      wx.request({
+        url: baseUrl + '/v1/order/findOrderInfoForServiceAndAgreementForFront',
+        data: params,
+        success: res => {
+          const { data } = res;
+          if (data.success) {
+            this.contractList = data.data;
+          } else {
+            wx.showToast({
+              title: '查询失败',
+              icon: 'none'
+            });
+          }
+        },
+        fail: err => {
+          console.log('contract-err', err);
+        }
+      });
     }
-  });
+  },
+
+  created() {
+    this.baseInfo = wx.getStorageSync('baseInfo');
+    this.getContractList();
+  }
+});
 </script>
 
 <style lang="less">
-
 </style>
 
 <config>

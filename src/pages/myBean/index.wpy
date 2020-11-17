@@ -3,97 +3,127 @@
     <div class="bean-top">
       <div class="bean-wrapper">
         <div class="bean-left">
-          <image src="../../assets/svg/beans.svg"/>
+          <image src="../../assets/svg/beans.svg" />
           <view>{{totalPoint}}</view>
         </div>
-        <div class="bean-right" @tap="viewMarket">
+        <div
+          class="bean-right"
+          @tap="viewMarket"
+        >
           <view>去簿记豆商城</view>
           <view>></view>
         </div>
       </div>
     </div>
     <div class="bean-list">
-      <list-item v-for="item in listData" :item="item" :key="item.id"></list-item>
+      <list-item
+        v-for="item in listData"
+        :item="item"
+        :key="item.mouths"
+      ></list-item>
     </div>
   </div>
 </template>
 
 <script>
-  import wepy from '@wepy/core'
+import wepy from '@wepy/core';
+import { baseUrl } from '../../assets/js/base.js';
+wepy.page({
+  config: {
+    navigationBarTitleText: 'test'
+  },
+  props: {},
+  data: {
+    listData: [],
+    totalPoint: 0
+  },
 
-  wepy.page({
-    config: {
-      navigationBarTitleText: 'test'
+  methods: {
+    viewMarket: function() {
+      wx.navigateTo({
+        url: '../market/index'
+      });
     },
-    props: {
-      
-    },
-    data: {
-      listData:[
-        {id:1,date:'2020年11月',children:[{id:1,title:'购买商品',date:'11-05 18:12:55',money:-100},{id:2,title:'体现',date:'11-04 12:22:45',money:3000}]},
-        {id:2,date:'2020年10月',children:[{id:1,title:'活动返还',date:'10-05 10:12:55',money:-100},{id:2,title:'体现',date:'10-04 22:22:45',money:700}]}
-      ],
-      totalPoint:0,
-    },
-
-
-    methods: {
-      viewMarket:function(){
-        wx.navigateTo({
-          url:'../market/index'
-        })
-      }
-    },
-
-    created () {
-      this.totalPoint = wx.getStorageSync('baseInfo').totalPoint;
+    getBeanRecordList: function() {
+      const { id } = wx.getStorageSync('baseInfo');
+      wx.request({
+        url: baseUrl + '/v1/point/findPointListByMouths',
+        data: {
+          userId: id
+        },
+        success: res => {
+          const { data } = res;
+          if (data.success) {
+            data.data.forEach(item => {
+              item.point.forEach(demo => {
+                demo.createTimeStr = demo.createTime.substring(5);
+              });
+            });
+            this.listData = data.data;
+          } else {
+            wx.showToast({
+              title: '获取失败',
+              icon: 'none'
+            });
+          }
+          console.log('record-res', res);
+        },
+        fail: err => {
+          console.log('record-err', err);
+        }
+      });
     }
-  });
+  },
+
+  created() {
+    this.totalPoint = wx.getStorageSync('baseInfo').totalPoint;
+    this.getBeanRecordList();
+  }
+});
 </script>
 
 <style lang="less">
-.myBean{
-  border-top: 1rpx solid #E9E9E9;
-  .bean-top{
-    padding:30rpx;
-    .bean-wrapper{
-      background: #F7F7F7;
+.myBean {
+  border-top: 1rpx solid #e9e9e9;
+  .bean-top {
+    padding: 30rpx;
+    .bean-wrapper {
+      background: #f7f7f7;
       box-shadow: 0rpx 0rpx 12rpx 0rpx rgba(220, 220, 220, 0.2);
       border-radius: 16rpx;
       display: flex;
       justify-content: space-between;
       padding: 32rpx 50rpx 32rpx 30rpx;
-      .bean-left{
+      .bean-left {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        image{
+        image {
           width: 50rpx;
           height: 50rpx;
         }
-        >view{
+        > view {
           font-size: 40rpx;
           font-weight: 400;
-          color: #F88142;
+          color: #f88142;
           margin-left: 4rpx;
         }
       }
-      .bean-right{
+      .bean-right {
         display: flex;
         align-items: center;
-        view{
+        view {
           font-size: 28rpx;
           font-weight: 400;
-          color: #1293FF;
+          color: #1293ff;
         }
-        view:nth-of-type(1){
+        view:nth-of-type(1) {
           margin-right: 4rpx;
         }
       }
     }
   }
-  .bean-list{
-
+  .bean-list {
   }
 }
 </style>

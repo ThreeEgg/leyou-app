@@ -96,22 +96,13 @@ wepy.component({
     },
     viewPay: function() {
       this.saveOrder();
-      if (this.goodInfo.isService === 1) {
-        wx.navigateTo({
-          url: '../payNext/pdf'
-        });
-      } else {
-        wx.navigateTo({
-          url: '../payNext/pay'
-        });
-      }
     },
     saveOrder: function() {
       console.log('baseInfo', wx.getStorageSync('baseInfo'));
       const params = {
         userId: wx.getStorageSync('baseInfo').id,
         goodsId: this.goodInfo.id,
-        goodsDetailId: this.goodsDetailId,
+        goodsDetailId: this.goodsDetailId || null,
         goodsDetailName: this.activityDetailName,
         unitPrice: this.goodInfo.price,
         totalPrice: this.count * this.goodInfo.price,
@@ -123,14 +114,32 @@ wepy.component({
         data: { ...params },
         success: res => {
           console.log('order-save-res', res);
+          const { data } = res;
+          if (data.success) {
+            wx.setStorageSync('orderInfo', {
+              id: data.data,
+              totalPrice: this.count * this.goodInfo.price,
+              agreementLink: this.goodInfo.agreementLink
+            });
+            if (this.goodInfo.isService === 1) {
+              wx.navigateTo({
+                url: '../payNext/pdf'
+              });
+            } else {
+              wx.navigateTo({
+                url: '../payNext/pay'
+              });
+            }
+          } else {
+            wx.showToast({
+              title: '生成订单失败',
+              icon: 'none'
+            });
+          }
         },
         fail: err => {
           console.log('order-save-err', err);
         }
-      });
-      wx.setStorageSync('orderInfo', {
-        orderId: 'res',
-        totalPrice: this.count * this.goodInfo.price
       });
     },
     handleCount: function(flag, disabled) {

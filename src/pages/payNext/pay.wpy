@@ -10,129 +10,129 @@
         <view>我的积分：{{baseInfo.totalPoint}}</view>
       </div>
     </div>
-    <div class="btn" @tap="viewPaySuccess">
+    <div
+      class="btn"
+      @tap="viewPaySuccess"
+    >
       去支付
     </div>
   </div>
 </template>
 
 <script>
-  import wepy from '@wepy/core'
-  import {baseUrl} from "../../assets/js/base.js"
-  wepy.page({
-    config: {
-      navigationBarTitleText: 'test'
-    },
-    props: {
-      
-    },
-    data: {
-      baseInfo:{},
-      orderInfo:{},
-    },
+import wepy from '@wepy/core';
+import { baseUrl } from '../../assets/js/base.js';
+wepy.page({
+  config: {
+    navigationBarTitleText: 'test'
+  },
+  props: {},
+  data: {
+    baseInfo: {},
+    orderInfo: {}
+  },
 
-
-    methods: {
-      viewPaySuccess:function(){
-        if(this.baseInfo.totalPoint < this.orderInfo.totalPrice){
-          wx.showToast({
-            title:'积分不足',
-            icon:'none'
-          })
-          return;
-        }
-        const params = {
-          userId:this.baseInfo.id + '',
-          orderId:this.orderInfo.id + '',
-          userTotalPoint:this.baseInfo.totalPoint,
-          payPoint:this.orderInfo.totalPrice
-        }
-        wx.request({
-          url:baseUrl+'/v1/order/pay',
-          method:'POST',
-          data:{...params},
-          success:res=>{
-            console.log('pay-success',res);
-            const {data:{msg,success}} = res;
-            if(success){
-              wx.navigateTo({
-                url:'../paySuccess/index'
-              })
-            }else{
-              wx.showToast({
-                title:msg,
-                icon:'none'
-              })
-            }
-          },
-          fail:err=>{
-            console.log('pay-err',err);
+  methods: {
+    viewPaySuccess: function() {
+      if (this.baseInfo.totalPoint < this.orderInfo.totalPrice) {
+        wx.showToast({
+          title: '积分不足',
+          icon: 'none'
+        });
+        return;
+      }
+      const params = {
+        userId: this.baseInfo.id + '',
+        orderId: this.orderInfo.id + '',
+        userTotalPoint: this.baseInfo.totalPoint,
+        payPoint: this.orderInfo.totalPrice
+      };
+      wx.request({
+        url: baseUrl + '/v1/order/pay',
+        method: 'POST',
+        data: { ...params },
+        success: res => {
+          console.log('pay-success', res);
+          const {
+            data: { msg, success }
+          } = res;
+          if (success) {
+            wx.navigateTo({
+              url: '../paySuccess/index'
+            });
+          } else {
+            wx.showToast({
+              title: msg,
+              icon: 'none'
+            });
           }
-        })
-
-        
-      },
-    },
-
-    created () {
-      this.baseInfo = wx.getStorageSync('baseInfo');
-      this.orderInfo = wx.getStorageSync('orderInfo');
+        },
+        fail: err => {
+          console.log('pay-err', err);
+        }
+      });
     }
-  });
+  },
+
+  created() {
+    this.baseInfo = wx.getStorageSync('baseInfo');
+    this.orderInfo = wx.getStorageSync('orderInfo');
+  }
+});
 </script>
 
 <style lang="less">
-.pay{
-  padding:60rpx 30rpx 0;
+.pay {
+  padding: 60rpx 30rpx 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  .order-info{
+  .order-info {
     width: 100%;
-    padding:20rpx;
+    padding: 20rpx;
     display: flex;
     justify-content: space-between;
-    background: #F7F7F7;
+    background: #f7f7f7;
     box-shadow: 0px 0px 12px 0px rgba(220, 220, 220, 0.2);
     border-radius: 16rpx;
     margin-bottom: 60rpx;
-    .info-left{
+    .info-left {
       display: flex;
-      view:nth-of-type(1){
+      view:nth-of-type(1) {
         font-size: 28rpx;
         font-weight: 400;
         color: #333333;
       }
-      view:nth-of-type(2){
+      view:nth-of-type(2) {
         font-size: 28rpx;
         font-weight: 400;
-        color: #1293FF;
+        color: #1293ff;
       }
     }
-    .info-right{
+    .info-right {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      view:nth-of-type(1){
+      view:nth-of-type(1) {
         font-size: 40rpx;
         font-weight: 500;
-        color: #F88142;
+        color: #f88142;
         text-align: right;
       }
-      view:nth-of-type(2){
+      view:nth-of-type(2) {
         font-size: 28rpx;
         font-weight: 400;
         color: #666666;
       }
     }
   }
-  .btn{
+  .btn {
     width: 280rpx;
     padding: 24rpx 72rpx;
     font-size: 34rpx;
     font-weight: 400;
-    color: #FFFFFF;
-    background: #1293FF;
+    color: #ffffff;
+    background: #1293ff;
     border-radius: 48rpx;
     text-align: center;
   }

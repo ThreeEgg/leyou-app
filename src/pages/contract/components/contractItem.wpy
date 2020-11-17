@@ -2,80 +2,95 @@
   <div class="contractItem">
     <div class="contract-left">
       <div class="name">
-        {{item.name}}
+        {{item.agreementName}}
       </div>
       <div class="money">
-        ￥{{item.money}}
+        ￥{{item.totalPrice}}
       </div>
     </div>
-    <div class="contract-right">
-      <view :class="{success:item.status === 1,fail:item.status === 2}">待生效</view>
+    <div
+      class="contract-right"
+      @tap="viewPdf(item.agreementlink)"
+    >
+      <view :class="{success:item.orderStatus ===1,fail:item.orderStatus !== 1}">{{orderStatus ===1?'已生效':'待生效'}}</view>
       <view>></view>
     </div>
   </div>
 </template>
 
 <script>
-  import wepy from '@wepy/core'
+import wepy from '@wepy/core';
 
-  wepy.page({
-    config: {
-      navigationBarTitleText: 'test'
-    },
-    props: {
-      item:{
-        type:Object,
-        default:()=>{
-          return {}
-        }
+wepy.page({
+  config: {
+    navigationBarTitleText: 'test'
+  },
+  props: {
+    item: {
+      type: Object,
+      default: () => {
+        return {};
       }
-    },
-    data: {
-      
-    },
-
-
-    methods: {
-      
-    },
-
-    created () {
-      
     }
-  });
+  },
+  data: {},
+
+  methods: {
+    viewPdf: function(url) {
+      wx.downloadFile({
+        url: url,
+        success: res => {
+          const filePath = res.tempFilePath;
+          wx.openDocument({
+            filePath: filePath,
+            success: function(res) {
+              console.log('打开文档成功');
+            }
+          });
+          console.log('download-res', res);
+        },
+        fail: err => {
+          console.log('download-err', err);
+        }
+      });
+    }
+  },
+
+  created() {}
+});
 </script>
 
 <style lang="less">
-.contractItem{
-  padding:6rpx 20rpx;
+.contractItem {
+  padding: 6rpx 20rpx;
   border-bottom: 1rpx solid #ccc;
   display: flex;
   justify-content: space-between;
-  .contract-left{
-    .name{
-      color:rgb(51,51,51);
+  .contract-left {
+    .name {
+      color: rgb(51, 51, 51);
     }
-    .money{
-      color:rgb(51,51,51);
+    .money {
+      color: rgb(51, 51, 51);
       font-size: 24rpx;
     }
   }
-  .contract-right{
+  .contract-right {
     display: flex;
     justify-content: center;
     align-items: center;
-    view{
+    view {
       font-size: 24rpx;
-      color: rgb(51,51,51);
+      color: rgb(51, 51, 51);
     }
-    view:nth-of-type(1){
+    view:nth-of-type(1) {
       margin-right: 8rpx;
     }
-    .success{
-      color: rgb(94,232,107);
+    .success {
+      color: rgb(94, 232, 107);
     }
-    .fail{
-      color: rgb(232,51,51);
+    .fail {
+      color: rgb(232, 51, 51);
     }
   }
 }
