@@ -158,7 +158,7 @@ wepy.page({
     color: #ffffff;
     background: #1293ff;
     border-radius: 48rpx;
-    position: absolute;
+    position: fixed;
     bottom: 1%;
   }
 }

@@ -4,9 +4,19 @@
     @tap="viewOrderItem(item)"
   >
     <div class="item-top">
-      <div class="item-status">
+      <div
+        class="item-status"
+        v-if="item.isService !== 1"
+      >
         <view>订单状态：</view>
         <view :class="{unpaid:item.orderStatus===0,success:item.orderStatus===1,cancel:item.orderStatus===2}">{{item.orderStatus===0?'待支付':item.orderStatus===1?'已完成':'已取消'}}</view>
+      </div>
+      <div
+        class="item-status"
+        v-else
+      >
+        <view>订单状态：</view>
+        <view :class="{success:item.orderStatus===1,cancel:item.orderStatus!==1}">{{item.orderStatus===1?'已生效':'待生效'}}</view>
       </div>
       <div class="item-money">
         ￥{{item.unitPrice * item.goodsCount}}

@@ -2,9 +2,19 @@
   <div class="order">
     <div class="order-info">
       <div class="item-top">
-        <div class="item-status">
+        <div
+          class="item-status"
+          v-if="orderInfo.isService !== 1"
+        >
           <view>订单状态：</view>
           <view :class="{unpaid:orderInfo.orderStatus===0,success:orderInfo.orderStatus===1,cancel:orderInfo.orderStatus===2}">{{orderInfo.orderStatus===0?'待支付':orderInfo.orderStatus===1?'已完成':'已取消'}}</view>
+        </div>
+        <div
+          class="item-status"
+          v-else
+        >
+          <view>订单状态：</view>
+          <view :class="{success:orderInfo.orderStatus===1,cancel:orderInfo.orderStatus!==1}">{{orderInfo.orderStatus===1?'已生效':'待生效'}}</view>
         </div>
         <div class="item-money">
           ￥{{orderInfo.unitPrice * orderInfo.goodsCount}}
@@ -42,8 +52,11 @@
           ￥{{orderInfo.totalPrice}}
         </div>
       </div>
-      <div class="contract-right success">
-        <view>{{orderInfo.orderStatus===0?'待生效':'已生效'}}</view>
+      <div
+        :class="{'contract-right':true, success:orderInfo.orderStatus===1}"
+        @tap="viewPdf(orderInfo.agreementLink)"
+      >
+        <view>{{orderInfo.orderStatus===1?'已生效':'待生效'}}</view>
         <view>></view>
       </div>
     </div>
@@ -125,6 +138,31 @@ wepy.page({
           url: '../../payNext/pay'
         });
       }
+    },
+    viewPdf: function(url) {
+      if (!url) {
+        wx.showToast({
+          title: '暂无可查看合同',
+          icon: 'none'
+        });
+        return;
+      }
+      wx.downloadFile({
+        url: url,
+        success: res => {
+          const filePath = res.tempFilePath;
+          wx.openDocument({
+            filePath: filePath,
+            success: function(res) {
+              console.log('打开文档成功');
+            }
+          });
+          console.log('download-res', res);
+        },
+        fail: err => {
+          console.log('download-err', err);
+        }
+      });
     }
   },
 

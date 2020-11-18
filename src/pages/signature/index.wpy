@@ -63,7 +63,6 @@ wepy.page({
       var that = this;
       if (isButtonDown) {
         arrz.push(1);
-        console.log(event);
         arrx.push(event.changedTouches[0].clientX - event.target.offsetLeft);
         arry.push(event.changedTouches[0].clientY - event.target.offsetTop);
       }
@@ -179,6 +178,9 @@ wepy.page({
     this.orderInfo = wx.getStorageSync('orderInfo');
     this.goodInfo = wx.getStorageSync('agreementLink');
     console.log('签名-orderInfo', this.orderInfo);
+  },
+  detached() {
+    this.cleardraw();
   }
 });
 </script>
@@ -192,7 +194,7 @@ wepy.page({
   border-radius: 16rpx;
   position: relative;
   .btn-box {
-    position: absolute;
+    position: fixed;
     bottom: 2%;
     right: 2%;
     display: flex;

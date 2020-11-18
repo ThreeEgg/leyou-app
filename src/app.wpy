@@ -64,7 +64,6 @@ wepy.app({
 <config>
 {
     pages: [
-
       'pages/home/index',
       'pages/baseInfo/index',
       'pages/contract/index',
