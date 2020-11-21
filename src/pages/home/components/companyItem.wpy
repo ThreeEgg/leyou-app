@@ -1,50 +1,50 @@
 <style lang="less">
-.companyItem{
+.companyItem {
   width: 100%;
   height: 210rpx;
   position: relative;
   margin-bottom: 20rpx;
 }
 
-.companyItem .bg{
+.companyItem .bg {
   width: 100%;
   height: 100%;
   position: absolute;
 }
 
-.companyItem .content{
+.companyItem .content {
   width: 100%;
   position: absolute;
   padding: 30rpx;
 }
 
-.companyItem .content view:nth-of-type(1){
+.companyItem .content view:nth-of-type(1) {
   font-size: 34rpx;
   font-family: PingFangSC-Medium, PingFang SC;
   font-weight: 500;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
-.companyItem .content view:nth-of-type(2){
+.companyItem .content view:nth-of-type(2) {
   font-size: 28rpx;
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
-  color: #FFFFFF;
+  color: #ffffff;
   margin-top: 10rpx;
 }
 
-.companyItem .content view:nth-of-type(3){
+.companyItem .content view:nth-of-type(3) {
   display: flex;
   align-items: center;
   justify-content: flex-end;
   font-size: 24rpx;
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
-  color: #FFFFFF;
+  color: #ffffff;
   margin-top: 30rpx;
 }
 
-.companyItem .content view:nth-of-type(3) image{
+.companyItem .content view:nth-of-type(3) image {
   width: 24rpx;
   height: 24rpx;
   margin-right: 15rpx;
@@ -52,13 +52,19 @@
 </style>
 
 <template>
-  <view class="companyItem" @tap="viewCompany">
-    <image class="bg" src="../../../assets/images/companyBg.png"/>
+  <view
+    class="companyItem"
+    @tap="viewCompany"
+  >
+    <image
+      class="bg"
+      src="../../../assets/images/companyBg.png"
+    />
     <view class="content">
       <view>{{item.companyName}}</view>
       <view>{{item.creditCode}}</view>
       <view>
-        <image src="../../../assets/svg/time.svg"/>报表最后更新时间：
+        <image src="../../../assets/svg/time.svg" />报表最后更新时间：
         {{item.updateTime || '暂无时间'}}
       </view>
     </view>
@@ -67,37 +73,33 @@
 
 
 <script>
-  import wepy from '@wepy/core'
+import wepy from '@wepy/core';
 
-  wepy.page({
-    config: {
-      navigationBarTitleText: 'test'
-    },
-    props: {
-      item: {
-        type: Object,
-        default: ()=>{
-          return {}
-        }
+wepy.page({
+  config: {
+    navigationBarTitleText: 'test'
+  },
+  props: {
+    item: {
+      type: Object,
+      default: () => {
+        return {};
       }
-    },
-    data: {
-      
-    },
-
-
-    methods: {
-      viewCompany:function(){
-        wx.navigateTo({
-          url:'../company/index'
-        })
-      }
-    },
-
-    created () {
-      
     }
-  });
+  },
+  data: {},
+
+  methods: {
+    viewCompany: function() {
+      wx.setStorageSync('companyItemInfo', this.item);
+      wx.navigateTo({
+        url: '../company/index'
+      });
+    }
+  },
+
+  created() {}
+});
 </script>
 <config>
 {

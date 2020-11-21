@@ -16,6 +16,7 @@
   "author": "ThreeEgg <1669444534@qq.com>",
   "license": "MIT",
   "dependencies": {
+    "@antv/wx-f2": "^2.1.1",
     "@wepy/core": "^2.0.0-alpha.16",
     "@wepy/x": "^2.0.2",
     "miniprogram-slide-view": "0.0.3"

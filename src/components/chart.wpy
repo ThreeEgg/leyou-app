@@ -1,0 +1,139 @@
+<style lang="less">
+.chart-box {
+  width: 100%;
+  height: 360rpx;
+  .f2-chart {
+    width: 100%;
+    height: 100%;
+  }
+}
+</style>
+<template>
+  <div class="chart-box">
+    <f2
+      class="f2-chart"
+      onInit="{{onInitChart}}"
+    />
+  </div>
+</template>
+<script>
+import wepy from '@wepy/core';
+let chartData = [];
+wepy.component({
+  data: {
+    onInitChart(F2, config) {
+      console.log('config', config, F2);
+      const chart = new F2.Chart(config);
+      /* const data = [
+        { value: -63.4, date: '2011-10-01' },
+        { value: -62.7, date: '2011-10-02' },
+        { value: 72.2, date: '2011-10-03' },
+        { value: 10, date: '2011-10-04' },
+        { value: null, date: '2011-10-05' },
+        { value: 67.7, date: '2011-10-06' },
+        { value: 53.3, date: '2011-10-07' },
+        { value: -59.1, date: '2011-10-08' },
+        { value: -69.4, date: '2011-10-09' }
+      ]; */
+      const data = chartData;
+      chart.tooltip(false);
+      chart.source(data);
+      chart
+        .interval()
+        .position('date*value')
+        .color('value', value => {
+          if (value && value[1] >= 0) {
+            return 'l(-90) 0:#7ec2f3 0.5:#7ea2f3 1:#1890ff';
+          } else {
+            return 'l(90) 0:#7ec2f3 0.5:#7ea2f3 1:#1890ff';
+          }
+        })
+        // .color('city')
+        .adjust('stack')
+        .size(10);
+      chart
+        .line()
+        .position('date*value')
+        // .color('city')
+        .adjust('stack')
+        .style({
+          lineWidth: 2
+        });
+      chart
+        .point()
+        .position('date*value')
+        .style({
+          stroke: '#fff',
+          lineWidth: 1
+        });
+      chart.render();
+      const offset = -5;
+      const canvas = chart.get('canvas');
+      const group = canvas.addGroup();
+      const shapes = {};
+      /* data.forEach(function(obj) {
+        const point = chart.getPosition(obj);
+        const text = group.addShape('text', {
+          attrs: {
+            x: point.x,
+            y: point.y + (obj.value >= 0 ? offset : -offset * 4),
+            text: (obj.value / 10000).toFixed(2) + '万',
+            textAlign: 'center',
+            // textBaseline: 'bottom',
+            fill: '#000'
+          }
+        });
+
+        shapes[obj.year] = text; // 缓存该 shape, 便于后续查找
+      }); */
+      // 注意：需要把chart return 出来
+      return chart;
+    },
+    list: []
+  },
+
+  methods: {},
+  created() {
+    const dataItem = wx.getStorageSync('dataItem');
+    const formatData = [];
+    const month = new Date().getMonth() + 1;
+    for (let i = month - 11; i <= month; i++) {
+      formatData.push({
+        date: i <= 0 ? i + 12 : i
+      });
+    }
+
+    formatData.forEach(item => {
+      dataItem.forEach(demo => {
+        if (item.date === demo.date.substring(5, 7) - 0) {
+          item.value = demo.value;
+        }
+      });
+      item.date = item.date + '月';
+      item.value = item.value || null;
+    });
+
+    chartData = formatData;
+    console.log('formatData', formatData);
+  },
+  attached() {
+    console.log('attached');
+  },
+  ready() {
+    console.log('ready');
+  },
+  moved() {
+    console.log('moved');
+  },
+  detached() {
+    console.log('detached');
+  }
+});
+</script>
+<config>
+{
+  usingComponents: {
+    "f2": "module:@antv/wx-f2"
+  }
+}
+</config>

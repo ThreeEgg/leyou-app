@@ -1,124 +1,200 @@
 <template>
   <div class="company">
     <div class="company-wrapper">
-      <view class="companyItem" >
-        <image class="bg" src="../../assets/images/companyBg.png"/>
+      <view class="companyItem">
+        <image
+          class="bg"
+          src="../../assets/images/companyBg.png"
+        />
         <view class="content">
-          <view>有限公司</view>
-          <view>dsa56dsa56d1sa1d56asd</view>
+          <view>{{companyItemInfo.companyName}}</view>
+          <view>{{companyItemInfo.creditCode}}</view>
           <view>
-            <image src="../../assets/svg/time.svg"/>报表最后更新时间：
-            2020/11/02
+            <image src="../../assets/svg/time.svg" />报表最后更新时间：
+            {{companyItemInfo.updateTime || '暂无时间'}}
           </view>
         </view>
       </view>
     </div>
     <div class="table-list">
-      <div class="table-list-item">
-        <div class="item-title">
-          <view></view>
-          <view>2020年11月</view>
-        </div>
-        <div class="data-display">
-          <data-display></data-display>
-        </div>
-        <div class="table-item">
-          <div class="table-item-left">
-            <image src="../../assets/svg/profit.svg"/>
-            <view>利润表</view>
-          </div>
-          <div class="table-item-right">></div>
-        </div>
-        <div class="table-item">
-          <div class="table-item-left">
-            <image src="../../assets/svg/balance.svg"/>
-            <view>现金流量表</view>
-          </div>
-          <div class="table-item-right">未上传</div>
-        </div>
-        <div class="table-item">
-          <div class="table-item-left">
-            <image src="../../assets/svg/debt.svg"/>
-            <view>资产负债表</view>
-          </div>
-          <div class="table-item-right">></div>
-        </div>
-      </div>
+      <table-list-item
+        :isShow="i===1?false:isShow"
+        v-for="i in 2"
+        :key="i"
+        @handleActive="handleActive"
+      ></table-list-item>
     </div>
     <no-data></no-data>
   </div>
 </template>
 
 <script>
-  import wepy from '@wepy/core'
+import wepy from '@wepy/core';
+import { baseUrl } from '../../assets/js/base.js';
+wepy.page({
+  config: {
+    navigationBarTitleText: 'test'
+  },
+  props: {},
+  data: {
+    companyItemInfo: {},
+    displayData: [],
+    isShow: true,
+    chartData: [],
+    dataItem: []
+  },
 
-  wepy.page({
-    config: {
-      navigationBarTitleText: 'test'
-    },
-    props: {
-      
-    },
-    data: {
-      
-    },
+  methods: {
+    handleActive: function(flag) {
+      console.log('flag', flag);
+      const dataItem = [];
+      if (flag === 1) {
+        this.chartData.forEach(item => {
+          dataItem.push({
+            value: item.businessIncomeYear,
+            date: item.showTimeStr
+          });
+        });
+      } else if (flag === 2) {
+        this.chartData.forEach(item => {
+          dataItem.push({
+            value: item.netProfitYear,
+            date: item.showTimeStr
+          });
+        });
+      } else if (flag === 3) {
+        this.chartData.forEach(item => {
+          dataItem.push({
+            value: item.totalAssets,
+            date: item.showTimeStr
+          });
+        });
+      } else if (flag === 4) {
+        this.chartData.forEach(item => {
+          dataItem.push({
+            value: item.netAssets,
+            date: item.showTimeStr
+          });
+        });
+      }
 
-
-    methods: {
-      
+      this.dataItem = dataItem;
+      wx.setStorageSync('dataItem', dataItem);
+      this.isShow = !this.isShow;
+      setTimeout(() => {
+        this.isShow = !this.isShow;
+      });
     },
-
-    created () {
-      
+    getExcelData: function() {
+      const params = {
+        companyId: this.companyItemInfo.id
+      };
+      wx.request({
+        url: baseUrl + '/v1/report/findReportListByCompanyId',
+        data: params,
+        success: res => {
+          console.log('excel-res', res);
+        },
+        fail: err => {
+          console.log('excel-err', err);
+        }
+      });
+    },
+    getChartData: function() {
+      const fullYear = new Date().getFullYear();
+      const params = {
+        yearStr: fullYear,
+        companyId: this.companyItemInfo.id
+      };
+      wx.request({
+        url: baseUrl + '/v1/report/findReportListForFrontByCompanyId',
+        data: params,
+        success: res => {
+          const { data } = res;
+          if (data.success) {
+            this.chartData = data.data;
+            const dataItem = [];
+            data.data.forEach(item => {
+              dataItem.push({
+                value: item.businessIncomeYear,
+                date: item.showTimeStr
+              });
+            });
+            this.dataItem = dataItem;
+            wx.setStorageSync('dataItem', dataItem);
+            this.isShow = !this.isShow;
+            setTimeout(() => {
+              this.isShow = !this.isShow;
+            });
+          } else {
+            wx.showToast({
+              title: '查询失败',
+              icon: 'none'
+            });
+          }
+          console.log('chart-data-res', res);
+        },
+        fail: err => {
+          console.log('chart-data-err', err);
+        }
+      });
     }
-  });
+  },
+
+  created() {
+    this.companyItemInfo = wx.getStorageSync('companyItemInfo');
+    console.log('companyItemInfo', this.companyItemInfo);
+    this.getExcelData();
+    this.getChartData();
+  }
+});
 </script>
 
 <style lang="less">
-.company{
+.company {
   min-height: 100vh;
   // padding:30rpx 30rpx 0;
-  background: #F7F7F7;
-  .company-wrapper{
-    padding:30rpx;
-    background: #FFFFFF;
-    .companyItem{
+  background: #f7f7f7;
+  .company-wrapper {
+    padding: 30rpx;
+    background: #ffffff;
+    .companyItem {
       width: 100%;
       height: 210rpx;
       position: relative;
       margin-bottom: 20rpx;
-      .bg{
+      .bg {
         width: 100%;
         height: 100%;
         position: absolute;
       }
-      .content{
+      .content {
         width: 100%;
         position: absolute;
         padding: 30rpx;
-        view:nth-of-type(1){
+        view:nth-of-type(1) {
           font-size: 34rpx;
           font-family: PingFangSC-Medium, PingFang SC;
           font-weight: 500;
-          color: #FFFFFF;
+          color: #ffffff;
         }
-        view:nth-of-type(2){
+        view:nth-of-type(2) {
           font-size: 28rpx;
           font-family: PingFangSC-Regular, PingFang SC;
           font-weight: 400;
-          color: #FFFFFF;
+          color: #ffffff;
           margin-top: 10rpx;
         }
-        view:nth-of-type(3){
+        view:nth-of-type(3) {
           display: flex;
           align-items: center;
           justify-content: flex-end;
           font-size: 24rpx;
           font-family: PingFangSC-Regular, PingFang SC;
           font-weight: 400;
-          color: #FFFFFF;
+          color: #ffffff;
           margin-top: 30rpx;
-          image{
+          image {
             width: 24rpx;
             height: 24rpx;
             margin-right: 15rpx;
@@ -127,55 +203,8 @@
       }
     }
   }
-  .table-list{
-    background: #FFFFFF;
-    .table-list-item{
-      margin-top: 30rpx;
-      padding:0 30rpx;
-      .item-title{
-        padding:20rpx 0;
-        display: flex;
-        align-items: center;
-        view:nth-of-type(1){
-          width: 8rpx;
-          height: 28rpx;
-          background: #1293FF;
-          border-radius: 5rpx;
-          margin-right: 12rpx;
-        }
-        view:nth-of-type(2){
-          font-size: 28rpx;
-          font-weight: 500;
-          color: #333333;
-        }
-      }
-      .table-item{
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding:20rpx 0;
-        border-top: 1rpx solid #EBEBEB;
-        .table-item-left{
-          display: flex;
-          align-items: center;
-          >image{
-            width: 40rpx;
-            height: 40rpx;
-            margin-right: 16rpx;
-          }
-          view{
-            font-size: 28rpx;
-            font-weight: 400;
-            color: #333333;
-          }
-        }
-        .table-item-right{
-          font-size: 28rpx;
-          font-weight: 400;
-          color: #999999;
-        }
-      }
-    }
+  .table-list {
+    background: #ffffff;
   }
 }
 </style>
@@ -185,7 +214,7 @@
     navigationBarTitleText: '',
     usingComponents: {
       'no-data':'~@/components/noData',
-      'data-display':'./components/dataDisplay'
+      'table-list-item':'./components/dataDisplay'
     }
 }
 </config>

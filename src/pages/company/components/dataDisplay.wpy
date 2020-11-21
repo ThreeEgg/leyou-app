@@ -1,36 +1,208 @@
-<template>
-  <div>
-    <!-- <ff-canvas id="pieSelect" canvas-id="pieSelect" opts="{{ onInit }}"> </ff-canvas> -->
-    xxx
+ <template>
+  <div class="table-list-item">
+    <div class="item-title">
+      <view></view>
+      <view>2020年11月</view>
+    </div>
+    <div class="totalInfodisplay">
+      <div
+        :class="{'info-item':true,'active':activeIndex === 1 && isShow}"
+        @tap="handleActiveIndex(1)"
+      >
+        <view>2352.92万</view>
+        <view>+21.66%</view>
+        <view>营业收入</view>
+        <view></view>
+      </div>
+      <div
+        :class="{'info-item':true,'active':activeIndex === 2 && isShow}"
+        @tap="handleActiveIndex(2)"
+      >
+        <view>2352.92万</view>
+        <view>-</view>
+        <view>净利润</view>
+        <view></view>
+      </div>
+      <div
+        :class="{'info-item':true,'active':activeIndex === 3 && isShow}"
+        @tap="handleActiveIndex(3)"
+      >
+        <view>无数据</view>
+        <view>-</view>
+        <view>总资产</view>
+        <view></view>
+      </div>
+      <div
+        :class="{'info-item':true,'active':activeIndex === 4 && isShow}"
+        @tap="handleActiveIndex(4)"
+      >
+        <view>2.92亿</view>
+        <view>-</view>
+        <view>净资产</view>
+        <view></view>
+      </div>
+    </div>
+    <div class="data-display">
+      <f2-chat v-if="isShow"></f2-chat>
+    </div>
+    <div class="table-item">
+      <div class="table-item-left">
+        <image src="../../../assets/svg/profit.svg" />
+        <view>利润表</view>
+      </div>
+      <div class="table-item-right">></div>
+    </div>
+    <div class="table-item">
+      <div class="table-item-left">
+        <image src="../../../assets/svg/balance.svg" />
+        <view>现金流量表</view>
+      </div>
+      <div class="table-item-right">未上传</div>
+    </div>
+    <div class="table-item">
+      <div class="table-item-left">
+        <image src="../../../assets/svg/debt.svg" />
+        <view>资产负债表</view>
+      </div>
+      <div class="table-item-right">></div>
+    </div>
   </div>
 </template>
 
 <script>
-  import wepy from '@wepy/core'
-  
-  wepy.component({
-    props: {
-      
+import wepy from '@wepy/core';
+import { baseUrl } from '../../../assets/js/base.js';
+wepy.component({
+  props: {
+    isShow: {
+      type: Boolean,
+      default: false
     },
-    data: {
-      opts: {
-        onInit: 'initChart'
-      },
-    },
-
-
-    methods: {
-      
-    },
-
-    created () {
-    },
-
-    ready(){
+    currentIndex: {
+      type: Number,
+      default: 0
     }
-  });
+  },
+  data: {
+    activeIndex: 1
+  },
+  methods: {
+    handleActiveIndex: function(index) {
+      if (this.activeIndex == index) return;
+      this.activeIndex = index;
+      this.$emit('handleActive', index);
+    }
+  },
+  created() {
+    console.log('currentIndex', this.currentIndex);
+  }
+});
 </script>
 
 <style lang="less">
-
+.table-list-item {
+  margin-top: 30rpx;
+  padding: 0 30rpx;
+  .item-title {
+    padding: 20rpx 0;
+    display: flex;
+    align-items: center;
+    view:nth-of-type(1) {
+      width: 8rpx;
+      height: 28rpx;
+      background: #1293ff;
+      border-radius: 5rpx;
+      margin-right: 12rpx;
+    }
+    view:nth-of-type(2) {
+      font-size: 28rpx;
+      font-weight: 500;
+      color: #333333;
+    }
+  }
+  .totalInfodisplay {
+    width: 100%;
+    height: 120rpx;
+    display: flex;
+    justify-content: space-between;
+    .info-item {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      > view {
+        text-align: center;
+        font-weight: 400;
+      }
+      > view:nth-of-type(1) {
+        font-size: 28rpx;
+        color: #333333;
+      }
+      > view:nth-of-type(2) {
+        font-size: 22rpx;
+        color: #999999;
+      }
+      > view:nth-of-type(3) {
+        font-size: 28rpx;
+        color: #999999;
+      }
+      > view:nth-of-type(4) {
+        width: 64rpx;
+        height: 6rpx;
+        background: transparent;
+        border-radius: 3rpx;
+        opacity: 0.8;
+        margin-top: 8rpx;
+      }
+    }
+    .active {
+      > view:nth-of-type(2) {
+        color: #f2624e;
+      }
+      > view:nth-of-type(3) {
+        color: #1293ff;
+      }
+      > view:nth-of-type(4) {
+        background: #f88142;
+      }
+    }
+  }
+  .data-display {
+  }
+  .table-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20rpx 0;
+    border-top: 1rpx solid #ebebeb;
+    .table-item-left {
+      display: flex;
+      align-items: center;
+      > image {
+        width: 40rpx;
+        height: 40rpx;
+        margin-right: 16rpx;
+      }
+      view {
+        font-size: 28rpx;
+        font-weight: 400;
+        color: #333333;
+      }
+    }
+    .table-item-right {
+      font-size: 28rpx;
+      font-weight: 400;
+      color: #999999;
+    }
+  }
+}
 </style>
+
+<config>
+{
+    navigationBarTitleText: '',
+    usingComponents: {
+      'f2-chat':'~@/components/chart'
+    }
+}
+</config>

@@ -47,6 +47,15 @@ wepy.app({
               code: res.code
             },
             success: function(res) {
+              const { data } = res;
+              if (data.success) {
+                wx.setStorageSync('tokenInfo', data.data);
+              } else {
+                wx.showToast({
+                  title: 'Error',
+                  icon: 'none'
+                });
+              }
               console.log('login-success', res);
             },
             fail: function(err) {
@@ -56,6 +65,11 @@ wepy.app({
         }
       }
     });
+    setInterval(() => {
+      wx.login({
+        success: res => {}
+      });
+    }, 280000);
   },
 
   methods: {}
@@ -72,6 +86,7 @@ wepy.app({
       'pages/order/fundOrder',
       'pages/order/components/orderInfo',
       'pages/company/index',
+
       'pages/market/index',
       'pages/goodDetail/index',
       'pages/paySuccess/index',

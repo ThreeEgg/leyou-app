@@ -49,8 +49,14 @@
           </div>
         </div>
       </div>
-      <no-data v-else></no-data>
+      <div
+        v-else
+        class="empty"
+      >
+        <no-data></no-data>
+      </div>
     </div>
+    <mine-login></mine-login>
   </div>
 </template>
 
@@ -258,6 +264,10 @@ wepy.page({
       }
     }
   }
+  .empty {
+    max-height: 100vh;
+    padding-top: 300rpx;
+  }
 }
 </style>
 
@@ -265,7 +275,8 @@ wepy.page({
 {
     navigationBarTitleText: '簿记商城',
     usingComponents: {
-      'no-data':'~@/components/noData'
+      'no-data':'~@/components/noData',
+      'mine-login':'~@/components/mine',
     }
 }
 </config>
