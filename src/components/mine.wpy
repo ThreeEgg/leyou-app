@@ -1,11 +1,25 @@
  <template>
   <div class="mine">
-    <button
-      bindgetphonenumber="getPhoneNumber"
-      open-type="getPhoneNumber"
-    >
-      <image src="../assets/images/mine-login.png" />
-    </button>
+    <div class="btn-item">
+      <image
+        src="../assets/images/home-active.png"
+        v-if="activeBtn === 1"
+      />
+      <image
+        src="../assets/images/home.png"
+        v-else
+      />
+      <view :class="{active:activeBtn === 1}">首页</view>
+    </div>
+    <div class="btn-item">
+      <button
+        bindgetuserinfo="getUserInfo"
+        open-type="getUserInfo"
+      >
+        <image :src="activeBtn === 2 ? '../assets/images/person-active.png':'../assets/images/person.png'" />
+      </button>
+      <view :class="{active:activeBtn === 2}">我的</view>
+    </div>
   </div>
 </template>
 
@@ -19,27 +33,30 @@ wepy.component({
       default: false
     }
   },
-  data: {},
+  data: {
+    activeBtn: 1
+  },
   methods: {
-    getPhoneNumber: function(e) {
-      const tokenInfo = wx.getStorageSync('tokenInfo');
-      console.log('getPhoneNumber', e);
-      const { errMsg } = e.$wx.detail;
-      if (errMsg === 'getPhoneNumber:ok') {
-        const params = {
-          iv: e.$wx.detail.iv,
-          sessionKey: tokenInfo.session_key,
-          encryptedData: e.$wx.detail.encryptedData
-        };
-        wx.request({
-          url: baseUrl + '/v1/weChatInfo/getPhoneNumber',
-          data: params,
-          success: res => {
-            console.log('getPhoneNumber-res', res);
-          },
-          fail: err => {
-            console.log('getPhoneNumber-err', err);
-          }
+    /* saveUserInfo: function (params){
+      wx.request({
+        url:baseUrl+'/v1/userInfo/updateUserInfoForFront',
+      })
+    }, */
+    getUserInfo: function(e) {
+      console.log('getUserInfo', e);
+      const { errMsg, rawData } = e.$wx.detail;
+      if (errMsg === 'getUserInfo:ok') {
+        const userInfo = JSON.parse(rawData);
+        console.log('userInfo', userInfo);
+        wx.setStorageSync('userInfo', userInfo);
+
+        wx.navigateTo({
+          url: '../home/index'
+        });
+      } else {
+        wx.showToast({
+          title: '获取用户信息失败',
+          icon: 'none'
         });
       }
     }
@@ -50,22 +67,40 @@ wepy.component({
 
 <style lang="less">
 .mine {
+  width: 100%;
   position: fixed;
-  bottom: 10%;
-  right: 30rpx;
-  width: 100rpx;
-  height: 100rpx;
-  border-radius: 50%;
-  > button {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    margin: 0;
-    padding: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-between;
+  background: rgb(248, 248, 248);
+  border-top: 2rpx solid rgb(223, 223, 223);
+  padding: 8rpx 0;
+  .btn-item {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    > button {
+      width: 74rpx;
+      height: 74rpx;
+      margin: 0;
+      padding: 0;
+      border: 0;
+    }
+    > view {
+      font-size: 18rpx;
+      color: #999;
+    }
+    .active {
+      color: rgb(45, 158, 254);
+    }
   }
+
   image {
-    width: 100%;
-    height: 100%;
+    width: 60rpx;
+    height: 60rpx;
   }
 }
 </style>

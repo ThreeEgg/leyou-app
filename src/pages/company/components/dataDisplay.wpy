@@ -2,15 +2,15 @@
   <div class="table-list-item">
     <div class="item-title">
       <view></view>
-      <view>2020年11月</view>
+      <view>{{item.showTimeStr}}</view>
     </div>
     <div class="totalInfodisplay">
       <div
         :class="{'info-item':true,'active':activeIndex === 1 && isShow}"
         @tap="handleActiveIndex(1)"
       >
-        <view>2352.92万</view>
-        <view>+21.66%</view>
+        <view>{{item.money1}}</view>
+        <view>{{item.str1}}</view>
         <view>营业收入</view>
         <view></view>
       </div>
@@ -18,8 +18,8 @@
         :class="{'info-item':true,'active':activeIndex === 2 && isShow}"
         @tap="handleActiveIndex(2)"
       >
-        <view>2352.92万</view>
-        <view>-</view>
+        <view>{{item.money2}}</view>
+        <view>{{item.str2}}</view>
         <view>净利润</view>
         <view></view>
       </div>
@@ -27,8 +27,8 @@
         :class="{'info-item':true,'active':activeIndex === 3 && isShow}"
         @tap="handleActiveIndex(3)"
       >
-        <view>无数据</view>
-        <view>-</view>
+        <view>{{item.money3}}</view>
+        <view>{{item.str3}}</view>
         <view>总资产</view>
         <view></view>
       </div>
@@ -36,8 +36,8 @@
         :class="{'info-item':true,'active':activeIndex === 4 && isShow}"
         @tap="handleActiveIndex(4)"
       >
-        <view>2.92亿</view>
-        <view>-</view>
+        <view>{{item.money4}}</view>
+        <view>{{item.str4}}</view>
         <view>净资产</view>
         <view></view>
       </div>
@@ -50,21 +50,30 @@
         <image src="../../../assets/svg/profit.svg" />
         <view>利润表</view>
       </div>
-      <div class="table-item-right">></div>
+      <div
+        class="table-item-right"
+        @tap="viewPdf(item.profitLink)"
+      >{{item.profitLink?'>':'未上传'}}</div>
     </div>
     <div class="table-item">
       <div class="table-item-left">
         <image src="../../../assets/svg/balance.svg" />
         <view>现金流量表</view>
       </div>
-      <div class="table-item-right">未上传</div>
+      <div
+        class="table-item-right"
+        @tap="viewPdf(item.moneyLink)"
+      >{{item.moneyLink?'>':'未上传'}}</div>
     </div>
     <div class="table-item">
       <div class="table-item-left">
         <image src="../../../assets/svg/debt.svg" />
         <view>资产负债表</view>
       </div>
-      <div class="table-item-right">></div>
+      <div
+        class="table-item-right"
+        @tap="viewPdf(item.balanceLink)"
+      >{{item.balanceLink?'>':'未上传'}}</div>
     </div>
   </div>
 </template>
@@ -81,21 +90,45 @@ wepy.component({
     currentIndex: {
       type: Number,
       default: 0
+    },
+    item: {
+      type: Object,
+      default: () => {
+        return {};
+      }
     }
   },
   data: {
     activeIndex: 1
   },
   methods: {
+    viewPdf: function(url) {
+      if (!url) return;
+      wx.downloadFile({
+        url,
+        success: res => {
+          const filePath = res.tempFilePath;
+          wx.openDocument({
+            filePath: filePath,
+            success: function(res) {
+              console.log('打开文档成功');
+            }
+          });
+          console.log('download-res', res);
+        },
+        fail: err => {
+          console.log('download-err', err);
+        }
+      });
+    },
     handleActiveIndex: function(index) {
+      if (this.currentIndex !== 0) return;
       if (this.activeIndex == index) return;
       this.activeIndex = index;
       this.$emit('handleActive', index);
     }
   },
-  created() {
-    console.log('currentIndex', this.currentIndex);
-  }
+  created() {}
 });
 </script>
 

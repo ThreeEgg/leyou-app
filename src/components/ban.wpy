@@ -50,8 +50,8 @@
               >-</div>
               <div class="value">{{count}}</div>
               <div
-                :class="{right:true, disabled:count >= (goodInfo.salesCount || 0)}"
-                @tap="handleCount(2,count >= (goodInfo.salesCount || 0))"
+                :class="{right:true}"
+                @tap="handleCount(2,false)"
               >+</div>
             </div>
           </div>
@@ -270,6 +270,7 @@ wepy.component({
         justify-content: center;
         align-items: center;
         color: #7191f3;
+        padding: 20rpx;
       }
       .disabled {
         color: #bec3cf;

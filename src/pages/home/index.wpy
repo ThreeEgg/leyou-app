@@ -1,28 +1,27 @@
 <style lang="less">
-  .mine .leyou-bg{
+.mine .leyou-bg {
   width: 100%;
   position: absolute;
-  background: #F7F7F7;
+  background: #f7f7f7;
 }
 
-.mine .leyou-bg image{
+.mine .leyou-bg image {
   width: 100%;
 }
 
-.mine .leyou-wrapper{
+.mine .leyou-wrapper {
   width: 100%;
   position: absolute;
   padding: 60rpx 30rpx 0;
-  
 }
 
-.mine .leyou-content{
+.mine .leyou-content {
   box-shadow: 0rpx 0rpx 12rpx 0rpx rgba(220, 220, 220, 0.2);
   border-radius: 16rpx;
-  background: #F7F7F7;
+  background: #f7f7f7;
 }
 
-.mine .leyou-content .baseInfo{
+.mine .leyou-content .baseInfo {
   height: 310rpx;
   background: #fff;
   border-radius: 16rpx;
@@ -32,30 +31,50 @@
   justify-content: space-between;
 }
 
-.mine .leyou-content .baseInfo .baseInfo-top{
+.mine .leyou-content .baseInfo .baseInfo-top {
   display: flex;
   justify-content: space-between;
   /* align-items: center; */
+  .baseInfo-avatar {
+    width: 116rpx;
+    height: 116rpx;
+    border-radius: 50%;
+  }
+  open-data {
+    width: 116rpx;
+    height: 116rpx;
+    border-radius: 50%;
+  }
 }
 
-.mine .leyou-content .baseInfo .baseInfo-top image{
+.mine .leyou-content .baseInfo .baseInfo-top image {
   width: 116rpx;
   height: 116rpx;
   border-radius: 50%;
 }
 
-.mine .leyou-content .baseInfo .baseInfo-top .baseInfo-name-box{
+.mine .leyou-content .baseInfo .baseInfo-top .baseInfo-name-box {
   width: 300rpx;
 }
 
-.mine .leyou-content .baseInfo .baseInfo-top .baseInfo-name-box view:nth-of-type(1){
+.mine
+  .leyou-content
+  .baseInfo
+  .baseInfo-top
+  .baseInfo-name-box
+  view:nth-of-type(1) {
   font-size: 36rpx;
   font-family: PingFangSC-Medium, PingFang SC;
   font-weight: 500;
   color: #333333;
 }
 
-.mine .leyou-content .baseInfo .baseInfo-top .baseInfo-name-box view:nth-of-type(2){
+.mine
+  .leyou-content
+  .baseInfo
+  .baseInfo-top
+  .baseInfo-name-box
+  view:nth-of-type(2) {
   font-size: 28rpx;
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
@@ -63,216 +82,270 @@
   margin-top: 16rpx;
 }
 
-.mine .leyou-content .baseInfo .baseInfo-top .baseInfo-name-box view:nth-of-type(2) image{
+.mine
+  .leyou-content
+  .baseInfo
+  .baseInfo-top
+  .baseInfo-name-box
+  view:nth-of-type(2)
+  image {
   width: 10rpx;
   height: 20rpx;
 }
 
-.mine .leyou-content .baseInfo .baseInfo-top .baseInfo-money{
+.mine .leyou-content .baseInfo .baseInfo-top .baseInfo-money {
   display: flex;
 }
 
-.mine .leyou-content .baseInfo .baseInfo-top .baseInfo-money image{
+.mine .leyou-content .baseInfo .baseInfo-top .baseInfo-money image {
   width: 37rpx;
   height: 37rpx;
 }
 
-.mine .leyou-content .baseInfo .baseInfo-top .baseInfo-money .money-count{
+.mine .leyou-content .baseInfo .baseInfo-top .baseInfo-money .money-count {
   font-size: 28rpx;
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
-  color: #F88142;
+  color: #f88142;
   margin-left: 14rpx;
 }
 
-.mine .leyou-content .baseInfo .baseInfo-btn{
-  
+.mine .leyou-content .baseInfo .baseInfo-btn {
   display: flex;
   justify-content: space-between;
 }
 
-.mine .leyou-content .baseInfo .baseInfo-btn .line{
+.mine .leyou-content .baseInfo .baseInfo-btn .line {
   width: 1rpx;
   height: 64rpx;
-  background: #D7D7D7;
+  background: #d7d7d7;
 }
 
-.mine .leyou-content .baseInfo .baseInfo-btn .baseInfo-order{
+.mine .leyou-content .baseInfo .baseInfo-btn .baseInfo-order {
   display: flex;
   align-items: center;
 }
 
-.mine .leyou-content .baseInfo .baseInfo-btn .baseInfo-order image{
+.mine .leyou-content .baseInfo .baseInfo-btn .baseInfo-order image {
   width: 54rpx;
   height: 54rpx;
   margin: 0 30rpx;
 }
 
-.mine .leyou-content .baseInfo .baseInfo-btn .baseInfo-order .order-text{
-
+.mine .leyou-content .baseInfo .baseInfo-btn .baseInfo-order .order-text {
 }
 
-.mine .leyou-content .baseInfo .baseInfo-btn .baseInfo-order .order-text view:nth-of-type(1){
+.mine
+  .leyou-content
+  .baseInfo
+  .baseInfo-btn
+  .baseInfo-order
+  .order-text
+  view:nth-of-type(1) {
   font-size: 28rpx;
   font-family: PingFangSC-Medium, PingFang SC;
   font-weight: 500;
   color: #333333;
 }
 
-.mine .leyou-content .baseInfo .baseInfo-btn .baseInfo-order .order-text view:nth-of-type(2){
+.mine
+  .leyou-content
+  .baseInfo
+  .baseInfo-btn
+  .baseInfo-order
+  .order-text
+  view:nth-of-type(2) {
   font-size: 26rpx;
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
   color: #666666;
 }
 
-.mine .leyou-content .companyBox{
+.mine .leyou-content .companyBox {
   margin-top: 44rpx;
 }
 </style>
 
 <template>
   <view class="mine">
-  <view class="leyou-bg">
-    <image src="../../assets/images/mine.png"/>
-  </view>
-  <view class="leyou-wrapper">
-    <view class="leyou-content">
-      <view class="baseInfo">
-        <view class="baseInfo-top">
-          <image src="{{avatar}}"></image>
-          <view class="baseInfo-name-box">
-            <view @tap="editBaseInfo">{{baseInfo.nickName}}</view>
-            <view @tap="viewContract">
-              我的合同：{{baseInfo.agreementCount}}份 <image src="../../assets/images/arrow-right.png"></image>
+    <view class="leyou-bg">
+      <image src="../../assets/images/mine.png" />
+    </view>
+    <view class="leyou-wrapper">
+      <view class="leyou-content">
+        <view class="baseInfo">
+          <view class="baseInfo-top">
+            <image src="{{avatar}}"></image>
+            <!-- <view class="baseInfo-avatar">
+              <open-data type="userAvatarUrl"></open-data>
+            </view> -->
+            <view class="baseInfo-name-box">
+              <view @tap="editBaseInfo">{{baseInfo.nickName}}</view>
+              <view @tap="viewContract">
+                我的合同：{{baseInfo.agreementCount}}份 <image src="../../assets/images/arrow-right.png"></image>
+              </view>
+            </view>
+            <view
+              class="baseInfo-money"
+              @tap="viewBean"
+            >
+              <image src="../../assets/svg/beans.svg"></image>
+              <view class="money-count">{{baseInfo.totalPoint ||0}}</view>
             </view>
           </view>
-          <view class="baseInfo-money" @tap="viewBean">
-            <image src="../../assets/svg/beans.svg"></image>
-            <view class="money-count">{{baseInfo.totalPoint ||0}}</view>
+          <view class="baseInfo-btn">
+            <view
+              class="baseInfo-order"
+              @tap="viewServiceOrder"
+            >
+              <image src="../../assets/svg/orderServe.svg" />
+              <view class="order-text">
+                <view>服务订单：</view>
+                <view>{{baseInfo.serviceOrderCount || 0}}</view>
+              </view>
+            </view>
+            <view class="line"></view>
+            <view
+              class="baseInfo-order"
+              @tap="viewFundOrder"
+            >
+              <image src="../../assets/svg/orderFund.svg" />
+              <view class="order-text">
+                <view>商品订单：</view>
+                <view>{{baseInfo.goodsOrderCount || 0}}</view>
+              </view>
+            </view>
           </view>
         </view>
-        <view class="baseInfo-btn">
-          <view class="baseInfo-order" @tap="viewServiceOrder">
-            <image src="../../assets/svg/orderServe.svg"/>
-            <view class="order-text">
-              <view>服务订单：</view>
-              <view>{{baseInfo.serviceOrderCount || 0}}</view>
-            </view>
-          </view>
-          <view class="line"></view>
-          <view class="baseInfo-order" @tap="viewFundOrder">
-            <image src="../../assets/svg/orderFund.svg"/>
-            <view class="order-text">
-              <view>商品订单：</view>
-              <view>{{baseInfo.goodsOrderCount || 0}}</view>
-            </view>
-          </view>
+        <view class="companyBox">
+          <company-item
+            v-for="item in companyList"
+            :item="item"
+            :key="item.id"
+          ></company-item>
         </view>
-      </view>
-      <view class="companyBox">
-        <company-item v-for="item in companyList"  :item="item" :key="item.id"></company-item>
       </view>
     </view>
   </view>
-</view>
 </template>
 
 <script>
-  import wepy from '@wepy/core'
-  import {baseUrl} from "../../assets/js/base.js"
-  wepy.page({
-    config: {
-      navigationBarTitleText: 'test'
-    },
+import wepy from '@wepy/core';
+import { baseUrl } from '../../assets/js/base.js';
+wepy.page({
+  config: {
+    navigationBarTitleText: 'test'
+  },
 
-    data: {
-      nickName:null,
-      avatar:"",
-      baseInfo:{},
-      companyList:[],
-    },
+  data: {
+    nickName: null,
+    avatar: '',
+    baseInfo: {},
+    companyList: [],
+    userInfo: {},
+    phoneNumber: ''
+  },
 
+  methods: {
+    editBaseInfo: function() {
+      wx.navigateTo({
+        url: '../baseInfo/index'
+      });
+    },
+    viewContract: function() {
+      wx.navigateTo({
+        url: '../contract/index'
+      });
+    },
+    viewBean: function() {
+      wx.navigateTo({
+        url: '../myBean/index'
+      });
+    },
+    viewServiceOrder: function() {
+      wx.setStorageSync('isService', 1);
+      wx.navigateTo({
+        url: '../order/serviceOrder'
+      });
+    },
+    viewFundOrder: function() {
+      wx.setStorageSync('isService', 0);
+      wx.navigateTo({
+        url: '../order/fundOrder'
+      });
+    },
+    getHomeInfo: function() {
+      console.log('getHomeInfo');
+      wx.request({
+        url: baseUrl + '/v1/userInfo/findUserInfoForFront',
+        data: {
+          userId: '1327447575596896257'
+        },
+        success: res => {
+          const { data } = res;
+          // this.nickName = data.data.nickName;
+          this.baseInfo = data.data;
+          wx.setStorageSync('baseInfo', data.data);
+          console.log('info-success', res);
+        },
+        fail: function(err) {
+          console.log('info-err', err);
+        }
+      });
+    },
+    getCompanyInfo: function() {
+      wx.request({
+        url: baseUrl + '/v1/companyInfo/findCompanyInfoListByUserId',
+        data: {
+          userId: '1327447575596896257'
+        },
+        success: res => {
+          const { data } = res;
+          this.companyList = data.data;
+          console.log('getCompanyInfo-success', res);
+        },
+        fail: function(err) {
+          console.log('getCompanyInfo-err', err);
+        }
+      });
+    }
+  },
 
-    methods: {
-      editBaseInfo:function(){
-        wx.navigateTo({
-          url:"../baseInfo/index"
-        })
-      },
-      viewContract:function(){
-        wx.navigateTo({
-          url:"../contract/index"
-        })
-      },
-      viewBean:function(){
-        wx.navigateTo({
-          url:"../myBean/index"
-        })
-      },
-      viewServiceOrder:function(){
-        wx.setStorageSync('isService',1);
-        wx.navigateTo({
-          url:"../order/serviceOrder"
-        })
-      },
-      viewFundOrder:function(){
-        wx.setStorageSync('isService',0);
-        wx.navigateTo({
-          url:"../order/fundOrder"
-        })
-      },
-      getHomeInfo:function(){
-        console.log('getHomeInfo')
-        wx.request({
-          url:baseUrl+'/v1/userInfo/findUserInfoForFront',
-          data:{
-            userId:'1327447575596896257'
-          },
-          success:(res)=>{
-            const {data} = res;
-            // this.nickName = data.data.nickName;
-            this.baseInfo = data.data;
-            wx.setStorageSync('baseInfo',data.data);
-            console.log('info-success',res);
-          },
-          fail:function(err){
-            console.log('info-err',err)
-          }
-        })
-      },
-      getCompanyInfo:function(){
-        wx.request({
-          url:baseUrl+'/v1/companyInfo/findCompanyInfoListByUserId',
-          data:{
-            userId:'1327447575596896257'
-          },
-          success:(res)=>{
-            const {data} = res;
-            this.companyList = data.data
-            console.log('getCompanyInfo-success',res);
-          },
-          fail:function(err){
-            console.log('getCompanyInfo-err',err)
-          }
-        })
-      }
-    },
-
-    created () {
-      
-      this.getCompanyInfo()
-    },
-    attached(){
-      console.log('attached')
-    },
-    ready(){
-      console.log('ready')
-    },
-    onShow () {
-      this.getHomeInfo()
-    },
-  });
+  created() {
+    this.phoneNumber = wx.getStorageSync('phoneNumber');
+    if (!this.phoneNumber) {
+      wx.navigateTo({
+        url: '../phoneNumber/index'
+      });
+      return;
+    }
+    this.userInfo = wx.getStorageSync('userInfo');
+    if (!this.userInfo) {
+      wx.navigateTo({
+        url: '../market/index'
+      });
+      setTimeout(() => {
+        wx.showToast({
+          title: '暂未登陆',
+          icon: 'none'
+        });
+      });
+      return;
+    }
+    this.avatar = this.userInfo.avatarUrl;
+    this.getCompanyInfo();
+    console.log('userInfo', this.userInfo);
+  },
+  attached() {
+    console.log('attached');
+  },
+  ready() {
+    console.log('ready');
+  },
+  onShow() {
+    this.getHomeInfo();
+  }
+});
 </script>
 <config>
 {

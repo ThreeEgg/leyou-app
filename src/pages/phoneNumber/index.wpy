@@ -1,0 +1,106 @@
+<template>
+  <div class="no-order">
+    <image src="../../assets/images/noOrder.png" />
+    <view class="no-order-desc">您还没有授权手机号</view>
+    <button
+      class="btn"
+      bindgetphonenumber="getPhoneNumber"
+      open-type="getPhoneNumber"
+    >立即授权</button>
+  </div>
+</template>
+
+<script>
+import wepy from '@wepy/core';
+import { baseUrl } from '../../assets/js/base.js';
+wepy.page({
+  config: {
+    navigationBarTitleText: 'test'
+  },
+  props: {},
+  data: {},
+
+  methods: {
+    getPhoneNumber: function(e) {
+      const tokenInfo = wx.getStorageSync('tokenInfo');
+      console.log('getPhoneNumber', e);
+      const { errMsg } = e.$wx.detail;
+      if (errMsg === 'getPhoneNumber:ok') {
+        const params = {
+          iv: e.$wx.detail.iv,
+          sessionKey: tokenInfo.session_key,
+          encryptedData: e.$wx.detail.encryptedData
+        };
+        wx.request({
+          url: baseUrl + '/v1/weChatInfo/getPhoneNumber',
+          data: params,
+          success: res => {
+            console.log('getPhoneNumber-res', res);
+            const { data, msg } = res;
+            if (data.success) {
+              wx.setStorageSync('phoneNumber', data.data.phoneNumber);
+              wx.navigateTo({
+                url: '../home/index'
+              });
+            } else {
+              wx.showToast({
+                title: msg,
+                icon: 'none'
+              });
+            }
+          },
+          fail: err => {
+            console.log('getPhoneNumber-err', err);
+          }
+        });
+      } else {
+        wx.showToast({
+          title: '授权失败',
+          icon: 'none'
+        });
+      }
+    }
+  },
+
+  created() {}
+});
+</script>
+
+<style lang="less">
+.no-order {
+  min-height: 100vh;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  > image {
+    width: 150rpx;
+    height: 190rpx;
+  }
+  .no-order-desc {
+    font-size: 28rpx;
+    font-weight: 400;
+    color: #999999;
+    margin-top: 40rpx;
+  }
+  .btn {
+    margin-top: 40rpx;
+    width: 280rpx;
+    padding: 10rpx 72rpx;
+    font-size: 34rpx;
+    font-weight: 400;
+    color: #ffffff;
+    background: #1293ff;
+    border-radius: 48rpx;
+  }
+}
+</style>
+
+<config>
+{
+    navigationBarTitleText: '',
+    usingComponents: {
+    }
+}
+</config>

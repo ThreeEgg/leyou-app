@@ -46,7 +46,7 @@
     >
       <div class="contract-left">
         <div class="name">
-          {{orderInfo.agreementLink}}
+          {{orderInfo.agreementName}}
         </div>
         <div class="money">
           ￥{{orderInfo.totalPrice}}

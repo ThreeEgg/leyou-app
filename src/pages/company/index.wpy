@@ -18,9 +18,11 @@
     </div>
     <div class="table-list">
       <table-list-item
-        :isShow="i===1?false:isShow"
-        v-for="i in 2"
-        :key="i"
+        :isShow="index===0?isShow:false"
+        v-for="(item,index) in displayData"
+        :key="item.id"
+        :item="item"
+        :currentIndex="index"
         @handleActive="handleActive"
       ></table-list-item>
     </div>
@@ -85,6 +87,24 @@ wepy.page({
         this.isShow = !this.isShow;
       });
     },
+    handleFormatMoney: function(count) {
+      if (count === null) return '无数据';
+      if (
+        (count >= 100 && count < 100000000) ||
+        (count >= -100000000 && count < -100)
+      ) {
+        return (count / 10000).toFixed(2) + '万';
+      }
+      if (count >= 100000000 || count <= -100000000) {
+        return (count / 100000000).toFixed(2) + '亿';
+      }
+      return count;
+    },
+    handleFormat: function(count) {
+      if (count === null) return '-';
+      if (!count && count !== 0) return '-';
+      return (count && count > 0 ? '+' + count : count) + '%';
+    },
     getExcelData: function() {
       const params = {
         companyId: this.companyItemInfo.id
@@ -93,6 +113,27 @@ wepy.page({
         url: baseUrl + '/v1/report/findReportListByCompanyId',
         data: params,
         success: res => {
+          const { data } = res;
+          if (data.success) {
+            data.data.forEach(item => {
+              item.money1 = this.handleFormatMoney(item.businessIncomeYear);
+              item.money2 = this.handleFormatMoney(item.netProfitYear);
+              item.money3 = this.handleFormatMoney(item.totalAssets);
+              item.money4 = this.handleFormatMoney(item.netAssets);
+
+              item.str1 = this.handleFormat(item.businessIncomeMouthValue);
+              item.str2 = this.handleFormat(item.netProfitMouthValue);
+              item.str3 = this.handleFormat(item.totalAssetsValue);
+              item.str4 = this.handleFormat(item.netProfitMouthValue);
+            });
+            this.displayData = data.data;
+            console.log('displayData', this.displayData);
+          } else {
+            wx.showToast({
+              title: '获取报表信息失败',
+              icon: 'none'
+            });
+          }
           console.log('excel-res', res);
         },
         fail: err => {

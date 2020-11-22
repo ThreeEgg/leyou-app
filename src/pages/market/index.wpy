@@ -56,7 +56,7 @@
         <no-data></no-data>
       </div>
     </div>
-    <mine-login></mine-login>
+    <mine></mine>
   </div>
 </template>
 
@@ -276,7 +276,7 @@ wepy.page({
     navigationBarTitleText: '簿记商城',
     usingComponents: {
       'no-data':'~@/components/noData',
-      'mine-login':'~@/components/mine',
+      'mine':'~@/components/mine',
     }
 }
 </config>

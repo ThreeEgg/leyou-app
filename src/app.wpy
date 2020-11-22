@@ -78,6 +78,7 @@ wepy.app({
 <config>
 {
     pages: [
+      'pages/market/index',
       'pages/home/index',
       'pages/baseInfo/index',
       'pages/contract/index',
@@ -87,7 +88,7 @@ wepy.app({
       'pages/order/components/orderInfo',
       'pages/company/index',
 
-      'pages/market/index',
+      'pages/phoneNumber/index',
       'pages/goodDetail/index',
       'pages/paySuccess/index',
       'pages/payNext/pay',
