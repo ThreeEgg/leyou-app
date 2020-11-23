@@ -37,11 +37,6 @@ wepy.component({
     activeBtn: 1
   },
   methods: {
-    /* saveUserInfo: function (params){
-      wx.request({
-        url:baseUrl+'/v1/userInfo/updateUserInfoForFront',
-      })
-    }, */
     getUserInfo: function(e) {
       console.log('getUserInfo', e);
       const { errMsg, rawData } = e.$wx.detail;
@@ -49,7 +44,6 @@ wepy.component({
         const userInfo = JSON.parse(rawData);
         console.log('userInfo', userInfo);
         wx.setStorageSync('userInfo', userInfo);
-
         wx.navigateTo({
           url: '../home/index'
         });

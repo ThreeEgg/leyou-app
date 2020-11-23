@@ -95,6 +95,20 @@ wepy.component({
       this.show = !this.show;
     },
     viewPay: function() {
+      const isLogin = wx.getStorageSync('isLogin');
+      if (!isLogin) {
+        wx.showToast({
+          title: '暂未登陆',
+          icon: 'none'
+        });
+        setTimeout(() => {
+          wx.navigateTo({
+            url: '../market/index'
+          });
+        }, 800);
+
+        return;
+      }
       this.saveOrder();
     },
     saveOrder: function() {

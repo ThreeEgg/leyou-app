@@ -276,10 +276,11 @@ wepy.page({
     },
     getHomeInfo: function() {
       console.log('getHomeInfo');
+      const loginInfo = wx.getStorageSync('loginInfo');
       wx.request({
         url: baseUrl + '/v1/userInfo/findUserInfoForFront',
         data: {
-          userId: '1327447575596896257'
+          userId: loginInfo.userId
         },
         success: res => {
           const { data } = res;
@@ -294,10 +295,12 @@ wepy.page({
       });
     },
     getCompanyInfo: function() {
+      const loginInfo = wx.getStorageSync('loginInfo');
       wx.request({
         url: baseUrl + '/v1/companyInfo/findCompanyInfoListByUserId',
         data: {
-          userId: '1327447575596896257'
+          // userId: '1327447575596896257',
+          userId: loginInfo.userId
         },
         success: res => {
           const { data } = res;

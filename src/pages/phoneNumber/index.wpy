@@ -21,6 +21,32 @@ wepy.page({
   data: {},
 
   methods: {
+    saveUserInfo: function(params) {
+      wx.request({
+        url: baseUrl + '/v1/userInfo/userLoginForFront',
+        method: 'POST',
+        data: params,
+        success: res => {
+          console.log('saveUserInfo-res', res);
+          const { data } = res;
+          if (data.success) {
+            wx.setStorageSync('isLogin', true);
+            wx.setStorageSync('loginInfo', data.data);
+            wx.navigateTo({
+              url: '../home/index'
+            });
+          } else {
+            wx.showToast({
+              title: '获取用户信息失败',
+              icon: 'none'
+            });
+          }
+        },
+        fail: err => {
+          console.log('saveUserInfo-err', err);
+        }
+      });
+    },
     getPhoneNumber: function(e) {
       const tokenInfo = wx.getStorageSync('tokenInfo');
       console.log('getPhoneNumber', e);
@@ -36,15 +62,19 @@ wepy.page({
           data: params,
           success: res => {
             console.log('getPhoneNumber-res', res);
-            const { data, msg } = res;
+            const { data } = res;
             if (data.success) {
               wx.setStorageSync('phoneNumber', data.data.phoneNumber);
-              wx.navigateTo({
-                url: '../home/index'
-              });
+              const userInfo = wx.getStorageSync('userInfo');
+              const params = {
+                phone: data.data.phoneNumber,
+                nickName: userInfo.nickName,
+                avatar: data.data.avatarUrl
+              };
+              this.saveUserInfo(params);
             } else {
               wx.showToast({
-                title: msg,
+                title: data.msg,
                 icon: 'none'
               });
             }
