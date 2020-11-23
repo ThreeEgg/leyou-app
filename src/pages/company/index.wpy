@@ -116,8 +116,8 @@ wepy.page({
           const { data } = res;
           if (data.success) {
             data.data.forEach(item => {
-              item.money1 = this.handleFormatMoney(item.businessIncomeYear);
-              item.money2 = this.handleFormatMoney(item.netProfitYear);
+              item.money1 = this.handleFormatMoney(item.businessIncomeMouth);
+              item.money2 = this.handleFormatMoney(item.netProfitMouth);
               item.money3 = this.handleFormatMoney(item.totalAssets);
               item.money4 = this.handleFormatMoney(item.netAssets);
 
