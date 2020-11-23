@@ -73,8 +73,8 @@
           <image
             src="../../../assets/images/copy.png"
             style="margin-right:5rpx;"
-          />{{orderInfo.courierNumber || '暂无'}}</view>
-        <view>{{orderInfo.courierCompany || '暂无'}}</view>
+          />{{orderInfo.courierNumber || '暂未上传'}}</view>
+        <view>{{orderInfo.courierCompany || '暂未上传'}}</view>
       </div>
     </div>
     <div class="info-display">

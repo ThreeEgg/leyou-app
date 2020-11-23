@@ -195,8 +195,11 @@ wepy.component({
   }
 }
 .mask .mask-content .weui-half-screen-dialog .weui-half-screen-dialog__bd {
+  position: relative;
+  height: calc(100% - 80rpx);
   .classify {
     margin-top: 28rpx;
+    min-height: 120rpx;
     .name {
       font-size: 28rpx;
       font-weight: 400;
@@ -279,6 +282,9 @@ wepy.component({
     }
   }
   .money-box {
+    width: 100%;
+    position: absolute;
+    bottom: 3%;
     display: flex;
     justify-content: space-between;
     align-items: center;
