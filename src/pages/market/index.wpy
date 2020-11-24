@@ -161,7 +161,8 @@ wepy.page({
 <style lang="less">
 .market {
   display: flex;
-  min-height: 100vh;
+  height: calc(100vh - 120rpx);
+  // padding-bottom: 160rpx;
   .market-left {
     width: 200rpx;
     max-height: 100vh;
@@ -195,6 +196,7 @@ wepy.page({
         .active {
           border-left: 6rpx solid #1293ff;
           background: #f7f7f7;
+          color: #1293ff;
         }
       }
     }
@@ -266,7 +268,7 @@ wepy.page({
   }
   .empty {
     max-height: 100vh;
-    padding-top: 300rpx;
+    padding-top: 40rpx;
   }
 }
 </style>

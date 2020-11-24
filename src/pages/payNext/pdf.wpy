@@ -57,6 +57,7 @@ wepy.page({
   position: relative;
   .btn {
     position: fixed;
+    text-align: center;
     bottom: 2%;
     right: 2%;
     width: 260rpx;

@@ -189,25 +189,25 @@ wepy.page({
 .content {
   width: 100vw;
   height: 100vh;
-  padding: 60rpx;
+  // padding: 60rpx;
   border: 1rpx solid #eee;
   border-radius: 16rpx;
   position: relative;
   .btn-box {
     position: fixed;
     bottom: 2%;
-    right: 2%;
+    right: 5%;
     display: flex;
   }
   .btn {
     // width: 100rpx;
-    padding: 16rpx 16rpx;
+    padding: 12rpx 16rpx;
     font-size: 16rpx;
     font-weight: 400;
+    margin-left: 16rpx;
     color: #ffffff;
     background: #1293ff;
     border-radius: 16rpx;
-    margin-right: 6rpx;
   }
 }
 .canvas {
@@ -226,6 +226,7 @@ image {
     navigationBarTitleText: '',
     usingComponents: {
     },
-    "pageOrientation": "landscape"
+    "pageOrientation": "landscape",
+    "disableScroll":true
 }
 </config>

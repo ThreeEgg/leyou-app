@@ -48,7 +48,12 @@
                 :class="{left:true,disabled:count <= 1}"
                 @tap="handleCount(1,count <= 1)"
               >-</div>
-              <div class="value">{{count}}</div>
+              <input
+                placeholder="请输入"
+                type="number"
+                class="value"
+                value="{{count}}"
+              />
               <div
                 :class="{right:true}"
                 @tap="handleCount(2,false)"
@@ -98,7 +103,7 @@ wepy.component({
       const isLogin = wx.getStorageSync('isLogin');
       if (!isLogin) {
         wx.showToast({
-          title: '暂未登陆',
+          title: '暂未登录',
           icon: 'none'
         });
         setTimeout(() => {
@@ -199,8 +204,8 @@ wepy.component({
     white-space: nowrap;
   }
   .close {
-    width: 42rpx;
-    height: 42rpx;
+    width: 56rpx;
+    height: 56rpx;
     color: #333333;
     font-size: 42rpx;
     display: flex;
@@ -223,6 +228,8 @@ wepy.component({
       padding: 10rpx 0 30rpx 0;
       display: flex;
       .classify-item {
+        min-width: 120rpx;
+        text-align: center;
         font-size: 24rpx;
         font-weight: 400;
         color: #f88142;
@@ -271,18 +278,20 @@ wepy.component({
       justify-content: space-between;
       align-items: center;
       .value {
+        text-align: center;
+        width: 80rpx;
         font-size: 32rpx;
         font-weight: 600;
         color: #121213;
-        margin: 0 30rpx;
+        margin: 0 20rpx;
       }
       .left,
       .right {
-        width: 36rpx;
-        height: 36rpx;
+        width: 42rpx;
+        height: 42rpx;
         border: 2rpx solid #7191f3;
         border-radius: 50%;
-        font-size: 36rpx;
+        font-size: 32rpx;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -298,7 +307,7 @@ wepy.component({
   .money-box {
     width: 100%;
     position: absolute;
-    bottom: 3%;
+    bottom: 8%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -336,7 +345,7 @@ wepy.component({
     left: 0;
     right: 0;
     bottom: 0;
-    height: 50%;
+    height: 70%;
     max-height: 75%;
     z-index: 5000;
     line-height: 1.4;

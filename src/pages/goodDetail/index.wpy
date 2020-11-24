@@ -159,7 +159,7 @@ wepy.page({
     background: #1293ff;
     border-radius: 48rpx;
     position: fixed;
-    bottom: 1%;
+    bottom: 3%;
   }
 }
 </style>
