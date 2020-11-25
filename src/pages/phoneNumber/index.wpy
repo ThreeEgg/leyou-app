@@ -123,6 +123,7 @@ wepy.page({
     color: #ffffff;
     background: #1293ff;
     border-radius: 48rpx;
+    margin-bottom: 50%;
   }
 }
 </style>

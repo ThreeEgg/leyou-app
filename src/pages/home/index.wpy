@@ -226,6 +226,7 @@
         </view>
       </view>
     </view>
+    <mine :activeBtnIndex="2"></mine>
   </view>
 </template>
 
@@ -358,7 +359,8 @@ wepy.page({
 {
     navigationBarTitleText: '乐悠',
     usingComponents: {
-      'company-item':'./components/companyItem'
+      'company-item':'./components/companyItem',
+      'mine':'~@/components/mine'
     }
 }
 </config>
