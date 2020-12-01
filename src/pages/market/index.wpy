@@ -56,7 +56,7 @@
         <no-data></no-data>
       </div>
     </div>
-    <mine :activeBtnIndex="1"></mine>
+    <!-- <mine :activeBtnIndex="1"></mine> -->
   </div>
 </template>
 
@@ -161,7 +161,8 @@ wepy.page({
 <style lang="less">
 .market {
   display: flex;
-  height: calc(100vh - 120rpx);
+  // height: calc(100vh - 120rpx);
+  height: 100vh;
   // padding-bottom: 160rpx;
   .market-left {
     width: 200rpx;

@@ -7,7 +7,7 @@
       </div>
       <div class="info-right">
         <view>￥{{orderInfo.totalPrice}}</view>
-        <view>我的积分：{{baseInfo.totalPoint}}</view>
+        <view>我的积分：{{baseInfo.totalPoint || 0}}</view>
       </div>
     </div>
     <div
@@ -62,7 +62,7 @@ wepy.page({
             });
           } else {
             wx.showToast({
-              title: msg,
+              title: msg || '支付失败',
               icon: 'none'
             });
           }
@@ -76,7 +76,9 @@ wepy.page({
 
   created() {
     this.baseInfo = wx.getStorageSync('baseInfo');
+    console.log('this.baseInfo: ', this.baseInfo);
     this.orderInfo = wx.getStorageSync('orderInfo');
+    console.log('this.orderInfo: ', this.orderInfo);
   }
 });
 </script>

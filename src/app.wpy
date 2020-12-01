@@ -11,6 +11,9 @@ view,
 div {
   box-sizing: border-box;
 }
+.tabBarStyle {
+  background-color: red;
+}
 </style>
 
 <script>
@@ -77,31 +80,51 @@ wepy.app({
 </script>
 <config>
 {
-    pages: [
-      'pages/market/index',
-      'pages/home/index',
-      'pages/baseInfo/index',
-      'pages/contract/index',
-      'pages/myBean/index',
-      'pages/order/serviceOrder',
-      'pages/order/fundOrder',
-      'pages/order/components/orderInfo',
-      'pages/company/index',
+  pages: [
+    'pages/market/index',
+    'pages/home/index',
+    'pages/baseInfo/index',
+    'pages/contract/index',
+    'pages/myBean/index',
+    'pages/order/serviceOrder',
+    'pages/order/fundOrder',
+    'pages/order/components/orderInfo',
+    'pages/company/index',
 
-      'pages/phoneNumber/index',
-      'pages/goodDetail/index',
-      'pages/paySuccess/index',
-      'pages/payNext/pay',
-      'pages/payNext/sign',
-      'pages/signature/index',
-      'pages/payNext/pdf'
+    'pages/phoneNumber/index',
+    'pages/goodDetail/index',
+    'pages/paySuccess/index',
+    'pages/payNext/pay',
+    'pages/payNext/sign',
+    'pages/signature/index',
+    'pages/payNext/pdf'
 
-    ],
-    window: {
-      backgroundTextStyle: 'light',
-      navigationBarBackgroundColor: '#fff',
-      navigationBarTitleText: 'WeChat',
-      navigationBarTextStyle: 'black'
-    }
+  ],
+  window: {
+    backgroundTextStyle: 'light',
+    navigationBarBackgroundColor: '#fff',
+    navigationBarTitleText: 'WeChat',
+    navigationBarTextStyle: 'black'
+  },
+  "tabBar": {
+    "color": "#999",
+    "selectedColor": "rgb(45, 158, 254)",
+    "borderStyle": "black" ,
+    "ext-class":"tabBarStyle",
+    "list": [
+      {
+        "selectedIconPath": "assets/images/home-active.png",
+        "iconPath": "assets/images/home.png",
+        "pagePath": "pages/market/index",
+        "text": "首页"
+      },
+      {
+        "selectedIconPath": "assets/images/person-active.png",
+        "iconPath": "assets/images/person.png",
+        "pagePath": "pages/home/index",
+        "text": "我的"
+      }
+    ]
+  }
 }
 </config>

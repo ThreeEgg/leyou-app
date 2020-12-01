@@ -4,6 +4,58 @@
   position: absolute;
   background: #f7f7f7;
 }
+.mine .mask {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 10000;
+  background: rgba(51, 51, 51, 0.8);
+  pointer-events: all;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .mask-content {
+    width: 50%;
+    height: 400rpx;
+    background: white;
+    border-radius: 18rpx;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    .mask-content-title {
+      padding: 8rpx 40rpx;
+      font-size: 24rpx;
+      color: #999;
+      text-align: center;
+    }
+    .mask-content-body {
+      padding: 8rpx 40rpx;
+      width: 100%;
+    }
+    .mask-content-footer {
+      width: 100%;
+      padding: 8rpx 10rpx;
+      display: flex;
+      justify-content: space-between;
+      .btn {
+        width: 140rpx;
+        font-size: 24rpx;
+        font-weight: 400;
+        color: #ffffff;
+        background: #1293ff;
+        border-radius: 48rpx;
+      }
+      .btn-cancel {
+        background: #888;
+      }
+    }
+  }
+}
 
 .mine .leyou-bg image {
   width: 100%;
@@ -226,7 +278,31 @@
         </view>
       </view>
     </view>
-    <mine :activeBtnIndex="2"></mine>
+    <!-- <mine :activeBtnIndex="2"></mine> -->
+    <div
+      class="mask"
+      v-if="maskShow"
+    >
+      <div class="mask-content">
+        <div class="mask-content-title">
+          获取用户权限
+        </div>
+        <div class="mask-content-body">
+          用户基础信息(昵称、头像、地区等)
+        </div>
+        <div class="mask-content-footer">
+          <button
+            class="btn btn-cancel"
+            @tap="cancelMask"
+          >取消</button>
+          <button
+            class="btn"
+            bindgetuserinfo="getUserInfo"
+            open-type="getUserInfo"
+          >确认</button>
+        </div>
+      </div>
+    </div>
   </view>
 </template>
 
@@ -244,10 +320,67 @@ wepy.page({
     baseInfo: {},
     companyList: [],
     userInfo: {},
-    phoneNumber: ''
+    phoneNumber: '',
+    maskShow: false
   },
 
   methods: {
+    confirmUserInfo: function() {
+      const userInfo = wx.getStorageSync('userInfo');
+      if (!userInfo) {
+        this.maskShow = true;
+        return;
+      } else {
+        this.confirmPhoneNumber();
+      }
+    },
+    confirmPhoneNumber: function() {
+      this.phoneNumber = wx.getStorageSync('phoneNumber');
+      console.log('this.phoneNumber', this.phoneNumber);
+      if (!this.phoneNumber) {
+        wx.navigateTo({
+          url: '../phoneNumber/index'
+        });
+        return;
+      } else {
+        wx.setStorageSync('isLogin', true);
+      }
+      this.userInfo = wx.getStorageSync('userInfo');
+      if (!this.userInfo) {
+        setTimeout(() => {
+          wx.showToast({
+            title: '暂未登录',
+            icon: 'none'
+          });
+        });
+        return;
+      }
+      this.avatar = this.userInfo.avatarUrl;
+      this.getCompanyInfo();
+      console.log('userInfo', this.userInfo);
+    },
+    getUserInfo: function(e) {
+      console.log('getUserInfo', e);
+      const { errMsg, rawData } = e.$wx.detail;
+      if (errMsg === 'getUserInfo:ok') {
+        this.cancelMask();
+        const userInfo = JSON.parse(rawData);
+        console.log('userInfo', userInfo);
+        wx.setStorageSync('userInfo', userInfo);
+        this.confirmPhoneNumber();
+      } else {
+        wx.showToast({
+          title: '获取用户信息失败',
+          icon: 'none'
+        });
+        wx.switchTab({
+          url: '../market/index'
+        });
+      }
+    },
+    cancelMask: function() {
+      this.maskShow = false;
+    },
     editBaseInfo: function() {
       wx.navigateTo({
         url: '../baseInfo/index'
@@ -317,32 +450,7 @@ wepy.page({
   },
 
   created() {
-    this.phoneNumber = wx.getStorageSync('phoneNumber');
-    console.log('this.phoneNumber', this.phoneNumber);
-    if (!this.phoneNumber) {
-      wx.navigateTo({
-        url: '../phoneNumber/index'
-      });
-      return;
-    } else {
-      wx.setStorageSync('isLogin', true);
-    }
-    this.userInfo = wx.getStorageSync('userInfo');
-    if (!this.userInfo) {
-      wx.navigateTo({
-        url: '../market/index'
-      });
-      setTimeout(() => {
-        wx.showToast({
-          title: '暂未登录',
-          icon: 'none'
-        });
-      });
-      return;
-    }
-    this.avatar = this.userInfo.avatarUrl;
-    this.getCompanyInfo();
-    console.log('userInfo', this.userInfo);
+    // this.confirmPhoneNumber()
   },
   attached() {
     console.log('attached');
@@ -351,6 +459,7 @@ wepy.page({
     console.log('ready');
   },
   onShow() {
+    this.confirmUserInfo();
     this.getHomeInfo();
   }
 });

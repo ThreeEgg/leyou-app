@@ -32,7 +32,7 @@ wepy.page({
           if (data.success) {
             wx.setStorageSync('isLogin', true);
             wx.setStorageSync('loginInfo', data.data);
-            wx.navigateTo({
+            wx.switchTab({
               url: '../home/index'
             });
           } else {
