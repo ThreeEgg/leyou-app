@@ -167,7 +167,7 @@
 
 .mine .leyou-content .baseInfo .baseInfo-btn {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 
 .mine .leyou-content .baseInfo .baseInfo-btn .line {
