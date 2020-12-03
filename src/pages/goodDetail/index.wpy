@@ -31,7 +31,7 @@
         {{goodInfo.goodsName}}
       </div>
       <div class="count-info">
-        <view>￥{{goodInfo.price}}</view>
+        <view>{{goodInfo.price}}</view>
         <view>已卖{{(goodInfo.salesCount || 0) >9999 ?'9999+':(goodInfo.salesCount || 0)}}件</view>
       </div>
     </div>
@@ -131,7 +131,7 @@ wepy.page({
         text-align: right;
       }
       view:nth-of-type(2) {
-        font-size: 24rpx;
+        font-size: 26rpx;
         font-weight: 400;
         color: #666666;
         text-align: right;

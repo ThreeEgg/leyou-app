@@ -21,7 +21,7 @@ wepy.page({
 
   methods: {
     viewMarket: function() {
-      wx.navigateTo({
+      wx.switchTab({
         url: '../home/index'
       });
     }

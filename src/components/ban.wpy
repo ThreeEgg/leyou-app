@@ -39,7 +39,7 @@
           </div>
           <div class="price-box">
             <div class="name">单价</div>
-            <div class="price">￥{{goodInfo.price}}</div>
+            <div class="price">{{goodInfo.price}}</div>
           </div>
           <div class="count-box">
             <div class="name">数量</div>
@@ -61,7 +61,7 @@
             </div>
           </div>
           <div class="money-box">
-            <div class="money">￥{{count * goodInfo.price}}</div>
+            <div class="money">{{count * goodInfo.price}}</div>
             <div
               class="btn"
               @tap="viewPay"
@@ -107,7 +107,7 @@ wepy.component({
           icon: 'none'
         });
         setTimeout(() => {
-          wx.navigateTo({
+          wx.switchTab({
             url: '../market/index'
           });
         }, 800);
@@ -196,7 +196,7 @@ wepy.component({
   }
   .title {
     width: 455rpx;
-    font-size: 24rpx;
+    font-size: 26rpx;
     font-weight: 400;
     color: #333333;
     overflow: hidden;
@@ -230,7 +230,7 @@ wepy.component({
       .classify-item {
         min-width: 120rpx;
         text-align: center;
-        font-size: 24rpx;
+        font-size: 26rpx;
         font-weight: 400;
         color: #f88142;
         padding: 15rpx;
@@ -239,7 +239,7 @@ wepy.component({
         margin-right: 22rpx;
       }
       .active {
-        font-size: 24rpx;
+        font-size: 26rpx;
         font-weight: 400;
         color: #ffffff;
         background: #f88142;

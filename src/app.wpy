@@ -108,7 +108,7 @@ wepy.app({
   },
   "tabBar": {
     "color": "#999",
-    "selectedColor": "rgb(45, 158, 254)",
+    "selectedColor": "#2D9EFE",
     "borderStyle": "black" ,
     "ext-class":"tabBarStyle",
     "list": [

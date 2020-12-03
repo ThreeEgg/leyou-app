@@ -17,7 +17,7 @@
           <view :class="{success:orderInfo.orderStatus===1,cancel:orderInfo.orderStatus!==1}">{{orderInfo.orderStatus===1?'已生效':'待生效'}}</view>
         </div>
         <div class="item-money">
-          ￥{{orderInfo.unitPrice * orderInfo.goodsCount}}
+          {{orderInfo.unitPrice * orderInfo.goodsCount}}
         </div>
       </div>
       <div class="item-content">
@@ -32,7 +32,7 @@
         </div>
         <div class="money-count">
           <div class="price">
-            ￥{{orderInfo.unitPrice}}
+            {{orderInfo.unitPrice}}
           </div>
           <div class="count">
             *{{orderInfo.goodsCount}}
@@ -49,7 +49,7 @@
           {{orderInfo.agreementName}}
         </div>
         <div class="money">
-          ￥{{orderInfo.totalPrice}}
+          {{orderInfo.totalPrice}}
         </div>
       </div>
       <div
@@ -195,12 +195,12 @@ wepy.page({
     .item-status {
       display: flex;
       view:nth-of-type(1) {
-        font-size: 24rpx;
+        font-size: 26rpx;
         font-weight: 400;
         color: #333333;
       }
       view:nth-of-type(2) {
-        font-size: 24rpx;
+        font-size: 26rpx;
         font-weight: 400;
       }
       .success {
@@ -233,12 +233,12 @@ wepy.page({
       justify-content: space-between;
       width: 300rpx;
       .fund-name {
-        font-size: 24rpx;
+        font-size: 26rpx;
         font-weight: 400;
         color: #333333;
       }
       .desc {
-        font-size: 24rpx;
+        font-size: 26rpx;
         font-weight: 400;
         color: #666666;
       }
@@ -248,13 +248,13 @@ wepy.page({
       flex-direction: column;
       justify-content: space-between;
       .price {
-        font-size: 24rpx;
+        font-size: 26rpx;
         font-weight: 500;
         color: #333333;
         text-align: right;
       }
       .count {
-        font-size: 24rpx;
+        font-size: 26rpx;
         font-weight: 400;
         color: #666666;
         text-align: right;
@@ -274,12 +274,12 @@ wepy.page({
     .contract-left {
       .name {
         width: 500rpx;
-        font-size: 24rpx;
+        font-size: 26rpx;
         font-weight: 400;
         color: #333333;
       }
       .money {
-        font-size: 24rpx;
+        font-size: 26rpx;
         font-weight: 400;
         color: #333333;
         margin-top: 8rpx;
@@ -290,7 +290,7 @@ wepy.page({
       justify-content: center;
       align-items: center;
       view {
-        font-size: 24rpx;
+        font-size: 26rpx;
         color: rgb(51, 51, 51);
       }
       view:nth-of-type(1) {
@@ -311,13 +311,13 @@ wepy.page({
     display: flex;
     justify-content: space-between;
     .logistics-left {
-      font-size: 24rpx;
+      font-size: 26rpx;
       font-weight: 400;
       color: #333333;
     }
     .logistics-right {
       view {
-        font-size: 22rpx;
+        font-size: 24rpx;
         font-weight: 400;
         color: #333333;
         text-align: right;
@@ -341,12 +341,12 @@ wepy.page({
         align-items: center;
       }
       view:nth-of-type(1) {
-        font-size: 24rpx;
+        font-size: 26rpx;
         color: #666666;
         margin-bottom: 8rpx;
       }
       view:nth-of-type(2) {
-        font-size: 22rpx;
+        font-size: 24rpx;
         color: #888888;
         margin-bottom: 8rpx;
       }

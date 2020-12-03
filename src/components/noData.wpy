@@ -1,41 +1,34 @@
 <template>
   <div class="noData">
-    - 没有更多数据了 - 
+    - 没有更多数据了 -
   </div>
 </template>
 
 <script>
-  import wepy from '@wepy/core'
+import wepy from '@wepy/core';
 
-  wepy.page({
-    config: {
-      navigationBarTitleText: 'test'
-    },
-    props: {
-      
-    },
-    data: {
-      name:null,
-    },
+wepy.page({
+  config: {
+    navigationBarTitleText: 'test'
+  },
+  props: {},
+  data: {
+    name: null
+  },
 
+  methods: {},
 
-    methods: {
-      
-    },
-
-    created () {
-      
-    }
-  });
+  created() {}
+});
 </script>
 
 <style lang="less">
-  .noData{
-    text-align: center;
-    color: rgb(100,100,100);
-    font-size: 24rpx;
-    padding: 12rpx 0;
-  }
+.noData {
+  text-align: center;
+  color: rgb(100, 100, 100);
+  font-size: 26rpx;
+  padding: 12rpx 0;
+}
 </style>
 
 <config>

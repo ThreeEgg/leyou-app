@@ -93,11 +93,11 @@ wepy.component({
         return;
       }
       if (activeBtn === 2) {
-        wx.navigateTo({
+        wx.switchTab({
           url: '../home/index'
         });
       } else {
-        wx.navigateTo({
+        wx.switchTab({
           url: '../market/index'
         });
       }
@@ -110,7 +110,7 @@ wepy.component({
         const userInfo = JSON.parse(rawData);
         console.log('userInfo', userInfo);
         wx.setStorageSync('userInfo', userInfo);
-        wx.navigateTo({
+        wx.switchTab({
           url: '../home/index'
         });
       } else {
@@ -182,7 +182,7 @@ wepy.component({
       align-items: center;
       .mask-content-title {
         padding: 8rpx 40rpx;
-        font-size: 24rpx;
+        font-size: 26rpx;
         color: #999;
         text-align: center;
       }
@@ -197,7 +197,7 @@ wepy.component({
         justify-content: space-between;
         .btn {
           width: 140rpx;
-          font-size: 24rpx;
+          font-size: 26rpx;
           font-weight: 400;
           color: #ffffff;
           background: #1293ff;

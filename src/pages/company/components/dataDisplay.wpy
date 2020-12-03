@@ -172,7 +172,7 @@ wepy.component({
         color: #333333;
       }
       > view:nth-of-type(2) {
-        font-size: 22rpx;
+        font-size: 24rpx;
         color: #999999;
       }
       > view:nth-of-type(3) {

@@ -5,7 +5,7 @@
         {{item.agreementName}}
       </div>
       <div class="money">
-        ￥{{item.totalPrice}}
+        {{item.totalPrice}}
       </div>
     </div>
     <div
@@ -73,7 +73,7 @@ wepy.page({
     }
     .money {
       color: rgb(51, 51, 51);
-      font-size: 24rpx;
+      font-size: 26rpx;
       margin-top: 8rpx;
     }
   }

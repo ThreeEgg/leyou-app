@@ -43,7 +43,7 @@
               {{item.goodsName}}
             </div>
             <div class="info">
-              <view>￥{{item.goodsDetails[0].price}}</view>
+              <view>{{item.goodsDetails[0].price}}</view>
               <view>已卖{{(item.salesCount || 0) >9999 ?'9999+':(item.salesCount || 0)}}件</view>
             </div>
           </div>
@@ -244,7 +244,7 @@ wepy.page({
           justify-content: space-between;
           padding: 0 20rpx;
           .desc {
-            font-size: 24rpx;
+            font-size: 26rpx;
             font-weight: 400;
             color: #333333;
           }
@@ -258,7 +258,7 @@ wepy.page({
               color: #f88142;
             }
             view:nth-of-type(2) {
-              font-size: 24rpx;
+              font-size: 26rpx;
               font-weight: 400;
               color: #666666;
             }
