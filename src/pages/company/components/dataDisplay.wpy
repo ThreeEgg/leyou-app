@@ -49,31 +49,43 @@
       <div class="table-item-left">
         <image src="../../../assets/svg/profit.svg" />
         <view>利润表</view>
+        <view
+          class="transmit"
+          @tap="transmitExcell(item.profitLink)"
+        >转发报表</view>
       </div>
       <div
         class="table-item-right"
         @tap="viewPdf(item.profitLink)"
-      >{{item.profitLink?'>':'未上传'}}</div>
+      >{{item.profitLink?'查看报表 >':'未上传'}}</div>
     </div>
     <div class="table-item">
       <div class="table-item-left">
         <image src="../../../assets/svg/balance.svg" />
         <view>现金流量表</view>
+        <view
+          class="transmit"
+          @tap="transmitExcell(item.moneyLink)"
+        >转发报表</view>
       </div>
       <div
         class="table-item-right"
         @tap="viewPdf(item.moneyLink)"
-      >{{item.moneyLink?'>':'未上传'}}</div>
+      >{{item.moneyLink?'查看报表 >':'未上传'}}</div>
     </div>
     <div class="table-item">
       <div class="table-item-left">
         <image src="../../../assets/svg/debt.svg" />
         <view>资产负债表</view>
+        <view
+          class="transmit"
+          @tap="transmitExcell(item.balanceLink)"
+        >转发报表</view>
       </div>
       <div
         class="table-item-right"
         @tap="viewPdf(item.balanceLink)"
-      >{{item.balanceLink?'>':'未上传'}}</div>
+      >{{item.balanceLink?'查看报表 >':'未上传'}}</div>
     </div>
   </div>
 </template>
@@ -102,6 +114,19 @@ wepy.component({
     activeIndex: 1
   },
   methods: {
+    transmitExcell: function(url) {
+      wx.setClipboardData({
+        data: url,
+        success: () => {
+          wx.showToast({
+            title:
+              '请先将链接粘贴至浏览器打开，再将网页通过浏览器分享至微信好友。',
+            icon: 'none',
+            duration: 2000
+          });
+        }
+      });
+    },
     viewPdf: function(url) {
       if (!url) return;
       wx.downloadFile({
@@ -220,6 +245,11 @@ wepy.component({
         font-size: 28rpx;
         font-weight: 400;
         color: #333333;
+      }
+      .transmit {
+        margin-left: 10rpx;
+        color: #1293ff;
+        font-size: 24rpx;
       }
     }
     .table-item-right {

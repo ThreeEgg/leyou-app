@@ -14,7 +14,9 @@
           v-else
         >
           <view>订单状态：</view>
-          <view :class="{success:orderInfo.orderStatus===1,cancel:orderInfo.orderStatus!==1}">{{orderInfo.orderStatus===1?'已生效':'待生效'}}</view>
+          <!-- <view :class="{success:orderInfo.orderStatus===1,cancel:orderInfo.orderStatus!==1}">{{orderInfo.orderStatus===1?'已生效':'待生效'}}</view> -->
+          <view :class="{unpaid:orderInfo.orderStatus===0,success:orderInfo.orderStatus===1,cancel:orderInfo.orderStatus===2}">{{orderInfo.orderStatus===0?'待支付':orderInfo.orderStatus===1?'已完成':'已失效'}}</view>
+
         </div>
         <div class="item-money">
           {{orderInfo.unitPrice * orderInfo.goodsCount}}

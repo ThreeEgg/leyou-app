@@ -8,7 +8,7 @@
       >
         <div class="menu-top">
           <view></view>
-          <view>{{i === 0 ? '实物商品': '服务商品'}}</view>
+          <view>{{i === 0 ? '实物产品': '服务产品'}}</view>
         </div>
         <div class="menu-content">
           <div
