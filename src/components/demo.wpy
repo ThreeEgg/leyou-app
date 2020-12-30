@@ -1,40 +1,20 @@
-<template>
-  
-</template>
-
-<script>
-  import wepy from '@wepy/core'
-
-  wepy.page({
-    config: {
-      navigationBarTitleText: 'test'
-    },
-    props: {
-      
-    },
-    data: {
-      
-    },
-
-
-    methods: {
-      
-    },
-
-    created () {
-      
-    }
-  });
-</script>
-
 <style lang="less">
-
 </style>
+<template>
+  <div class="components">
+    xxx
+  </div>
+</template>
+<script>
+import wepy from '@wepy/core';
+wepy.component({
+  props: {},
 
+  methods: {}
+});
+</script>
 <config>
 {
-    navigationBarTitleText: '',
-    usingComponents: {
-    }
+  usingComponents: {}
 }
 </config>

@@ -1,6 +1,9 @@
 <template>
   <div class="order">
     <div class="order-info">
+      <div class="server-top">
+        <step-bar></step-bar>
+      </div>
       <div class="item-top">
         <div
           class="item-status"
@@ -184,7 +187,7 @@ wepy.page({
 .order .order-info {
   // height: 253rpx;
   background: #ffffff;
-  box-shadow: 0rpx 0rpx 12rpx 0rpx rgba(220, 220, 220, 0.2);
+  // box-shadow: 0rpx 0rpx 12rpx 0rpx rgba(220, 220, 220, 0.2);
   border-radius: 16rpx;
   padding: 20rpx 40rpx 24rpx;
   margin-bottom: 30rpx;
@@ -376,6 +379,7 @@ wepy.page({
 {
     navigationBarTitleText: '',
     usingComponents: {
+      'step-bar':'./stepBar'
     }
 }
 </config>

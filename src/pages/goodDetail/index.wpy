@@ -116,6 +116,7 @@ wepy.page({
     display: flex;
     justify-content: space-between;
     background: #ffffff;
+    border-bottom: 16rpx solid #ededed;
     .title {
       width: 465rpx;
       font-size: 28rpx;
