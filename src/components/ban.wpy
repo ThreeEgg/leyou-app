@@ -142,7 +142,7 @@ wepy.component({
             });
             if (this.goodInfo.isService === 1) {
               wx.navigateTo({
-                url: '../payNext/pdf'
+                url: '../payNext/serviceOrderSuccess'
               });
             } else {
               wx.navigateTo({

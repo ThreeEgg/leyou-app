@@ -83,6 +83,7 @@ wepy.app({
   pages: [
     'pages/market/index',
     'pages/home/index',
+    'pages/payNext/serviceOrderSuccess',
     'pages/baseInfo/index',
     'pages/contract/index',
     'pages/myBean/index',

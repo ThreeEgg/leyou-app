@@ -9,6 +9,7 @@
   box-shadow: 0rpx 0rpx 12rpx 0rpx rgba(220, 220, 220, 0.2);
   border-radius: 16rpx;
   padding: 24rpx 8rpx 24rpx;
+  margin-bottom: 10rpx;
   .step-bar-item {
     display: flex;
     flex-direction: column;
@@ -44,30 +45,59 @@
       <image
         class="step-bar-item-img"
         src="../../../assets/images/done.png"
+        v-if="step >= 0"
       />
       <view class="text">{{textArr[0]}}</view>
     </div>
-    <div class="line done"></div>
+    <div :class="{line:true,done:step >= 1} "></div>
     <div class="step-bar-item">
       <image
         class="step-bar-item-img"
         src="../../../assets/images/current.png"
+        v-if="step === 1"
+      />
+      <image
+        class="step-bar-item-img"
+        src="../../../assets/images/done.png"
+        v-if="step > 1"
       />
       <view class="text">{{textArr[1]}}</view>
     </div>
-    <div class="line undone"></div>
+    <div :class="{line:true,done:step >= 2,undone:step < 2}"></div>
     <div class="step-bar-item">
       <image
         class="step-bar-item-img"
         src="../../../assets/images/undone.png"
+        v-if="step < 2"
+      />
+      <image
+        class="step-bar-item-img"
+        src="../../../assets/images/current.png"
+        v-if="step === 2"
+      />
+      <image
+        class="step-bar-item-img"
+        src="../../../assets/images/done.png"
+        v-if="step > 2"
       />
       <view class="text">{{textArr[2]}}</view>
     </div>
-    <div class="line undone"></div>
+    <div :class="{line:true,done:step >= 3,undone:step < 3}"></div>
     <div class="step-bar-item">
       <image
         class="step-bar-item-img"
         src="../../../assets/images/undone.png"
+        v-if="step < 3"
+      />
+      <image
+        class="step-bar-item-img"
+        src="../../../assets/images/current.png"
+        v-if="step === 3"
+      />
+      <image
+        class="step-bar-item-img"
+        src="../../../assets/images/done.png"
+        v-if="step > 3"
       />
       <view class="text">{{textArr[3]}}</view>
     </div>
@@ -79,15 +109,16 @@ wepy.component({
   props: {
     step: {
       type: Number,
-      default: 0
+      default: 1
     }
   },
 
   data: {
-    textArr: ['生成订单', '完成支付', '完成签署', '订单完成']
+    textArr: ['生成订单', '完成签署', '完成支付', '订单完成']
   },
 
-  methods: {}
+  methods: {},
+  created() {}
 });
 </script>
 <config>

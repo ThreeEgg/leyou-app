@@ -1,8 +1,11 @@
 <template>
   <div class="order">
     <div class="order-info">
-      <div class="server-top">
-        <step-bar></step-bar>
+      <div
+        class="server-top"
+        v-if="orderInfo.isService === 1"
+      >
+        <step-bar :step="step"></step-bar>
       </div>
       <div class="item-top">
         <div
@@ -18,7 +21,7 @@
         >
           <view>订单状态：</view>
           <!-- <view :class="{success:orderInfo.orderStatus===1,cancel:orderInfo.orderStatus!==1}">{{orderInfo.orderStatus===1?'已生效':'待生效'}}</view> -->
-          <view :class="{unpaid:orderInfo.orderStatus===0,success:orderInfo.orderStatus===1,cancel:orderInfo.orderStatus===2}">{{orderInfo.orderStatus===0?'待支付':orderInfo.orderStatus===1?'已完成':'已失效'}}</view>
+          <view :class="{unpaid:orderInfo.orderStatus===0,success:orderInfo.orderStatus===1,cancel:orderInfo.orderStatus===2}">{{orderInfo.orderStatus===0?'待完成':orderInfo.orderStatus===1?'已完成':'已失效'}}</view>
 
         </div>
         <div class="item-money">
@@ -99,12 +102,21 @@
         <view>{{orderInfo.payTime|| '暂无'}}</view>
       </div>
     </div>
-    <div
-      class="payment"
-      v-if="orderInfo.orderStatus === 0"
-      @tap="viewPay"
-    >
-      去支付
+    <div class="btn-box">
+      <div
+        class="payment"
+        v-if="orderInfo.orderStatus === 0 && orderInfo.isService === 1 && orderInfo.isSign === 0"
+        @tap="viewSign"
+      >
+        去签署
+      </div>
+      <div
+        class="payment"
+        v-if="orderInfo.orderStatus === 0"
+        @tap="viewPay"
+      >
+        去支付
+      </div>
     </div>
   </div>
 </template>
@@ -118,7 +130,9 @@ wepy.page({
   },
   props: {},
   data: {
-    orderInfo: {}
+    orderInfo: {},
+    step: 1,
+    isSign: 0
   },
 
   methods: {
@@ -133,11 +147,43 @@ wepy.page({
         }
       });
     },
+    viewSign: function() {
+      if (!this.orderInfo.agreementLink) {
+        wx.showToast({
+          title: '暂无合同',
+          icon: 'none'
+        });
+        return;
+      }
+      wx.showModal({
+        title: '提示',
+        content: '请务必在签署操作前确认合同内容无误！可点击合同进行预览。',
+        // showCancel: false,
+        success: res => {
+          if (res.confirm) {
+            /* wx.navigateTo({
+              url: '../../payNext/pdf'
+            }); */
+            wx.navigateTo({
+              url: '../../signature/index'
+            });
+          }
+        }
+      });
+    },
     viewPay: function() {
       if (this.orderInfo.isService === 1) {
-        wx.navigateTo({
-          url: '../../payNext/sign'
-        });
+        if (this.orderInfo.isSign === 0) {
+          wx.showToast({
+            title: '请先签署合同',
+            icon: 'none'
+          });
+          return;
+        } else {
+          wx.navigateTo({
+            url: '../../payNext/sign'
+          });
+        }
       } else {
         wx.navigateTo({
           url: '../../payNext/pay'
@@ -178,7 +224,16 @@ wepy.page({
       'YYYY-MM-DD HH:mm:ss',
       new Date(this.orderInfo.orderTime)
     );
-    console.log('orderInfo', orderInfo);
+    if (this.orderInfo.orderStatus === 0) {
+      this.step = 1;
+      if (this.orderInfo.isSign === 0) {
+        this.step = 1;
+      } else if (this.orderInfo.isSign === 1) {
+        this.step = 2;
+      }
+    } else {
+      this.step = 4;
+    }
   }
 });
 </script>
@@ -357,20 +412,24 @@ wepy.page({
       }
     }
   }
-  .payment {
+  .btn-box {
     position: absolute;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
     bottom: 8%;
-    right: 5%;
-    text-align: center;
-    font-weight: 400;
-    color: #ffffff;
-    letter-spacing: 4rpx;
-    width: 280rpx;
-    padding: 24rpx 72rpx;
-    font-size: 34rpx;
-    color: #ffffff;
-    background: #1293ff;
-    border-radius: 48rpx;
+    .payment {
+      text-align: center;
+      font-weight: 400;
+      color: #ffffff;
+      letter-spacing: 4rpx;
+      width: 280rpx;
+      padding: 24rpx 72rpx;
+      font-size: 34rpx;
+      color: #ffffff;
+      background: #1293ff;
+      border-radius: 48rpx;
+    }
   }
 }
 </style>

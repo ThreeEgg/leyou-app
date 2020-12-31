@@ -17,7 +17,7 @@
       >
         <view>订单状态：</view>
         <!-- <view :class="{success:item.orderStatus===1,cancel:item.orderStatus!==1}">{{item.orderStatus===1?'已生效':'待生效'}}</view> -->
-        <view :class="{unpaid:item.orderStatus===0,success:item.orderStatus===1,cancel:item.orderStatus===2}">{{item.orderStatus===0?'待支付':item.orderStatus===1?'已完成':'已失效'}}</view>
+        <view :class="{unpaid:item.orderStatus===0,success:item.orderStatus===1,cancel:item.orderStatus===2}">{{item.orderStatus===0?'待完成':item.orderStatus===1?'已完成':'已失效'}}</view>
       </div>
       <div class="item-money">
         {{item.unitPrice * item.goodsCount}}
@@ -83,6 +83,9 @@ wepy.page({
           console.log('order-detail-res', res);
           const { data } = res;
           if (data.success) {
+            // data.data.isSign = 0;
+            // data.data.agreementLink =
+            //   'https://leyou-file-1304138037.cos.ap-shanghai.myqcloud.com/orderAgreement/Ut7jUtHCX9.pdf';
             wx.setStorageSync('orderInfo', data.data);
             // FIXME url很奇怪
             wx.navigateTo({

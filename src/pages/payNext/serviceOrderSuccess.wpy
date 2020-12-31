@@ -1,0 +1,100 @@
+<template>
+  <div class="service-order--success">
+    <image src="../../assets/svg/paySuccess.svg" />
+    <div class="text">订单创建成功</div>
+    <div class="text-desc">请前往订单详情页完成订单支付和合同签署</div>
+    <div
+      class="btn"
+      @tap="getOrderDetail"
+    >订单详情</div>
+  </div>
+</template>
+
+<script>
+import wepy from '@wepy/core';
+import { baseUrl } from '../../assets/js/base.js';
+
+wepy.page({
+  config: {
+    navigationBarTitleText: 'test'
+  },
+  props: {},
+  data: {},
+
+  methods: {
+    viewOrderInfo: function() {
+      wx.navigateTo({
+        url: '../order/components/orderInfo'
+      });
+    },
+    getOrderDetail: function() {
+      const orderInfo = wx.getStorageSync('orderInfo');
+      const params = {
+        orderId: orderInfo.id
+      };
+      wx.request({
+        url: baseUrl + '/v1/order/findOrderDetailForFront',
+        data: {
+          ...params
+        },
+        success: res => {
+          console.log('order-detail-res', res);
+          const { data } = res;
+          if (data.success) {
+            wx.setStorageSync('orderInfo', data.data);
+            // FIXME url很奇怪
+            wx.navigateTo({
+              url: '../order/components/orderInfo'
+            });
+          }
+        },
+        fail: err => {
+          console.log('order-detail-err', err);
+        }
+      });
+    }
+  },
+
+  created() {}
+});
+</script>
+
+<style lang="less">
+.service-order--success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  > image {
+    width: 180rpx;
+    height: 180rpx;
+    margin-top: 80rpx;
+  }
+  .text {
+    font-size: 36rpx;
+    font-weight: 500;
+    color: #333333;
+    margin: 30rpx 0 60rpx;
+  }
+  .btn {
+    position: fixed;
+    bottom: 8%;
+    right: 5%;
+    width: 280rpx;
+    padding: 24rpx 72rpx;
+    font-size: 34rpx;
+    font-weight: 400;
+    color: #ffffff;
+    background: #1293ff;
+    border-radius: 48rpx;
+    text-align: center;
+  }
+}
+</style>
+
+<config>
+{
+    navigationBarTitleText: '支付成功',
+    usingComponents: {
+    }
+}
+</config>
