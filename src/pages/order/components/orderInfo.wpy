@@ -64,7 +64,8 @@
         :class="{'contract-right':true, success:orderInfo.orderStatus===1}"
         @tap="viewPdf(orderInfo.agreementLink)"
       >
-        <view>{{orderInfo.orderStatus===1?'已生效':'待生效'}}</view>
+        <view v-if="orderInfo.orderStatus === 2">未生效</view>
+        <view v-else>{{orderInfo.orderStatus===1?'已生效':orderInfo.isSign === 1 ? '待生效':'预览合同'}}</view>
         <view>></view>
       </div>
     </div>
@@ -173,17 +174,18 @@ wepy.page({
     },
     viewPay: function() {
       if (this.orderInfo.isService === 1) {
-        if (this.orderInfo.isSign === 0) {
+        wx.navigateTo({
+          url: '../../payNext/sign'
+        });
+        /* if (this.orderInfo.isSign === 0) {
           wx.showToast({
             title: '请先签署合同',
             icon: 'none'
           });
           return;
         } else {
-          wx.navigateTo({
-            url: '../../payNext/sign'
-          });
-        }
+
+        } */
       } else {
         wx.navigateTo({
           url: '../../payNext/pay'
