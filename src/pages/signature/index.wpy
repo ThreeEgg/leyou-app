@@ -124,11 +124,20 @@ wepy.page({
                 wx.showToast({
                   title: '签署完成'
                 });
-                setTimeout(() => {
+                const orderInfo = wx.getStorageSync('orderInfo');
+                orderInfo.isSign = 1;
+                wx.setStorageSync('orderInfo', orderInfo);
+                if (orderInfo.isPay === 0) {
+                  setTimeout(() => {
+                    wx.navigateTo({
+                      url: '../payNext/sign?isShow=true'
+                    });
+                  }, 1000);
+                } else {
                   wx.navigateTo({
-                    url: '../payNext/sign'
+                    url: '../order/components/orderInfo'
                   });
-                }, 1000);
+                }
               } else {
                 wx.showToast({
                   title: '签署失败',

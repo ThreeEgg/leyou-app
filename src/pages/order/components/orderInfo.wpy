@@ -116,7 +116,7 @@
       </div>
       <div
         class="payment"
-        v-if="orderInfo.orderStatus === 0"
+        v-if="orderInfo.orderStatus === 0 && orderInfo.isPay === 0"
         @tap="viewPay"
       >
         去支付
@@ -128,6 +128,7 @@
 <script>
 import wepy from '@wepy/core';
 import { dateFormat } from '../../../assets/js/tools';
+import { baseUrl } from '../../../assets/js/base.js';
 wepy.page({
   config: {
     navigationBarTitleText: 'test'
@@ -179,7 +180,7 @@ wepy.page({
     viewPay: function() {
       if (this.orderInfo.isService === 1) {
         wx.navigateTo({
-          url: '../../payNext/sign'
+          url: '../../payNext/sign?isShow=false'
         });
         /* if (this.orderInfo.isSign === 0) {
           wx.showToast({
@@ -220,29 +221,58 @@ wepy.page({
           console.log('download-err', err);
         }
       });
+    },
+    getOrderDetail: function(item) {
+      const params = {
+        orderId: item.id
+      };
+      wx.request({
+        url: baseUrl + '/v1/order/findOrderDetailForFront',
+        data: {
+          ...params
+        },
+        success: res => {
+          const { data } = res;
+          if (data.success) {
+            if (!(data.data.isSign && data.data.isPay)) {
+              data.data.orderStatus = 0;
+            }
+            this.orderInfo = data.data;
+            wx.setStorageSync('orderInfo', this.orderInfo);
+            this.initData(this.orderInfo);
+          }
+        },
+        fail: err => {
+          console.log('order-detail-err', err);
+        }
+      });
+    },
+    initData: function(orderInfo) {
+      this.orderInfo = orderInfo;
+      this.orderInfo.orderTime = dateFormat(
+        'YYYY-MM-DD HH:mm:ss',
+        new Date(this.orderInfo.orderTime)
+      );
+      if (this.orderInfo.orderStatus === 0) {
+        this.step = 1;
+        if (this.orderInfo.isPay === 0) {
+          this.textArr = ['生成订单', '完成签署', '完成支付', '订单完成'];
+        } else {
+          this.textArr = ['生成订单', '完成支付', '完成签署', '订单完成'];
+          this.step = 2;
+        }
+        if (this.orderInfo.isSign === 1) {
+          this.step = 2;
+        }
+      } else {
+        this.step = 4;
+      }
     }
   },
 
   created() {
     const orderInfo = wx.getStorageSync('orderInfo');
-    this.orderInfo = orderInfo;
-    this.orderInfo.orderTime = dateFormat(
-      'YYYY-MM-DD HH:mm:ss',
-      new Date(this.orderInfo.orderTime)
-    );
-    if (this.orderInfo.orderStatus === 0) {
-      this.step = 1;
-      if (this.orderInfo.isPay === 0) {
-        this.textArr = ['生成订单', '完成签署', '完成支付', '订单完成'];
-      } else {
-        this.textArr = ['生成订单', '完成支付', '完成签署', '订单完成'];
-      }
-      if (this.orderInfo.isSign === 1) {
-        this.step = 2;
-      }
-    } else {
-      this.step = 4;
-    }
+    this.getOrderDetail(orderInfo);
   }
 });
 </script>

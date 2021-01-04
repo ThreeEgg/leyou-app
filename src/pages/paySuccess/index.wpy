@@ -21,9 +21,16 @@ wepy.page({
 
   methods: {
     viewMarket: function() {
-      wx.switchTab({
-        url: '../home/index'
-      });
+      const orderInfo = wx.getStorageSync('orderInfo');
+      if (orderInfo.isService === 1) {
+        wx.navigateTo({
+          url: '../order/components/orderInfo'
+        });
+      } else {
+        wx.switchTab({
+          url: '../home/index'
+        });
+      }
     }
   },
 

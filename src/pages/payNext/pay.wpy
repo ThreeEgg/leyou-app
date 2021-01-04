@@ -129,6 +129,9 @@ wepy.page({
     }
   }
   .btn {
+    position: fixed;
+    bottom: 8%;
+    right: 5%;
     width: 280rpx;
     padding: 24rpx 72rpx;
     font-size: 34rpx;

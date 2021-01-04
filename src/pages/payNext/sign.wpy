@@ -1,13 +1,16 @@
 <template>
   <div class="sign">
-    <!-- <div class="sign-info">
+    <div
+      class="sign-info"
+      v-if="isShow"
+    >
       <image src="../../assets/images/signSuccess.png" />
       <div class="text">合同签署成功!</div>
       <div
         class="view"
         @tap="viewContract"
       >可在合同列表查看></div>
-    </div> -->
+    </div>
     <div class="order-info">
       <div class="info-left">
         <view>订单状态：</view>
@@ -37,7 +40,8 @@ wepy.page({
   props: {},
   data: {
     baseInfo: {},
-    orderInfo: {}
+    orderInfo: {},
+    isShow: false
   },
 
   methods: {
@@ -90,6 +94,10 @@ wepy.page({
   created() {
     this.baseInfo = wx.getStorageSync('baseInfo');
     this.orderInfo = wx.getStorageSync('orderInfo');
+  },
+  onLoad(options) {
+    console.log('onLoad-options: ', options);
+    this.isShow = JSON.parse(options.isShow);
   }
 });
 </script>
@@ -161,6 +169,9 @@ wepy.page({
     }
   }
   .btn {
+    position: fixed;
+    bottom: 8%;
+    right: 5%;
     width: 280rpx;
     padding: 24rpx 72rpx;
     font-size: 34rpx;

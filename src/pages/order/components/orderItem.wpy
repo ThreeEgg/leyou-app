@@ -71,7 +71,12 @@ wepy.page({
       this.getOrderDetail(item);
     },
     getOrderDetail: function(item) {
-      const params = {
+      wx.setStorageSync('orderInfo', item);
+      // FIXME url很奇怪
+      wx.navigateTo({
+        url: './components/orderInfo'
+      });
+      /* const params = {
         orderId: item.id
       };
       wx.request({
@@ -87,6 +92,9 @@ wepy.page({
             // data.data.agreementLink =
             //   'https://leyou-file-1304138037.cos.ap-shanghai.myqcloud.com/orderAgreement/Ut7jUtHCX9.pdf';
             // data.data.orderStatus = 0;
+            if (!(data.data.isSign && data.data.isPay)) {
+              data.data.orderStatus = 0;
+            }
             wx.setStorageSync('orderInfo', data.data);
             // FIXME url很奇怪
             wx.navigateTo({
@@ -97,7 +105,7 @@ wepy.page({
         fail: err => {
           console.log('order-detail-err', err);
         }
-      });
+      }); */
     }
   },
 
