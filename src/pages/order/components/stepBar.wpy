@@ -110,12 +110,14 @@ wepy.component({
     step: {
       type: Number,
       default: 1
+    },
+    textArr: {
+      type: Array,
+      default: ['生成订单', '完成签署', '完成支付', '订单完成']
     }
   },
 
-  data: {
-    textArr: ['生成订单', '完成签署', '完成支付', '订单完成']
-  },
+  data: {},
 
   methods: {},
   created() {}

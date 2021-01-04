@@ -5,7 +5,10 @@
         class="server-top"
         v-if="orderInfo.isService === 1"
       >
-        <step-bar :step="step"></step-bar>
+        <step-bar
+          :step="step"
+          :textArr="textArr"
+        ></step-bar>
       </div>
       <div class="item-top">
         <div
@@ -132,6 +135,7 @@ wepy.page({
   props: {},
   data: {
     orderInfo: {},
+    textArr: ['生成订单', '完成签署', '完成支付', '订单完成'],
     step: 1,
     isSign: 0
   },
@@ -228,9 +232,12 @@ wepy.page({
     );
     if (this.orderInfo.orderStatus === 0) {
       this.step = 1;
-      if (this.orderInfo.isSign === 0) {
-        this.step = 1;
-      } else if (this.orderInfo.isSign === 1) {
+      if (this.orderInfo.isPay === 0) {
+        this.textArr = ['生成订单', '完成签署', '完成支付', '订单完成'];
+      } else {
+        this.textArr = ['生成订单', '完成支付', '完成签署', '订单完成'];
+      }
+      if (this.orderInfo.isSign === 1) {
         this.step = 2;
       }
     } else {

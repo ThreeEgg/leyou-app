@@ -141,7 +141,7 @@ wepy.component({
               agreementLink: this.goodInfo.agreementLink
             });
             if (this.goodInfo.isService === 1) {
-              wx.navigateTo({
+              wx.redirectTo({
                 url: '../payNext/serviceOrderSuccess'
               });
             } else {

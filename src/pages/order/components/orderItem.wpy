@@ -86,7 +86,7 @@ wepy.page({
             // data.data.isSign = 0;
             // data.data.agreementLink =
             //   'https://leyou-file-1304138037.cos.ap-shanghai.myqcloud.com/orderAgreement/Ut7jUtHCX9.pdf';
-            data.data.orderStatus = 0;
+            // data.data.orderStatus = 0;
             wx.setStorageSync('orderInfo', data.data);
             // FIXME url很奇怪
             wx.navigateTo({

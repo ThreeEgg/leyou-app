@@ -43,7 +43,7 @@ wepy.page({
           if (data.success) {
             wx.setStorageSync('orderInfo', data.data);
             // FIXME url很奇怪
-            wx.navigateTo({
+            wx.redirectTo({
               url: '../order/components/orderInfo'
             });
           }
