@@ -170,6 +170,7 @@ wepy.page({
     navigationBarTitleText: '商品详情',
     usingComponents: {
       'ban':'~@/components/ban'
-    }
+    },
+    disableScroll:true
 }
 </config>

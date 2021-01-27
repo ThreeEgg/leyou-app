@@ -253,6 +253,10 @@ wepy.page({
         'YYYY-MM-DD HH:mm:ss',
         new Date(this.orderInfo.orderTime)
       );
+      this.orderInfo.payTime = dateFormat(
+        'YYYY-MM-DD HH:mm:ss',
+        new Date(this.orderInfo.payTime)
+      );
       if (this.orderInfo.orderStatus === 0) {
         this.step = 1;
         if (this.orderInfo.isPay === 0) {
@@ -270,10 +274,12 @@ wepy.page({
     }
   },
 
-  created() {
+  created() {},
+  onShow() {
     const orderInfo = wx.getStorageSync('orderInfo');
     this.getOrderDetail(orderInfo);
-  }
+  },
+  attached() {}
 });
 </script>
 
@@ -397,7 +403,7 @@ wepy.page({
       }
     }
     .success view {
-      color: rgb(94, 232, 107);
+      color: #12a100;
     }
     .fail view {
       color: rgb(232, 51, 51);

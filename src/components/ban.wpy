@@ -53,6 +53,7 @@
                 type="number"
                 class="value"
                 value="{{count}}"
+                bindinput="bindinput"
               />
               <div
                 :class="{right:true}"
@@ -91,6 +92,9 @@ wepy.component({
     goodsDetailId: ''
   },
   methods: {
+    bindinput: function(e) {
+      this.count = e.$wx.detail.value - 0;
+    },
     handleActivityDetail: function(item) {
       this.activityDetailName = item.detailName;
       this.goodsDetailId = item.id;

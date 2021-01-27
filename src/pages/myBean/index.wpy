@@ -133,6 +133,7 @@ wepy.page({
     navigationBarTitleText: '我的簿记豆',
     usingComponents: {
       'list-item':'./components/listItem'
-    }
+    },
+    disableScroll:true
 }
 </config>

@@ -280,6 +280,7 @@ wepy.page({
     usingComponents: {
       'no-data':'~@/components/noData',
       'mine':'~@/components/mine',
-    }
+    },
+    disableScroll:true
 }
 </config>

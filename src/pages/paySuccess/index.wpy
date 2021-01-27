@@ -23,7 +23,7 @@ wepy.page({
     viewMarket: function() {
       const orderInfo = wx.getStorageSync('orderInfo');
       if (orderInfo.isService === 1) {
-        wx.navigateTo({
+        wx.redirectTo({
           url: '../order/components/orderInfo'
         });
       } else {
@@ -71,6 +71,7 @@ wepy.page({
 {
     navigationBarTitleText: '支付成功',
     usingComponents: {
-    }
+    },
+    disableScroll:true
 }
 </config>

@@ -32,7 +32,8 @@
     margin-bottom: 44rpx;
   }
   .done {
-    background-color: #008aff;
+    // background-color: #008aff;
+    background-color: #12a100;
   }
   .undone {
     background-color: #f87733;

@@ -68,6 +68,7 @@ wepy.page({
     usingComponents: {
       'contract-item':'./components/contractItem',
       'no-data':'~@/components/noData'
-    }
+    },
+    disableScroll:true
 }
 </config>

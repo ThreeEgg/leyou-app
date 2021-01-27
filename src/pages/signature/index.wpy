@@ -129,14 +129,15 @@ wepy.page({
                 wx.setStorageSync('orderInfo', orderInfo);
                 if (orderInfo.isPay === 0) {
                   setTimeout(() => {
-                    wx.navigateTo({
+                    wx.redirectTo({
                       url: '../payNext/sign?isShow=true'
                     });
                   }, 1000);
                 } else {
-                  wx.navigateTo({
+                  /* wx.redirectTo({
                     url: '../order/components/orderInfo'
-                  });
+                  }); */
+                  wx.navigateBack();
                 }
               } else {
                 wx.showToast({

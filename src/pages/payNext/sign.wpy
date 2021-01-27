@@ -69,7 +69,7 @@ wepy.page({
             data: { msg, success }
           } = res;
           if (success) {
-            wx.navigateTo({
+            wx.redirectTo({
               url: '../paySuccess/index'
             });
           } else {
@@ -88,11 +88,28 @@ wepy.page({
       wx.navigateTo({
         url: '../contract/index'
       });
+    },
+    getHomeInfo: function() {
+      const loginInfo = wx.getStorageSync('loginInfo');
+      wx.request({
+        url: baseUrl + '/v1/userInfo/findUserInfoForFront',
+        data: {
+          userId: loginInfo.userId
+        },
+        success: res => {
+          const { data } = res;
+          this.baseInfo = data.data;
+          wx.setStorageSync('baseInfo', data.data);
+        },
+        fail: function(err) {
+          console.log('info-err', err);
+        }
+      });
     }
   },
 
   created() {
-    this.baseInfo = wx.getStorageSync('baseInfo');
+    this.getHomeInfo();
     this.orderInfo = wx.getStorageSync('orderInfo');
   },
   onLoad(options) {
@@ -188,6 +205,7 @@ wepy.page({
 {
     navigationBarTitleText: '订单支付',
     usingComponents: {
-    }
+    },
+    disableScroll:true
 }
 </config>

@@ -13,7 +13,7 @@
       @tap="viewPdf(item.agreementlink)"
     >
       <view :class="{success:item.orderStatus ===1,fail:item.orderStatus !== 1}">{{orderStatus ===1?'已生效':'待生效'}}</view>
-      <view>></view>
+      <view :class="{success:item.orderStatus ===1,fail:item.orderStatus !== 1}">></view>
     </div>
   </div>
 </template>

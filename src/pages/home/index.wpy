@@ -473,6 +473,7 @@ wepy.page({
     usingComponents: {
       'company-item':'./components/companyItem',
       'mine':'~@/components/mine'
-    }
+    },
+    disableScroll:true
 }
 </config>

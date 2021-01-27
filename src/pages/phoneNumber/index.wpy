@@ -132,6 +132,7 @@ wepy.page({
 {
     navigationBarTitleText: '',
     usingComponents: {
-    }
+    },
+    disableScroll:true
 }
 </config>

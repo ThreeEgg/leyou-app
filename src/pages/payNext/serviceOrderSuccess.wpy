@@ -95,6 +95,7 @@ wepy.page({
 {
     navigationBarTitleText: '支付成功',
     usingComponents: {
-    }
+    },
+    disableScroll:true
 }
 </config>

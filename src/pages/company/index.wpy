@@ -256,6 +256,7 @@ wepy.page({
     usingComponents: {
       'no-data':'~@/components/noData',
       'table-list-item':'./components/dataDisplay'
-    }
+    },
+    disableScroll:true
 }
 </config>

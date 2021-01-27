@@ -1,7 +1,11 @@
 <template>
   <div v-if="orderList.length>0">
     <div class="service-order">
-      <order-item v-for="item in orderList" :item="item" :key="item.id"></order-item>
+      <order-item
+        v-for="item in orderList"
+        :item="item"
+        :key="item.id"
+      ></order-item>
       <no-data></no-data>
     </div>
   </div>
@@ -9,58 +13,55 @@
 </template>
 
 <script>
-  import wepy from '@wepy/core'
-  import {baseUrl} from "../../assets/js/base.js"
-  wepy.page({
-    config: {
-      navigationBarTitleText: 'test'
-    },
-    props: {
-      
-    },
-    data: {
-      orderList:[
-        // {id:1,name:'企鹅玩具0',desc:'0.5mm 红色',count:1,price:500,status:1,isService:1},
-        // {id:2,name:'企鹅玩具1',desc:'0.5mm 红色',count:2,price:100,status:2,isService:1},
-        // {id:3,name:'企鹅玩具2',desc:'0.5mm 红色',count:3,price:200,status:3,isService:1},
-      ]
-    },
+import wepy from '@wepy/core';
+import { baseUrl } from '../../assets/js/base.js';
+wepy.page({
+  config: {
+    navigationBarTitleText: 'test'
+  },
+  props: {},
+  data: {
+    orderList: [
+      // {id:1,name:'企鹅玩具0',desc:'0.5mm 红色',count:1,price:500,status:1,isService:1},
+      // {id:2,name:'企鹅玩具1',desc:'0.5mm 红色',count:2,price:100,status:2,isService:1},
+      // {id:3,name:'企鹅玩具2',desc:'0.5mm 红色',count:3,price:200,status:3,isService:1},
+    ]
+  },
 
-
-    methods: {
-      getOrderList:function(){
-        const baseInfo = wx.getStorageSync('baseInfo');
-        const isService = wx.getStorageSync('isService');
-        wx.request({
-          url:baseUrl+'/v1/order/findOrderListForFront',
-          data:{
-            userId:baseInfo.id+'',
-            isService,
-          },
-          success:res=>{
-            console.log('getOrderList-res',res);
-            const {data} = res;
-            if(data.success){
-              this.orderList = data.data;
-            }
-          },
-          fail:err=>{
-            console.log('getOrderList-err',err);
+  methods: {
+    getOrderList: function() {
+      const baseInfo = wx.getStorageSync('baseInfo');
+      const isService = wx.getStorageSync('isService');
+      wx.request({
+        url: baseUrl + '/v1/order/findOrderListForFront',
+        data: {
+          userId: baseInfo.id + '',
+          isService
+        },
+        success: res => {
+          console.log('getOrderList-res', res);
+          const { data } = res;
+          if (data.success) {
+            this.orderList = data.data;
           }
-        })
-      }
-    },
-
-    created () {
-      this.getOrderList()
+        },
+        fail: err => {
+          console.log('getOrderList-err', err);
+        }
+      });
     }
-  });
+  },
+
+  created() {
+    this.getOrderList();
+  }
+});
 </script>
 
 <style lang="less">
-.service-order{
-  background: #F7F7F7;
-  padding:30rpx 30rpx 0;
+.service-order {
+  background: #f7f7f7;
+  padding: 30rpx 30rpx 0;
   min-height: 100vh;
 }
 </style>
@@ -72,6 +73,7 @@
       'order-item':'./components/orderItem',
       'no-data':'~@/components/noData',
       'no-order':'./components/noOrder'
-    }
+    },
+    disableScroll:true
 }
 </config>

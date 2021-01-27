@@ -71,12 +71,28 @@ wepy.page({
           console.log('pay-err', err);
         }
       });
+    },
+    getHomeInfo: function() {
+      const loginInfo = wx.getStorageSync('loginInfo');
+      wx.request({
+        url: baseUrl + '/v1/userInfo/findUserInfoForFront',
+        data: {
+          userId: loginInfo.userId
+        },
+        success: res => {
+          const { data } = res;
+          this.baseInfo = data.data;
+          wx.setStorageSync('baseInfo', data.data);
+        },
+        fail: function(err) {
+          console.log('info-err', err);
+        }
+      });
     }
   },
 
   created() {
-    this.baseInfo = wx.getStorageSync('baseInfo');
-    console.log('this.baseInfo: ', this.baseInfo);
+    this.getHomeInfo();
     this.orderInfo = wx.getStorageSync('orderInfo');
     console.log('this.orderInfo: ', this.orderInfo);
   }
@@ -148,6 +164,7 @@ wepy.page({
 {
     navigationBarTitleText: '积分支付',
     usingComponents: {
-    }
+    },
+    disableScroll:true
 }
 </config>
